@@ -1,5 +1,5 @@
 group = 'org.sagebionetworks'
-ext.name = 'dashboard-core'
+ext.name = 'dashboard-dw'
 version = '0.1.0-' + (new Date()).format(
         'yyyyMMddHHmmss', TimeZone.getTimeZone("UTC"))
 

@@ -1,0 +1,12 @@
+#vagrant
+.vagrant/
+
+# Gradle
+.gradle/
+bin/
+build/
+
+# eclipse
+.classpath
+.project
+.settings/

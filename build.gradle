@@ -19,6 +19,7 @@ repositories {
 
 dependencies {
     testCompile 'junit:junit:4.11'
+    compile 'org.postgresql:postgresql:9.3-1102-jdbc41'
 }
 
 /*** Eclipse ***/

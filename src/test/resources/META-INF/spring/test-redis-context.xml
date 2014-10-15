@@ -9,9 +9,9 @@
                 http://www.springframework.org/schema/context/spring-context-3.2.xsd">
 
     <context:component-scan base-package="
-            org.sagebionetworks.dashboard.context,
-            org.sagebionetworks.dashboard.http.client,
-            org.sagebionetworks.dashboard.dao.redis" />
+            org.sagebionetworks.datawarehouse.context,
+            org.sagebionetworks.datawarehouse.http.client,
+            org.sagebionetworks.datawarehouse.dao.redis" />
 
     <import resource="redis.xml" />
 

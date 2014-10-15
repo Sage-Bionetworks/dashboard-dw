@@ -78,7 +78,7 @@ public class AccessRecordDaoImplTest {
 
     private boolean isDone() {
         ThreadPoolExecutor pool = (ThreadPoolExecutor)threadPool;
-        return (pool.getActiveCount() == 0 && pool.getQueue().size() == 0);
+        return pool.getActiveCount() == 0 && pool.getQueue().size() == 0;
     }
 
     private List<AccessRecord> createRecordList() {

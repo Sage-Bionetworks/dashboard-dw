@@ -13,7 +13,6 @@
     <context:component-scan base-package="org.sagebionetworks.datawarehouse" />
 
     <import resource="aws.xml" />
-    <import resource="redis.xml" />
     <import resource="postgres.xml" />
 
 </beans>

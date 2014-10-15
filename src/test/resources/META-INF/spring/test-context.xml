@@ -11,13 +11,10 @@
     <context:component-scan base-package="
             org.sagebionetworks.datawarehouse.context,
             org.sagebionetworks.datawarehouse.http.client,
-            org.sagebionetworks.datawarehouse.dao.redis,
             org.sagebionetworks.datawarehouse.dao.postgres,
-            org.sagebionetworks.datawarehouse.metric,
             org.sagebionetworks.datawarehouse.service" />
 
     <import resource="aws.xml" />
-    <import resource="redis.xml" />
     <import resource="postgres.xml" />
 
 </beans>

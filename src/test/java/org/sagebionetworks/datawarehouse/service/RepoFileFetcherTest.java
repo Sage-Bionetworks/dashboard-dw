@@ -83,7 +83,7 @@ public class RepoFileFetcherTest {
         ReflectionTestUtils.setField(fetcher, "repoFolderFetcher", folderFetcher, RepoFolderFetcher.class);
         ReflectionTestUtils.setField(fetcher, "s3Client", s3, AmazonS3.class);
         ReflectionTestUtils.setField(fetcher, "fileStatusDao", fileStatusDao, FileStatusDao.class);
-        ReflectionTestUtils.setField(fetcher, "datawarehouseContext", context, DashboardContext.class);
+        ReflectionTestUtils.setField(fetcher, "dashboardContext", context, DashboardContext.class);
 
         List<String> files = fetcher.nextBatch();
         // Should get back a full batch of 90 files as each file is 100 KB and the max total size per batch is 6 MB

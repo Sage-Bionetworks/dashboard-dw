@@ -7,7 +7,6 @@ import javax.annotation.Resource;
 import org.sagebionetworks.datawarehouse.context.DashboardContext;
 import org.sagebionetworks.datawarehouse.dao.FailedRecordDao;
 import org.sagebionetworks.datawarehouse.dao.FileStatusDao;
-import org.sagebionetworks.datawarehouse.dao.LockDao;
 import org.sagebionetworks.datawarehouse.model.WriteRecordResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,9 +33,6 @@ public class RepoRecordWorker {
     private FailedRecordDao failedRecordDao;
 
     @Resource
-    private LockDao lockDao;
-
-    @Resource
     private RepoUpdateService repoUpdateService;
 
     @Resource
@@ -60,7 +56,7 @@ public class RepoRecordWorker {
     public void updateFile(final String bucket, final String key, final int startingLine) {
 
         // Try to acquire a lock on the file
-        final String etag = lockDao.acquire(key);
+/*        final String etag = lockDao.acquire(key);
         if (etag == null) {
             logger.info("Failed to acquire lock for file " + key + ". Skipping it...");
             return;
@@ -69,7 +65,7 @@ public class RepoRecordWorker {
             lockDao.release(key, etag);
             logger.info("File " + key + " already processed. Skipping it...");
             return;
-        }
+        }*/
 
         // Read the file to update the metrics
         S3Object file = s3Client.getObject(bucket, key);
@@ -93,7 +89,7 @@ public class RepoRecordWorker {
         } finally {
             try {
                 file.close();
-                lockDao.release(key, etag);
+                //lockDao.release(key, etag);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

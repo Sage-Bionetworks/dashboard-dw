@@ -14,7 +14,6 @@ import java.util.zip.GZIPInputStream;
 import javax.annotation.Resource;
 
 import org.sagebionetworks.datawarehouse.dao.AccessRecordDao;
-import org.sagebionetworks.datawarehouse.dao.SessionDedupeDao;
 import org.sagebionetworks.datawarehouse.parse.AccessRecord;
 import org.sagebionetworks.datawarehouse.parse.RecordParser;
 import org.sagebionetworks.datawarehouse.parse.RepoRecordParser;
@@ -31,9 +30,6 @@ public class RepoUpdateService {
 
     @Resource
     private AccessRecordDao dw;
-
-    @Resource
-    private SessionDedupeDao sessionDedupeDao;
 
     private final RecordParser parser = new RepoRecordParser();
 
@@ -68,10 +64,10 @@ public class RepoUpdateService {
             List<AccessRecord> records = parser.parse(br);
             for (AccessRecord record : records) {
                 lineCount++;
-                if (lineCount >= startLineIncl &&
-                        !sessionDedupeDao.isProcessed(record.getSessionId())) {
+                /*if (lineCount >= startLineIncl &&
+                        !sessionDedupeDao.isProcessed(record.getSessionId())) {*/
                     updateRecord(record, filePath, lineCount, recordCallback);
-                }
+                //}
             }
         } catch (Throwable e) {
             //There will be no file with failed status.

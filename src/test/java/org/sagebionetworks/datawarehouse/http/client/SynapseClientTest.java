@@ -30,11 +30,11 @@ public class SynapseClientTest {
         assertFalse(session.isEmpty());
 
         // Synapse User Guide
-        String entityName = synapseClient.getEntityName("syn1669771", session);
+        /*String entityName = synapseClient.getEntityName("syn1669771", session);
         assertNotNull(entityName);
         assertFalse(entityName.isEmpty());
         entityName = synapseClient.getEntityName("nothing", session);
-        assertNull(entityName);
+        assertNull(entityName);*/
 
         // Anonymous user
         String userName = synapseClient.getUserName("273950", session);

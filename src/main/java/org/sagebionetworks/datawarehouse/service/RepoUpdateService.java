@@ -5,13 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -21,7 +15,6 @@ import javax.annotation.Resource;
 
 import org.sagebionetworks.datawarehouse.dao.AccessRecordDao;
 import org.sagebionetworks.datawarehouse.dao.SessionDedupeDao;
-import org.sagebionetworks.datawarehouse.model.WriteRecordResult;
 import org.sagebionetworks.datawarehouse.parse.AccessRecord;
 import org.sagebionetworks.datawarehouse.parse.RecordParser;
 import org.sagebionetworks.datawarehouse.parse.RepoRecordParser;
@@ -45,9 +38,9 @@ public class RepoUpdateService {
     private final RecordParser parser = new RepoRecordParser();
 
     // Ignore metrics that are not parsed from records
-    private final Set<String> ignoreMetrics = Collections.unmodifiableSet(new HashSet<String>(
+    /*private final Set<String> ignoreMetrics = Collections.unmodifiableSet(new HashSet<String>(
             Arrays.asList("certifiedUserMetric", "questionPassMetric", "questionFailMetric", "topProjectMetric", "topProjectByDayMetric")));
-
+*/
     private final ExecutorService threadPool = Executors.newFixedThreadPool(200);
 
     public void update(InputStream in, String filePath, 

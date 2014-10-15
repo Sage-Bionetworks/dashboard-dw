@@ -18,8 +18,22 @@ repositories {
 }
 
 dependencies {
-    testCompile 'junit:junit:4.11'
+    compile 'org.springframework:spring-context:' + springFrameworkVersion
+    compile 'org.springframework:spring-jdbc:' + springFrameworkVersion
+    compile 'org.apache.commons:commons-dbcp2:2.0.1'
+    compile 'joda-time:joda-time:2.4'
+    compile 'net.sf.opencsv:opencsv:2.3'
+    compile 'com.amazonaws:aws-java-sdk:1.8.9.1'
+    compile 'org.apache.httpcomponents:httpclient:4.3.5'
     compile 'org.postgresql:postgresql:9.3-1102-jdbc41'
+    compile 'org.slf4j:slf4j-api:' + slf4jVersion
+    runtime 'ch.qos.logback:logback-classic:1.1.2'
+    runtime 'ch.qos.logback:logback-core:1.1.2'
+    testCompile 'junit:junit:4.11'
+    testCompile 'org.mockito:mockito-core:1.9.5'
+    testCompile 'org.springframework:spring-test:' + springFrameworkVersion
+    testRuntime 'org.slf4j:slf4j-log4j12:' + slf4jVersion
+    testRuntime 'log4j:log4j:1.2.17'
 }
 
 /*** Eclipse ***/

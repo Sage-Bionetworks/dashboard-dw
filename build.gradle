@@ -15,9 +15,13 @@ jar {
 
 repositories {
     mavenCentral()
+    maven {
+        url "http://sagebionetworks.artifactoryonline.com/sagebionetworks/libs-releases-local"
+    }
 }
 
 dependencies {
+    compile 'org.sagebionetworks:dashboard:0.6.2+'
     testCompile 'junit:junit:4.11'
     compile 'org.postgresql:postgresql:9.3-1102-jdbc41'
 }

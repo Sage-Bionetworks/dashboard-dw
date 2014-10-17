@@ -66,8 +66,7 @@ public class App {
             }
         } finally {
             final long end = System.nanoTime();
-            logger.info("Done loading metrics. Time spent (seconds): " + (end - start) / 1000000000L);
-            updateService.shutdown();
+            logger.info("Done loading log files. Time spent (seconds): " + (end - start) / 1000000000L);
             context.close();
         }
     }

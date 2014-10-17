@@ -21,7 +21,8 @@ repositories {
 }
 
 dependencies {
-    compile 'org.sagebionetworks:dashboard:0.6.2+'
+    compile 'org.sagebionetworks:dashboard-core:0.1.1+'
+    compile 'org.sagebionetworks:dashboard:0.7.0+'
     testCompile 'junit:junit:4.11'
     compile 'org.postgresql:postgresql:9.3-1102-jdbc41'
 }
@@ -29,6 +30,14 @@ dependencies {
 /*** Eclipse ***/
 
 apply plugin: 'eclipse'
+
+/*** Command-line Application ***/
+
+apply plugin: 'application'
+mainClassName = "org.sagebionetworks.dashboard.App"
+run {
+    args = [filePath]
+}
 
 /*** Code Quality Tools ***/
 

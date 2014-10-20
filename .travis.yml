@@ -1,5 +1,6 @@
 language: java
 jdk: openjdk7
+services: redis-server
 env:
   global:
   - secure: Aa6Zhh6eVX97IFngsYj2f5OqIP5gxVu2kJVU8+yD6A/e5LBWou/ceehZExGsg4H6mDZDXhMfafygb7akevqhp3RUjzxE/HX5NcLPsKu4WhU5/fWN40n5aYXRDE/kCCfc4HWBx3SWw7wlLIM98ByFMFIvwGRnSbadvWCzxSphiZ0=

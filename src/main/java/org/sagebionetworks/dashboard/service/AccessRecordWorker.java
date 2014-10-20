@@ -6,6 +6,9 @@ import javax.annotation.Resource;
 
 import org.sagebionetworks.dashboard.config.DashboardConfig;
 import org.sagebionetworks.dashboard.model.WriteRecordResult;
+import org.sagebionetworks.dashboard.service.RepoFileFetcher;
+import org.sagebionetworks.dashboard.service.UpdateFileCallback;
+import org.sagebionetworks.dashboard.service.UpdateRecordCallback;
 import org.springframework.stereotype.Service;
 
 import com.amazonaws.services.s3.AmazonS3;

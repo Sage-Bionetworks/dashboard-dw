@@ -22,9 +22,12 @@ repositories {
 
 dependencies {
     compile 'org.sagebionetworks:dashboard-core:0.1.1+'
-    compile 'org.sagebionetworks:dashboard:0.7.0+'
-    testCompile 'junit:junit:4.11'
+    compile 'org.sagebionetworks:dashboard:0.7.0-20141018+'
     compile 'org.postgresql:postgresql:9.3-1102-jdbc41'
+
+    testCompile 'junit:junit:4.11'
+    testCompile 'org.springframework:spring-test:' + springFrameworkVersion
+
 }
 
 /*** Eclipse ***/

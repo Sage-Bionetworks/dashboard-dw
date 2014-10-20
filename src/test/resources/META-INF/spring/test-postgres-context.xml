@@ -16,6 +16,8 @@
             org.sagebionetworks.dashboard.metric,
             org.sagebionetworks.dashboard.service" />
 
+    <import resource="aws.xml" />
+    <import resource="redis.xml" />
     <import resource="postgres.xml" />
 
 </beans>

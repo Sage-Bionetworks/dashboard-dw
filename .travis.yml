@@ -5,6 +5,8 @@ env:
   global:
   - secure: Aa6Zhh6eVX97IFngsYj2f5OqIP5gxVu2kJVU8+yD6A/e5LBWou/ceehZExGsg4H6mDZDXhMfafygb7akevqhp3RUjzxE/HX5NcLPsKu4WhU5/fWN40n5aYXRDE/kCCfc4HWBx3SWw7wlLIM98ByFMFIvwGRnSbadvWCzxSphiZ0=
   - secure: OPGBH0wqEmOifpSOZXk8fVpOUEGXdmgntQRRsOym9ddcqqJy2Ey0paxuLcLBNQYVWb3nZ3Y+hsakJljlRkUgDXpJGBivxo/jlXlGsoPAzIdHKON1wuGbgnySiWgw2FgW9p9yFqCQYJnNNzMLRIW+ossd2l6y5f7yd8ZDLz2UuXc=
+  - secure: SOqixaOuQY3dJdJRZDCWwH/h3kKSjmfViyRZT1iQZyrb0/sEzaVGboFLPkODSi35oj4oLgOb2xN20KfanvRGqCtMd60+qYZ8FCDqYChYs35g1zhf/x/1QOkc54LA4JPZdRVY2e2HpAib59Qk5K8NDMTkNYulXDxOFeY0MXQXhQI=
+  - secure: Alwi8ceOoEZP/+uuDQOAabCYCWq2obcb7kdNrUrvJ2hfb7Jgwtxhdc2NGv1z9Nn6AUBNhsnSdYJkFr9MA1OG/6SHZN9ryaCiXjhyxOFeA5nY0dnZAwuYuosUsIFcuR4VL/bjCjU6u/EhEmZluBNydY7xzWO/gezGsGSKfvKd9cU=
 before_script:
 - psql -U postgres -f 'dw-bootstrap.sql'
 script: "./gradlew --stacktrace check"

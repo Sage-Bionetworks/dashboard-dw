@@ -10,7 +10,11 @@
 
     <context:component-scan base-package="
             org.sagebionetworks.dashboard.config,
-            org.sagebionetworks.dashboard.dao.postgres" />
+            org.sagebionetworks.dashboard.dao.postgres,
+            org.sagebionetworks.dashboard.http.client,
+            org.sagebionetworks.dashboard.dao.redis,
+            org.sagebionetworks.dashboard.metric,
+            org.sagebionetworks.dashboard.service" />
 
     <import resource="postgres.xml" />
 

@@ -1,10 +1,16 @@
 language: java
 jdk: openjdk7
+services: redis-server
 env:
   global:
   - secure: Aa6Zhh6eVX97IFngsYj2f5OqIP5gxVu2kJVU8+yD6A/e5LBWou/ceehZExGsg4H6mDZDXhMfafygb7akevqhp3RUjzxE/HX5NcLPsKu4WhU5/fWN40n5aYXRDE/kCCfc4HWBx3SWw7wlLIM98ByFMFIvwGRnSbadvWCzxSphiZ0=
   - secure: OPGBH0wqEmOifpSOZXk8fVpOUEGXdmgntQRRsOym9ddcqqJy2Ey0paxuLcLBNQYVWb3nZ3Y+hsakJljlRkUgDXpJGBivxo/jlXlGsoPAzIdHKON1wuGbgnySiWgw2FgW9p9yFqCQYJnNNzMLRIW+ossd2l6y5f7yd8ZDLz2UuXc=
+  - secure: SOqixaOuQY3dJdJRZDCWwH/h3kKSjmfViyRZT1iQZyrb0/sEzaVGboFLPkODSi35oj4oLgOb2xN20KfanvRGqCtMd60+qYZ8FCDqYChYs35g1zhf/x/1QOkc54LA4JPZdRVY2e2HpAib59Qk5K8NDMTkNYulXDxOFeY0MXQXhQI=
+  - secure: Alwi8ceOoEZP/+uuDQOAabCYCWq2obcb7kdNrUrvJ2hfb7Jgwtxhdc2NGv1z9Nn6AUBNhsnSdYJkFr9MA1OG/6SHZN9ryaCiXjhyxOFeA5nY0dnZAwuYuosUsIFcuR4VL/bjCjU6u/EhEmZluBNydY7xzWO/gezGsGSKfvKd9cU=
+  - secure: gzVfkcOsAm8vnDFLJhOh3whQKg6YyK51bBIHhP/EQtz2E1u6kdYGiylbeg3oIdxJVMk4Dd6IHo6Ot5CCLCtmgOu1ofx14+Q8+hiNpP/pilKLigcNz1NcYjS/yOMs+6d9uUZd8/TjOTKDJgtCqgyBfOn3kMA977BAE5d5ZeOxLZk=
+  - secure: DNnm3UqsN7h2Hbmv0/qWHgr8J/qhrS8ZbxC1KkXlh8uKD+gtK3yWcRKCybs32zqWYHFxOT7suMM6R251kZcIBLQ2Iw+Jh2mVQ1c3ZE7rZwZjf8bSp2LYnmq3g7pfqJULCXod4x6hLKVoUUBFvqtVAauFKZXnF5vpzUCh/DWO6z8=
 before_script:
 - psql -U postgres -f 'dw-bootstrap.sql'
+script: "./gradlew --stacktrace check"
 after_success:
 - "./gradlew artifactoryPublish"

@@ -25,6 +25,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # accessing "localhost:8080" will access port 80 on the guest machine.
   # config.vm.network "forwarded_port", guest: 80, host: 8080
 
+  config.vm.network :forwarded_port, host: 6379, guest: 6379 # Redis
   config.vm.network :forwarded_port, host: 5432, guest: 5432 # PostgreSQL
   
   # Create a private network, which allows host-only access to the machine
@@ -45,6 +46,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
   config.vm.synced_folder "~/.gradle", "/home/vagrant/.gradle", nfs: true
+  config.vm.synced_folder "~/.dashboard", "/home/vagrant/.dashboard", nfs: true
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.

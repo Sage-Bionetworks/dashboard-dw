@@ -15,16 +15,32 @@ jar {
 
 repositories {
     mavenCentral()
+    maven {
+        url "http://sagebionetworks.artifactoryonline.com/sagebionetworks/libs-releases-local"
+    }
 }
 
 dependencies {
-    testCompile 'junit:junit:4.11'
+    compile 'org.sagebionetworks:dashboard-core:0.1.1+'
+    compile 'org.sagebionetworks:dashboard:0.7.0-20141018+'
     compile 'org.postgresql:postgresql:9.3-1102-jdbc41'
+
+    testCompile 'junit:junit:4.11'
+    testCompile 'org.springframework:spring-test:' + springFrameworkVersion
+
 }
 
 /*** Eclipse ***/
 
 apply plugin: 'eclipse'
+
+/*** Command-line Application ***/
+
+apply plugin: 'application'
+mainClassName = "org.sagebionetworks.dashboard.App"
+run {
+    args = [filePath]
+}
 
 /*** Code Quality Tools ***/
 

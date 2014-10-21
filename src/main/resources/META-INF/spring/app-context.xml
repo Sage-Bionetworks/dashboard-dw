@@ -10,7 +10,7 @@
                 http://www.springframework.org/schema/context
                 http://www.springframework.org/schema/context/spring-context-3.2.xsd">
 
-    <context:component-scan base-package="org.sagebionetworks.dashboard" />
+    <context:component-scan base-package="org.sagebionetworks.dashboard_dw" />
 
     <import resource="aws.xml" />
     <import resource="redis.xml" />

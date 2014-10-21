@@ -1,4 +1,4 @@
-package org.sagebionetworks.dashboard;
+package org.sagebionetworks.dashboard_dw;
 
 import java.io.File;
 import java.io.FileInputStream;

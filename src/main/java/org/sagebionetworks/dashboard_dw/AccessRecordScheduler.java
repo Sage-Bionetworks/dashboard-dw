@@ -1,4 +1,4 @@
-package org.sagebionetworks.dashboard;
+package org.sagebionetworks.dashboard_dw;
 
 import javax.annotation.Resource;
 

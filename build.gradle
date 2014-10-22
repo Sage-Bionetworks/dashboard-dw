@@ -21,12 +21,16 @@ repositories {
 }
 
 dependencies {
-    compile 'org.sagebionetworks:dashboard-core:0.1.1+'
-    compile 'org.sagebionetworks:dashboard:0.7.0-20141018+'
+    compile 'org.sagebionetworks:dashboard-core:0.1.2+'
     compile 'org.postgresql:postgresql:9.3-1102-jdbc41'
-
+    compile 'com.amazonaws:aws-java-sdk:1.8.11'
+    compile 'org.apache.commons:commons-dbcp2:2.0.1'
+    compile 'org.slf4j:slf4j-api:' + slf4jVersion
+    runtime 'ch.qos.logback:logback-classic:1.1.2'
+    runtime 'ch.qos.logback:logback-core:1.1.2'
     testCompile 'junit:junit:4.11'
     testCompile 'org.springframework:spring-test:' + springFrameworkVersion
+    testRuntime 'org.slf4j:slf4j-log4j12:' + slf4jVersion
 
 }
 

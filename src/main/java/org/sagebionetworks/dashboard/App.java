@@ -6,9 +6,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.sagebionetworks.dashboard.model.WriteRecordResult;
-import org.sagebionetworks.dashboard.service.UpdateFileCallback;
-import org.sagebionetworks.dashboard.service.UpdateRecordCallback;
 import org.sagebionetworks.dashboard.service.UpdateService;
 import org.slf4j.Logger;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -57,15 +54,7 @@ public class App {
                     logger.info("Loading file " + (files.size() - i) + " of " + total);
                     try {
                         InputStream is = new FileInputStream(file);
-                        updateService.update(is, file.getPath(), 
-                                new UpdateFileCallback() {
-                                    @Override
-                                    public void call(UpdateResult result) {}
-                                },
-                                new UpdateRecordCallback() {
-                                    @Override
-                                    public void handle(WriteRecordResult result) {}
-                                });
+                        updateService.update(is, file.getPath());
                         if (is != null) {
                             is.close();
                         }

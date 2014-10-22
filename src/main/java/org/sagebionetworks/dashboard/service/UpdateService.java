@@ -12,29 +12,29 @@ import java.util.zip.GZIPInputStream;
 import javax.annotation.Resource;
 
 import org.sagebionetworks.dashboard.dao.AccessRecordDao;
+import org.sagebionetworks.dashboard.dao.LogFileDao;
 import org.sagebionetworks.dashboard.parse.AccessRecord;
 import org.sagebionetworks.dashboard.parse.RecordParser;
 import org.sagebionetworks.dashboard.parse.RepoRecordParser;
-import org.sagebionetworks.dashboard.service.UpdateFileCallback;
-import org.sagebionetworks.dashboard.service.UpdateRecordCallback;
-import org.sagebionetworks.dashboard.service.UpdateFileCallback.UpdateResult;
-import org.sagebionetworks.dashboard.service.UpdateFileCallback.UpdateStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service("updateService")
 public class UpdateService {
     private final Logger logger = LoggerFactory.getLogger(UpdateService.class);
 
     @Resource
-    private AccessRecordDao dw;
+    private AccessRecordDao acessRecordDao;
+
+    @Resource
+    private LogFileDao logFileDao;
 
     private final RecordParser parser = new RepoRecordParser();
 
-    public void update(InputStream in, String filePath, 
-            UpdateFileCallback fileCallback, UpdateRecordCallback recordCallback) {
-        update(in, filePath, 0, fileCallback, recordCallback);
+    public void update(InputStream in, String filePath) {
+        update(in, filePath, 0);
     }
 
     /**
@@ -44,8 +44,13 @@ public class UpdateService {
      * @param startLineIncl  1-based starting line number.
      * @param callback       Callback to receive the update results.
      */
-    public void update(final InputStream in, final String filePath, final int startLineIncl,
-            final UpdateFileCallback fileCallback, final UpdateRecordCallback recordCallback) {
+    @Transactional
+    public void update(final InputStream in, final String filePath, final int startLineIncl) {
+
+        String id = UUID.randomUUID().toString();
+        // type 0 for access_record
+        logFileDao.put(filePath, id, 0);
+
         GZIPInputStream gzis = null;
         InputStreamReader ir = null;
         BufferedReader br = null;
@@ -58,14 +63,12 @@ public class UpdateService {
             for (AccessRecord record : records) {
                 lineCount++;
                 if (lineCount >= startLineIncl) {
-                    updateRecord(record, filePath, lineCount, recordCallback);
+                    updateRecord(record, filePath, id);
                 }
             }
         } catch (Throwable e) {
             //There will be no file with failed status.
-            UpdateResult result = new UpdateResult(filePath, lineCount, UpdateStatus.FAILED);
-            //fileCallback.call(result);
-            logger.error(result.toString(), e);
+            logger.error("Failed to insert file " + filePath);
         } finally {
             try {
                 if (br != null) {
@@ -82,14 +85,11 @@ public class UpdateService {
             }
         }
 
-        UpdateResult result = new UpdateResult(filePath, lineCount, UpdateStatus.SUCCEEDED);
-        fileCallback.call(result);
-        logger.info(result.toString());
+        logger.info("Done inserting file " + filePath + " with " + lineCount + "lines.");
     }
 
-    private void updateRecord(AccessRecord record, String filePath,
-            int lineCount, UpdateRecordCallback recordCallback) {
-        dw.put(record, UUID.randomUUID().toString());
+    private void updateRecord(AccessRecord record, String filePath, String file_id) {
+        acessRecordDao.put(record, file_id);
     }
 
 }

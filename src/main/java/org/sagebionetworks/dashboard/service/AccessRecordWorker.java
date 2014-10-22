@@ -5,10 +5,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.sagebionetworks.dashboard.config.DashboardConfig;
-import org.sagebionetworks.dashboard.model.WriteRecordResult;
 import org.sagebionetworks.dashboard.service.RepoFileFetcher;
-import org.sagebionetworks.dashboard.service.UpdateFileCallback;
-import org.sagebionetworks.dashboard.service.UpdateRecordCallback;
 import org.springframework.stereotype.Service;
 
 import com.amazonaws.services.s3.AmazonS3;
@@ -42,22 +39,7 @@ public class AccessRecordWorker {
         // Read the file to update the metrics
         S3Object file = s3Client.getObject(bucket, key);
         try {
-            updateService.update(file.getObjectContent(), key, startingLine,
-                    new UpdateFileCallback() {
-                        @Override
-                        public void call(UpdateResult result) {
-                            /*if (UpdateStatus.SUCCEEDED.equals(result.getStatus())) {
-                                fileStatusDao.setCompleted(key);
-                            }*/
-                        }
-                    },
-                    new UpdateRecordCallback() {
-                        @Override
-                        public void handle(WriteRecordResult result) {
-                            //failedRecordDao.put(result);
-                        }
-                        
-                    });
+            updateService.update(file.getObjectContent(), key, startingLine);
         } finally {
             try {
                 file.close();

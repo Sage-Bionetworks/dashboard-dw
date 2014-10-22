@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS access_record (
     instance        integer         NOT NULL,
     response_status    integer      NOT NULL,
     isProd          boolean,
-    file_id         varchar(100)    REFERENCES access_log_file(id)
+    file_id         varchar(100)    REFERENCES log_file(id)
 );
 
 CREATE INDEX ON access_record USING btree(user_id);

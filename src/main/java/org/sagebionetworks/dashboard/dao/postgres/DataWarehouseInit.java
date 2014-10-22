@@ -19,7 +19,7 @@ public class DataWarehouseInit {
 
     public DataWarehouseInit(NamedParameterJdbcTemplate dwTemplate) {
 
-        createTable(dwTemplate, "/META-INF/spring/AccessLogFileTable.sql");
+        createTable(dwTemplate, "/META-INF/spring/LogFileTable.sql");
         createTable(dwTemplate, "/META-INF/spring/AccessRecordTable.sql");
         //createTable(dwTemplate, "/META-INF/spring/RecordStatusTable.sql");
 

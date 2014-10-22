@@ -22,9 +22,9 @@ import com.amazonaws.services.s3.model.S3ObjectSummary;
  * Fetches Synapse access record files batch by batch.
  */
 @Service("repoFileFetcher")
-public class RepoFileFetcher {
+public class AccessLogFileFetcher {
 
-    private Logger logger = LoggerFactory.getLogger(RepoFileFetcher.class);
+    private Logger logger = LoggerFactory.getLogger(AccessLogFileFetcher.class);
 
     /**  How many days to fetch. */
     private static final int DAYS = 200;
@@ -38,7 +38,7 @@ public class RepoFileFetcher {
     private AmazonS3 s3Client;
 
     @Resource
-    private RepoFolderFetcher repoFolderFetcher;
+    private AccessLogFolderFetcher repoFolderFetcher;
 
 /*    @Resource
     private FileStatusDao fileStatusDao;*/

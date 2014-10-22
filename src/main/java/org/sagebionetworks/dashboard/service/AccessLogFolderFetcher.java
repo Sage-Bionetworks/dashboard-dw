@@ -19,9 +19,9 @@ import com.amazonaws.services.s3.model.ListObjectsRequest;
 import com.amazonaws.services.s3.model.ObjectListing;
 
 @Service("repoFolderFetcher")
-public class RepoFolderFetcher {
+public class AccessLogFolderFetcher {
 
-    private Logger logger = LoggerFactory.getLogger(RepoFolderFetcher.class);
+    private Logger logger = LoggerFactory.getLogger(AccessLogFolderFetcher.class);
 
     // Increase this to skip really old stacks
     private static final String STACK_START = "000000010";
@@ -125,7 +125,7 @@ public class RepoFolderFetcher {
      * the progress (See RepoFileFetcher).
      */
     private static class Folder implements Comparable<Folder>{
-        private final Pattern STACK_REGEX = Pattern.compile("(" +RepoFolderFetcher.class.getSimpleName() + "Test)?[0-9]+/");
+        private final Pattern STACK_REGEX = Pattern.compile("(" +AccessLogFolderFetcher.class.getSimpleName() + "Test)?[0-9]+/");
         private final Pattern DATE_REGEX = Pattern.compile("[0-9]{4}-[0-1][0-9]-[0-3][0-9]/");
         private final String stack;
         private final String date;

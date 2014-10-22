@@ -30,10 +30,10 @@ public class AccessRecordDaoImpl implements AccessRecordDao{
     private static final String INSERT_RECORD = "INSERT INTO access_record " + 
             "(object_id, entity_id, elapse_ms, timestamp, host, thread_id, " +
             "user_agent, query, session_id, request_url, user_id, method, " +
-            "vm_id, stack, instance, response_status) " +
+            "vm_id, instance, response_status, file_id) " +
             "VALUES (:object_id,:entity_id,:elapse_ms,:timestamp,:host,:thread_id," +
             ":user_agent,:query,:session_id,:request_url,:user_id,:method," +
-            ":vm_id,:stack,:instance,:response_status);";
+            ":vm_id,:instance,:response_status,:file_id);";
 
     private static final String CLEAR_TABLE = "DELETE FROM access_record;";
 
@@ -101,9 +101,10 @@ public class AccessRecordDaoImpl implements AccessRecordDao{
 
         namedParameters.put("method", record.getMethod());
         namedParameters.put("vm_id", record.getVM());
-        namedParameters.put("stack", record.getStack());
         namedParameters.put("instance", Integer.parseInt(record.getInstance()));
         namedParameters.put("response_status", Integer.parseInt(record.getStatus()));
+        // TODO: find the file id
+        namedParameters.put("file_id", 1);
         return namedParameters;
     }
 

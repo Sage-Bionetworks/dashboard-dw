@@ -14,7 +14,6 @@ import org.sagebionetworks.dashboard.dao.AccessRecordDao;
 import org.sagebionetworks.dashboard.parse.AccessRecord;
 import org.sagebionetworks.dashboard.parse.RecordParser;
 import org.sagebionetworks.dashboard.parse.RepoRecordParser;
-import org.sagebionetworks.dashboard.service.RepoUpdateService;
 import org.sagebionetworks.dashboard.service.UpdateFileCallback;
 import org.sagebionetworks.dashboard.service.UpdateRecordCallback;
 import org.sagebionetworks.dashboard.service.UpdateFileCallback.UpdateResult;
@@ -25,7 +24,7 @@ import org.springframework.stereotype.Service;
 
 @Service("updateService")
 public class UpdateService {
-    private final Logger logger = LoggerFactory.getLogger(RepoUpdateService.class);
+    private final Logger logger = LoggerFactory.getLogger(UpdateService.class);
 
     @Resource
     private AccessRecordDao dw;

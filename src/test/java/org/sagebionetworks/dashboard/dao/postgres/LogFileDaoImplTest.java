@@ -25,6 +25,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class LogFileDaoImplTest {
 
     private static final int TEST_SIZE = 100;
+
     @Resource
     private LogFileDao logFileDao;
 

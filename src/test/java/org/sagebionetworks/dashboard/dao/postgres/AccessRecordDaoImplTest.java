@@ -19,6 +19,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.sagebionetworks.dashboard.dao.AccessRecordDao;
+import org.sagebionetworks.dashboard.dao.LogFileDao;
 import org.sagebionetworks.dashboard.parse.AccessRecord;
 import org.sagebionetworks.dashboard.parse.RepoRecord;
 import org.springframework.test.context.ContextConfiguration;
@@ -28,6 +29,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class AccessRecordDaoImplTest {
 
+    private static final int TEST_SIZE = 100;
+
+    @Resource
+    private LogFileDao logFileDao;
+
     @Resource
     private AccessRecordDao accessRecordDao;
 
@@ -36,12 +42,15 @@ public class AccessRecordDaoImplTest {
     @Before
     public void before() throws Exception {
         assertNotNull(accessRecordDao);
+        assertNotNull(logFileDao);
         accessRecordDao.cleanup();
+        logFileDao.cleanup();
     }
 
     @After
     public void cleanup() {
         accessRecordDao.cleanup();
+        logFileDao.cleanup();
         threadPool.shutdown();
     }
 
@@ -54,7 +63,9 @@ public class AccessRecordDaoImplTest {
 
                 @Override
                 public void run() {
-                    accessRecordDao.put(record, UUID.randomUUID().toString());
+                    String file_id = UUID.randomUUID().toString();
+                    logFileDao.put(file_id, file_id, 0);
+                    accessRecordDao.put(record, file_id);
                 }
             });
         }
@@ -73,7 +84,7 @@ public class AccessRecordDaoImplTest {
             throw new RuntimeException(e);
         }
 
-        //assertEquals(recordList.size()/100, accessRecordDao.count());
+        assertEquals(TEST_SIZE, accessRecordDao.count());
     }
 
     private boolean isDone() {
@@ -84,10 +95,10 @@ public class AccessRecordDaoImplTest {
     private List<AccessRecord> createRecordList() {
         List<AccessRecord> recordList = new ArrayList<>();
         // 100 records
-        for (int i = 0; i< 100; i++) {
+        for (int i = 0; i< TEST_SIZE; i++) {
             AccessRecord record = createNewRecord();
             // copy each record 100 times
-            for (int j = 0; j < 100; j++) {
+            for (int j = 0; j < TEST_SIZE; j++) {
                 recordList.add(record);
             }
         }

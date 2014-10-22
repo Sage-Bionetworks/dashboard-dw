@@ -19,7 +19,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-@Repository("dwAccessRecordDao")
+@Repository("accessRecordDao")
 public class AccessRecordDaoImpl implements AccessRecordDao{
 
     private final Logger logger = LoggerFactory.getLogger(AccessRecordDaoImpl.class);
@@ -41,8 +41,8 @@ public class AccessRecordDaoImpl implements AccessRecordDao{
 
     @Override
     @Transactional
-    public void put(AccessRecord record) {
-        Map<String, Object> namedParameters = getParameters(record);
+    public void put(AccessRecord record, String file_id) {
+        Map<String, Object> namedParameters = getParameters(record, file_id);
 
         try {
             dwTemplate.update(INSERT_RECORD, namedParameters);
@@ -68,7 +68,7 @@ public class AccessRecordDaoImpl implements AccessRecordDao{
         return dwTemplate.getJdbcOperations().queryForInt(COUNT);
     }
 
-    private Map<String, Object> getParameters(AccessRecord record) {
+    private Map<String, Object> getParameters(AccessRecord record, String file_id) {
         Map<String, Object> namedParameters = new HashMap<>();
         namedParameters.put("object_id", record.getObjectId());
 
@@ -103,8 +103,7 @@ public class AccessRecordDaoImpl implements AccessRecordDao{
         namedParameters.put("vm_id", record.getVM());
         namedParameters.put("instance", Integer.parseInt(record.getInstance()));
         namedParameters.put("response_status", Integer.parseInt(record.getStatus()));
-        // TODO: find the file id
-        namedParameters.put("file_id", 1);
+        namedParameters.put("file_id", file_id);
         return namedParameters;
     }
 

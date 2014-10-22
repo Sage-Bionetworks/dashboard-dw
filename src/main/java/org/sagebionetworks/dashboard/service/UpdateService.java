@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.UUID;
 import java.util.zip.GZIPInputStream;
 
 import javax.annotation.Resource;
@@ -88,7 +89,7 @@ public class UpdateService {
 
     private void updateRecord(AccessRecord record, String filePath,
             int lineCount, UpdateRecordCallback recordCallback) {
-        dw.put(record);
+        dw.put(record, UUID.randomUUID().toString());
     }
 
 }

@@ -54,7 +54,7 @@ public class AccessRecordDaoImplTest {
 
                 @Override
                 public void run() {
-                    accessRecordDao.put(record);
+                    accessRecordDao.put(record, UUID.randomUUID().toString());
                 }
             });
         }
@@ -122,6 +122,7 @@ public class AccessRecordDaoImplTest {
 
         String response_status = Integer.toString(random.nextInt());
         record.setStatus(response_status);
+
         return record;
     }
 

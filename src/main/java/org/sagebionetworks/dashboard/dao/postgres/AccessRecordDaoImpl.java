@@ -46,8 +46,8 @@ public class AccessRecordDaoImpl implements AccessRecordDao{
 
         try {
             dwTemplate.update(INSERT_RECORD, namedParameters);
-        } catch (Throwable e) {
-            logger.info("failed to insert record");
+        } catch (DataAccessException exception) {
+            throw exception;
         }
     }
 

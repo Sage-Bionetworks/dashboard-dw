@@ -19,7 +19,6 @@ import org.sagebionetworks.dashboard.parse.RepoRecordParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service("updateService")
 public class UpdateService {
@@ -42,14 +41,20 @@ public class UpdateService {
      * @param filePath       The file path that's behind the input stream.
      *                       This is used as the key to track the progress.
      * @param startLineIncl  1-based starting line number.
-     * @param callback       Callback to receive the update results.
      */
-    @Transactional
     public void update(final InputStream in, final String filePath, final int startLineIncl) {
 
         String id = UUID.randomUUID().toString();
-        // type 0 for access_record
-        logFileDao.put(filePath, id, 0);
+        try {
+            // type 0 for access_record
+            logFileDao.put(filePath, id, 0);
+        } catch (Throwable exception) {
+            // if it's not a duplicate file, log the error
+            if (!exception.getMessage().contains("already exists")) {
+                logger.error("Failed to insert file " + filePath);
+            }
+            return;
+        }
 
         GZIPInputStream gzis = null;
         InputStreamReader ir = null;
@@ -67,8 +72,7 @@ public class UpdateService {
                 }
             }
         } catch (Throwable e) {
-            //There will be no file with failed status.
-            logger.error("Failed to insert file " + filePath);
+            logger.error(e.getMessage());
         } finally {
             try {
                 if (br != null) {
@@ -89,7 +93,13 @@ public class UpdateService {
     }
 
     private void updateRecord(AccessRecord record, String filePath, String file_id) {
-        acessRecordDao.put(record, file_id);
+        try {
+            acessRecordDao.put(record, file_id);
+        } catch (Throwable e) {
+            if (!e.getMessage().contains("already exists")) {
+                logger.error(e.getMessage());
+            }
+        }
     }
 
 }

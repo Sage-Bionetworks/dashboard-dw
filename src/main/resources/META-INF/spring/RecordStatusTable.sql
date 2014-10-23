@@ -1,10 +1,10 @@
-CREATE TABLE IF NOT EXISTS record_status (
-    file_path   varchar(100)    PRIMARY KEY,
-    line_number integer         NOT NULL,
-    metric      varchar(100)    NOT NULL,
-    status      varchar(10)     NOT NULL
+CREATE TABLE IF NOT EXISTS failed_access_record (
+    file_id         varchar(100)    REFERENCES log_file(id),
+    line_number     integer         NOT NULL,
+    session_id      varchar(100),
+    message         varchar(100)
 );
 
-CREATE INDEX ON record_status USING btree(status);
+CREATE INDEX ON failed_access_record USING btree(file_id);
 
-CREATE INDEX ON record_status USING btree(metric);
+CREATE INDEX ON failed_access_record USING btree(session_id);

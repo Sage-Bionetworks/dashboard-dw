@@ -56,8 +56,8 @@ public class LogFileDaoImpl implements LogFileDao {
 
         try {
             dwTemplate.update(INSERT_FILE, namedParameters);
-        } catch (Throwable e) {
-            logger.info("failed to insert file " + filePath);
+        } catch (DataAccessException exception) {
+            throw exception;
         }
     }
 

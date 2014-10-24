@@ -60,7 +60,6 @@ public class AccessRecordDaoImplTest {
         List<AccessRecord> recordList = createRecordList();
         for (final AccessRecord record : recordList) {
             tasks.add(new Runnable() {
-
                 @Override
                 public void run() {
                     String file_id = UUID.randomUUID().toString();

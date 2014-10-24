@@ -12,6 +12,7 @@ import java.util.zip.GZIPInputStream;
 import javax.annotation.Resource;
 
 import org.sagebionetworks.dashboard.dao.AccessRecordDao;
+import org.sagebionetworks.dashboard.dao.FailedRecordDao;
 import org.sagebionetworks.dashboard.dao.LogFileDao;
 import org.sagebionetworks.dashboard.parse.AccessRecord;
 import org.sagebionetworks.dashboard.parse.RecordParser;
@@ -26,6 +27,9 @@ public class UpdateService {
 
     @Resource
     private AccessRecordDao acessRecordDao;
+
+    @Resource
+    private FailedRecordDao failedRecordDao;
 
     @Resource
     private LogFileDao logFileDao;
@@ -68,7 +72,7 @@ public class UpdateService {
             for (AccessRecord record : records) {
                 lineCount++;
                 if (lineCount >= startLineIncl) {
-                    updateRecord(record, filePath, id);
+                    updateRecord(record, filePath, id, lineCount);
                 }
             }
         } catch (Throwable e) {
@@ -92,12 +96,16 @@ public class UpdateService {
         logger.info("Done inserting file " + filePath + " with " + lineCount + "lines.");
     }
 
-    private void updateRecord(AccessRecord record, String filePath, String file_id) {
+    private void updateRecord(AccessRecord record, String filePath, String file_id, int lineNumber) {
         try {
             acessRecordDao.put(record, file_id);
         } catch (Throwable e) {
             if (!e.getMessage().contains("already exists")) {
-                logger.error(e.getMessage());
+                try {
+                    failedRecordDao.put(file_id, lineNumber, record.getSessionId());
+                } catch (Throwable e2) {
+                    logger.error(e2.getMessage());
+                }
             }
         }
     }

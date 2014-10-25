@@ -6,9 +6,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.sagebionetworks.dashboard.model.WriteRecordResult;
-import org.sagebionetworks.dashboard.service.UpdateFileCallback;
-import org.sagebionetworks.dashboard.service.UpdateRecordCallback;
 import org.sagebionetworks.dashboard.service.UpdateService;
 import org.slf4j.Logger;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -26,16 +23,19 @@ public class App {
             throw new IllegalArgumentException("File " + filePath.getPath() + " does not exist.");
         }
 
-        /*if (args[1]=="true" || args[1]=="TRUE" || args[1]=="True") {
+        final Logger logger = org.slf4j.LoggerFactory.getLogger(App.class);
+        final boolean isProd = Boolean.parseBoolean(args[1]);
+        logger.info("Prod = " + isProd);
+        if (isProd) {
+
             @SuppressWarnings("resource")
             final ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("/META-INF/spring/scheduler-context.xml");
             context.registerShutdownHook();
             context.start();
-        } else */{
+        } else {
             final ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("/META-INF/spring/app-context.xml");
             context.registerShutdownHook();
-            final Logger logger = org.slf4j.LoggerFactory.getLogger(App.class);
-    
+
             final List<File> files = new ArrayList<File>();
             getCsvGzFiles(filePath, files);
             final int total = files.size();
@@ -54,15 +54,7 @@ public class App {
                     logger.info("Loading file " + (files.size() - i) + " of " + total);
                     try {
                         InputStream is = new FileInputStream(file);
-                        updateService.update(is, file.getPath(), 
-                                new UpdateFileCallback() {
-                                    @Override
-                                    public void call(UpdateResult result) {}
-                                },
-                                new UpdateRecordCallback() {
-                                    @Override
-                                    public void handle(WriteRecordResult result) {}
-                                });
+                        updateService.update(is, file.getPath());
                         if (is != null) {
                             is.close();
                         }

@@ -30,9 +30,9 @@ public class LogFileDaoImpl implements LogFileDao {
 
     private static final String COUNT = "SELECT COUNT(*) FROM log_file;";
 
-    private static final String UPDATE = "UPDATE log_file SET status = 'DONE' where id = :id;";
+    private static final String UPDATE = "UPDATE log_file SET status = 'DONE' WHERE id = :id;";
 
-    private static final String ISCOMPLETE = "SELECT COUNT(*) FROM log_file WHERE file_path = :file_path AND status = 'DONE';";
+    private static final String ISCOMPLETED = "SELECT COUNT(*) FROM log_file WHERE status = 'DONE' AND file_path = :file_path;";
 
     @Override
     public void cleanup() {
@@ -71,7 +71,7 @@ public class LogFileDaoImpl implements LogFileDao {
     public boolean isCompleted(String filePath) {
         Map<String, Object> namedParameters = new HashMap<String, Object>();
         namedParameters.put("file_path", filePath);
-        if (dwTemplate.getJdbcOperations().queryForInt(ISCOMPLETE, namedParameters) == 1) {
+        if (dwTemplate.queryForInt(ISCOMPLETED, namedParameters) == 1) {
             return true;
         }
         return false;

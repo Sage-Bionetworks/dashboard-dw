@@ -32,7 +32,7 @@ public class LogFileDaoImpl implements LogFileDao {
 
     private static final String UPDATE = "UPDATE log_file SET status = 'DONE' WHERE id = :id;";
 
-    private static final String ISCOMPLETED = "SELECT COUNT(*) FROM log_file WHERE status = 'DONE' AND file_path = :file_path;";
+    private static final String ISCOMPLETED = "SELECT COUNT(*) FROM log_file WHERE file_path = :file_path;";
 
     @Override
     public void cleanup() {

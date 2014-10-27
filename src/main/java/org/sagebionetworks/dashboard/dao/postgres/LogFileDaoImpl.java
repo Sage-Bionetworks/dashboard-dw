@@ -24,11 +24,15 @@ public class LogFileDaoImpl implements LogFileDao {
     private NamedParameterJdbcTemplate dwTemplate;
 
     private static final String INSERT_FILE = "INSERT INTO log_file " + 
-            "(id, file_path, log_type) " + "VALUES (:id,:file_path,:log_type);";
+            "(id, file_path, log_type, status) " + "VALUES (:id,:file_path,:log_type,:status);";
 
     private static final String CLEAR_TABLE = "DELETE FROM log_file;";
 
     private static final String COUNT = "SELECT COUNT(*) FROM log_file;";
+
+    private static final String UPDATE = "UPDATE log_file SET status = 'DONE' where id = :id;";
+
+    private static final String ISCOMPLETE = "SELECT COUNT(*) FROM log_file WHERE file_path = :file_path AND status = 'DONE';";
 
     @Override
     public void cleanup() {
@@ -53,11 +57,32 @@ public class LogFileDaoImpl implements LogFileDao {
         namedParameters.put("id", id);
         namedParameters.put("file_path", filePath);
         namedParameters.put("log_type", logType);
+        namedParameters.put("status", "processing");
 
         try {
             dwTemplate.update(INSERT_FILE, namedParameters);
         } catch (DataAccessException exception) {
             throw exception;
+        }
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public boolean isCompleted(String filePath) {
+        Map<String, Object> namedParameters = new HashMap<String, Object>();
+        namedParameters.put("file_path", filePath);
+        if (dwTemplate.getJdbcOperations().queryForInt(ISCOMPLETE, namedParameters) == 1) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void update(String id) {
+        Map<String, Object> namedParameters = new HashMap<String, Object>();
+        namedParameters.put("id", id);
+        if (dwTemplate.update(UPDATE, namedParameters) != 1) {
+            throw new RuntimeException("Failed to update file id " + id);
         }
     }
 

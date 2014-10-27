@@ -60,4 +60,5 @@ public class FailedRecordDaoImpl implements FailedRecordDao {
     public long count() {
             return dwTemplate.getJdbcOperations().queryForInt(COUNT);
     }
+
 }

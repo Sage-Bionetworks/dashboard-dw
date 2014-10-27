@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.sagebionetworks.dashboard.config.DashboardConfig;
 import org.sagebionetworks.dashboard.service.UpdateService;
 import org.slf4j.Logger;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -26,15 +27,18 @@ public class App {
         final Logger logger = org.slf4j.LoggerFactory.getLogger(App.class);
         final boolean isProd = Boolean.parseBoolean(args[1]);
         logger.info("Prod = " + isProd);
+        final DashboardConfig dashboardConfig = new DashboardConfig();
         if (isProd) {
 
             @SuppressWarnings("resource")
             final ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("/META-INF/spring/scheduler-context.xml");
             context.registerShutdownHook();
             context.start();
+            //context.close();
         } else {
-            final ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("/META-INF/spring/app-context.xml");
+            final ConfigurableApplicationContext context = new ClassPathXmlApplicationContext(dashboardConfig.get("spring.context"));
             context.registerShutdownHook();
+            context.start();
 
             final List<File> files = new ArrayList<File>();
             getCsvGzFiles(filePath, files);
@@ -44,9 +48,9 @@ public class App {
                 context.close();
                 return;
             }
-    
+
             final UpdateService updateService = context.getBean(UpdateService.class);
-    
+
             final long start = System.nanoTime();
             try {
                 for (int i = files.size() - 1; i >= 0; i--) {

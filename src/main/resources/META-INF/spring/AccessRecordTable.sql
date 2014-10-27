@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS access_record (
     thread_id       bigint          NOT NULL,
     user_agent      varchar(200),
     query           text,
-    session_id      char(37)    PRIMARY KEY,
+    session_id      char(37)        PRIMARY KEY,
     request_url     varchar(100)    NOT NULL,
     user_id         integer,
     method          varchar(10)     NOT NULL,

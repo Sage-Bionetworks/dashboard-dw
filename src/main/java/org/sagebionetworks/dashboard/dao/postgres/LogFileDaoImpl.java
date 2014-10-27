@@ -14,6 +14,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.PreparedStatementCallback;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository("logFileDao")
 public class LogFileDaoImpl implements LogFileDao {
@@ -52,6 +53,7 @@ public class LogFileDaoImpl implements LogFileDao {
     }
 
     @Override
+    @Transactional
     public void put(String filePath, String id, int logType) {
         Map<String, Object> namedParameters = new HashMap<String, Object>();
         namedParameters.put("id", id);

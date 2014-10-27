@@ -14,6 +14,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.PreparedStatementCallback;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository("failedAccessRecordDao")
 public class FailedRecordDaoImpl implements FailedRecordDao {
@@ -31,6 +32,7 @@ public class FailedRecordDaoImpl implements FailedRecordDao {
     private static final String COUNT = "SELECT COUNT(*) FROM failed_record;";
 
     @Override
+    @Transactional
     public void put(String fileId, int lineNumber, String sessionId) {
         Map<String, Object> namedParameters = new HashMap<String, Object>();
         namedParameters.put("file_id", fileId);

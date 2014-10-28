@@ -6,6 +6,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.sagebionetworks.dashboard.config.DashboardConfig;
+import org.sagebionetworks.dashboard.config.Stack;
 import org.sagebionetworks.dashboard.service.UpdateService;
 import org.slf4j.Logger;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -13,28 +15,27 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class App {
 
-    // Run with 'gradle run -PfilePath=/path/to/access/log/files'
     public static void main(String[] args) {
-        if (args.length == 0) {
-            throw new IllegalArgumentException("Must provide the file path to the access log files.");
-        }
-        final File filePath = new File(args[0]);
-        if (!filePath.exists()) {
-            throw new IllegalArgumentException("File " + filePath.getPath() + " does not exist.");
-        }
-
         final Logger logger = org.slf4j.LoggerFactory.getLogger(App.class);
-        final boolean isProd = Boolean.parseBoolean(args[1]);
-        logger.info("Prod = " + isProd);
-        if (isProd) {
 
-            @SuppressWarnings("resource")
-            final ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("/META-INF/spring/scheduler-context.xml");
-            context.registerShutdownHook();
+        if (args[1] != null && !args[1].isEmpty()) {
+            System.setProperty("stack", args[1]);
+        }
+
+        DashboardConfig config = new DashboardConfig();
+        logger.info("    " + config.getStack());
+        logger.info("    " + config.get("spring.context"));
+        final ConfigurableApplicationContext context = new ClassPathXmlApplicationContext(config.get("spring.context"));
+        context.registerShutdownHook();
+        final Stack stack = config.getStack();
+        if (Stack.PROD.equals(stack)) {
             context.start();
         } else {
-            final ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("/META-INF/spring/app-context.xml");
-            context.registerShutdownHook();
+            final File filePath = new File(args[0]);
+            if (!filePath.exists()) {
+                context.close();
+                throw new IllegalArgumentException("File " + filePath.getPath() + " does not exist.");
+            }
 
             final List<File> files = new ArrayList<File>();
             getCsvGzFiles(filePath, files);
@@ -44,9 +45,9 @@ public class App {
                 context.close();
                 return;
             }
-    
+
             final UpdateService updateService = context.getBean(UpdateService.class);
-    
+
             final long start = System.nanoTime();
             try {
                 for (int i = files.size() - 1; i >= 0; i--) {

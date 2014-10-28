@@ -8,6 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.Resource;
 
 import org.sagebionetworks.dashboard.config.DashboardConfig;
+import org.sagebionetworks.dashboard.dao.LogFileDao;
 //import org.sagebionetworks.dashboard.dao.FileStatusDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,8 +41,8 @@ public class AccessLogFileFetcher {
     @Resource
     private AccessLogFolderFetcher repoFolderFetcher;
 
-/*    @Resource
-    private FileStatusDao fileStatusDao;*/
+    @Resource
+    private LogFileDao logFileDao;
 
     // For each folder, record the last marker used so that
     // the next batch for the same folder will start from the marker
@@ -95,7 +96,7 @@ public class AccessLogFileFetcher {
                 final String key = obj.getKey();
                 if (isValidKey(key)) {
                     // Make sure the file hasn't been processed yet
-                    /*if (!fileStatusDao.isCompleted(key) && !fileStatusDao.isFailed(key))*/ {
+                    if (!logFileDao.isCompleted(key)) {
                         batch.add(key);
                         quota = quota - obj.getSize();
                         logger.info("Added key " + key + " to the batch.");

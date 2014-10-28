@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS access_record (
     thread_id       bigint          NOT NULL,
     user_agent      varchar(200),
     query           text,
-    session_id      varchar(100)    PRIMARY KEY,
+    session_id      char(37)        PRIMARY KEY,
     request_url     varchar(100)    NOT NULL,
     user_id         integer,
     method          varchar(10)     NOT NULL,
@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS access_record (
     instance        integer         NOT NULL,
     response_status    integer      NOT NULL,
     isProd          boolean,
-    file_id         varchar(100)    REFERENCES log_file(id)
+    file_id         char(37)        REFERENCES log_file(id)
 );
 
 CREATE INDEX ON access_record USING btree(user_id);

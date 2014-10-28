@@ -13,9 +13,9 @@ public class AccessRecordScheduler {
     private AccessRecordWorker accessRecordWorker;
 
     /**
-     * Initial delay of 7 minutes. Updates every 23 minutes.
+     * Initial delay of 0 minutes. Updates every 10 minutes.
      */
-    @Scheduled(initialDelay=(7L * 60L * 1000L), fixedRate=(23L * 60L * 1000L))
+    @Scheduled(initialDelay=(0L * 60L * 1000L), fixedRate=(10L * 60L * 1000L))
     public void runRecordWorker() {
         accessRecordWorker.doWork();
     }

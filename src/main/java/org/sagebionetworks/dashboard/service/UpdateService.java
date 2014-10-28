@@ -93,7 +93,12 @@ public class UpdateService {
             }
         }
 
-        logger.info("Done inserting file " + filePath + " with " + lineCount + "lines.");
+        try {
+            logFileDao.update(id);
+            logger.info("Done inserting file " + filePath + " with " + lineCount + "lines.");
+        } catch (Throwable e) {
+            logger.error(e.getMessage());
+        }
     }
 
     private void updateRecord(AccessRecord record, String filePath, String file_id, int lineNumber) {

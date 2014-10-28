@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS failed_record (
-    file_id         varchar(100)    REFERENCES log_file(id),
+    file_id         char(37)        REFERENCES log_file(id),
     line_number     integer         NOT NULL,
-    session_id      varchar(100)
+    session_id      char(37)
 );
 
 CREATE INDEX ON failed_record USING btree(file_id);

@@ -9,7 +9,7 @@
 
     <bean id="dwDataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close"
             p:driverClassName="org.postgresql.Driver"
-            p:url="jdbc:postgresql://127.0.0.1:5432/dashboard"
+            p:url="#{dashboardConfig.dwUrl}"
             p:username="#{dashboardConfig.dwUsername}"
             p:password="#{dashboardConfig.dwPassword}" />
 

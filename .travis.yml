@@ -9,11 +9,8 @@ env:
   - secure: Alwi8ceOoEZP/+uuDQOAabCYCWq2obcb7kdNrUrvJ2hfb7Jgwtxhdc2NGv1z9Nn6AUBNhsnSdYJkFr9MA1OG/6SHZN9ryaCiXjhyxOFeA5nY0dnZAwuYuosUsIFcuR4VL/bjCjU6u/EhEmZluBNydY7xzWO/gezGsGSKfvKd9cU=
   - secure: gzVfkcOsAm8vnDFLJhOh3whQKg6YyK51bBIHhP/EQtz2E1u6kdYGiylbeg3oIdxJVMk4Dd6IHo6Ot5CCLCtmgOu1ofx14+Q8+hiNpP/pilKLigcNz1NcYjS/yOMs+6d9uUZd8/TjOTKDJgtCqgyBfOn3kMA977BAE5d5ZeOxLZk=
   - secure: DNnm3UqsN7h2Hbmv0/qWHgr8J/qhrS8ZbxC1KkXlh8uKD+gtK3yWcRKCybs32zqWYHFxOT7suMM6R251kZcIBLQ2Iw+Jh2mVQ1c3ZE7rZwZjf8bSp2LYnmq3g7pfqJULCXod4x6hLKVoUUBFvqtVAauFKZXnF5vpzUCh/DWO6z8=
-  - secure: fzidykVud83/fQYM40OCaNG9FCWs5Jt9V/WYnkNH7iBTMrcIR897hC6eqHdnVZM6VMGB+5DPtopv+w9RoXy9f1qcdxTAnybBuzeWrrk1Kl4avzzPYrr3v6UXJaxJT/XY2RZBreBKWLrwVjBthcome7BPVLvnUtiHXcGzMv9TDnw=
-  - secure: f4JzFOU8LhrY1uhIqo0gtcgbhjBTttlnLmMobHcGoZVuKRikl92CcCcLNrdDgHZlkmLbcmEiricOSzwelcAZ2Ybln0h8l08Q7r0+eoDHLrXT5E/wKVuMlrH4I4GzGy2ekenYAzS7LUHTXkeOe2TqOAwx4uJoLAbgtOQpxLygks0=
   - secure: T5Pj02awKxNZwAm55y2/ROzakE5H8e1oT/r5WQSd7+meDL+OhJ5QBH8YmxQotMaqaLD3A73hHVuS1ZSMRFbSaLR9rHWqmGnoa8063E78qwKUnBmJVK0Qp/asN6zPi8puaOgIMt43RTHrQ4k+na6FEC4spR/cl5x5P8nJrUEcZfQ=
 before_script:
 - psql -U postgres -f 'dw-bootstrap.sql'
-script: "./gradlew --stacktrace check"
 after_success:
 - "./gradlew artifactoryPublish"

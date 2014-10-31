@@ -28,7 +28,7 @@ public class AccessLogFileFetcher {
     private Logger logger = LoggerFactory.getLogger(AccessLogFileFetcher.class);
 
     /**  How many days to fetch. */
-    private static final int DAYS = 200;
+    private static final int DAYS = 500;
     /** The max number of bytes in one batch. */
     private static final long BATCH_SIZE = 9L * 1000L * 1000L; // 9 MB per batch
 

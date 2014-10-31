@@ -48,7 +48,12 @@ public class DataWarehouseInit {
             @Override
             public Boolean doInPreparedStatement(PreparedStatement ps)
                     throws SQLException, DataAccessException {
-                return ps.execute();
+                try {
+                    return ps.execute();
+                } catch(org.postgresql.util.PSQLException e) {
+                    // TODO: Remove this try-catch block once RedShift supports IF NOT EXISTS
+                    e.printStackTrace();
+                }
             }});
     }
 }

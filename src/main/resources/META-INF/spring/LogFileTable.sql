@@ -5,5 +5,3 @@ CREATE TABLE IF NOT EXISTS log_file (
     status      varchar(10)     NOT NULL,
     PRIMARY KEY (file_path, log_type)
 );
-
-CREATE INDEX ON log_file USING btree(id);

@@ -17,11 +17,3 @@ CREATE TABLE IF NOT EXISTS access_record (
     isProd          boolean,
     file_id         char(37)        REFERENCES log_file(id)
 );
-
-CREATE INDEX ON access_record USING btree(user_id);
-
-CREATE INDEX ON access_record USING btree(timestamp);
-
-CREATE INDEX ON access_record USING btree(entity_id);
-
-CREATE INDEX ON access_record USING btree(file_id);

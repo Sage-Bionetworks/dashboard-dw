@@ -53,6 +53,7 @@ public class DataWarehouseInit {
                 } catch(org.postgresql.util.PSQLException e) {
                     // TODO: Remove this try-catch block once RedShift supports IF NOT EXISTS
                     e.printStackTrace();
+                    return Boolean.TRUE;
                 }
             }});
     }

@@ -26,7 +26,7 @@ public class UpdateService {
     private final Logger logger = LoggerFactory.getLogger(UpdateService.class);
 
     @Resource
-    private AccessRecordDao acessRecordDao;
+    private AccessRecordDao accessRecordDao;
 
     @Resource
     private FailedRecordDao failedRecordDao;
@@ -103,7 +103,7 @@ public class UpdateService {
 
     private void updateRecord(AccessRecord record, String filePath, String file_id, int lineNumber) {
         try {
-            acessRecordDao.put(record, file_id);
+            accessRecordDao.put(record, file_id);
         } catch (Throwable e) {
             if (!e.getMessage().contains("already exists")) {
                 try {

@@ -70,6 +70,7 @@ public class LogFileDaoImpl implements LogFileDao {
 
     @SuppressWarnings("deprecation")
     @Override
+    @Transactional
     public boolean isCompleted(String filePath) {
         Map<String, Object> namedParameters = new HashMap<String, Object>();
         namedParameters.put("file_path", filePath);

@@ -5,6 +5,7 @@
 .gradle/
 bin/
 build/
+logs/
 
 # eclipse
 .classpath

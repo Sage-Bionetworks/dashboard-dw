@@ -1,0 +1,22 @@
+CREATE TABLE IF NOT EXISTS raw_access_record (
+    returnObjectId      text,
+    elapseMS            text,
+    timestamp           text,
+    via                 text,
+    host                text,
+    threadId            text,
+    userAgent           text,
+    queryString         text,
+    sessionId           text,
+    xForwardedFor       text,
+    requestURL          text,
+    userId              text,
+    origin              text,
+    date                text,
+    method              text,
+    vmId                text,
+    instance            text,
+    stack               text,
+    success             text,
+    responseStatus      text
+);

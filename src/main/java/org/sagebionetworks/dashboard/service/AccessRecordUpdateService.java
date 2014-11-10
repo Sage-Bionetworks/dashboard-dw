@@ -22,8 +22,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service("updateService")
-public class UpdateService {
-    private final Logger logger = LoggerFactory.getLogger(UpdateService.class);
+public class AccessRecordUpdateService {
+    private final Logger logger = LoggerFactory.getLogger(AccessRecordUpdateService.class);
 
     @Resource
     private AccessRecordDao accessRecordDao;

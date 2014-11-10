@@ -8,7 +8,7 @@ import java.util.List;
 
 import org.sagebionetworks.dashboard.config.DashboardConfig;
 import org.sagebionetworks.dashboard.config.Stack;
-import org.sagebionetworks.dashboard.service.UpdateService;
+import org.sagebionetworks.dashboard.service.AccessRecordUpdateService;
 import org.slf4j.Logger;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -46,7 +46,7 @@ public class App {
                 return;
             }
 
-            final UpdateService updateService = context.getBean(UpdateService.class);
+            final AccessRecordUpdateService updateService = context.getBean(AccessRecordUpdateService.class);
 
             final long start = System.nanoTime();
             try {

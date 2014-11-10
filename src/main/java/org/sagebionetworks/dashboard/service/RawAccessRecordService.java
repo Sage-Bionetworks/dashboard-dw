@@ -32,11 +32,7 @@ public class RawAccessRecordService {
             rawAccessRecordDao.copy(filePath, username, password);
             logFileDao.update(id);
         } catch (Throwable exception) {
-            // if it's not a duplicate file, log the error
-            if (!exception.getMessage().contains("already exists")) {
-                logger.error("Failed to copy file " + filePath);
-            }
-            return;
+            logger.error("Failed to copy file " + filePath);
         }
     }
 }

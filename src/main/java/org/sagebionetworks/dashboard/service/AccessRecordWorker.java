@@ -26,11 +26,12 @@ public class AccessRecordWorker {
     private AmazonS3 s3Client;
 
     public void doWork() {
+        final String bucket = dashboardConfig.getAccessRecordBucket();
         final String username = dashboardConfig.getAwsAccessKey();
         final String password = dashboardConfig.getAwsSecretKey();
         List<String> batch = repoFileFetcher.nextBatch();
         for (final String key : batch) {
-            rawAccessRecordService.update(key, username, password);
+            rawAccessRecordService.update(bucket, key, username, password);
         }
     }
 

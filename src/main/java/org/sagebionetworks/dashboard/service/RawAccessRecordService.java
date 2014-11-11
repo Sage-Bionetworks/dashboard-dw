@@ -21,7 +21,7 @@ public class RawAccessRecordService {
     @Resource
     private RawAccessRecordDao rawAccessRecordDao;
 
-    public void update(final String filePath, final String username, final String password) {
+    public void update(final String bucket, final String filePath, final String username, final String password) {
         if (logFileDao.isCompleted(filePath)) {
             return;
         }
@@ -29,7 +29,7 @@ public class RawAccessRecordService {
         try {
             // type 0 for access_record
             logFileDao.put(filePath, id, 0);
-            rawAccessRecordDao.copy(filePath, username, password);
+            rawAccessRecordDao.copy(bucket + filePath, username, password);
             logFileDao.update(id);
         } catch (Throwable exception) {
             logger.error("Failed to copy file " + filePath);

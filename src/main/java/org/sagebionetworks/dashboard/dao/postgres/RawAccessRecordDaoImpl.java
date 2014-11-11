@@ -23,7 +23,6 @@ public class RawAccessRecordDaoImpl implements RawAccessRecordDao{
     @Resource
     private NamedParameterJdbcTemplate dwTemplate;
 
-    private static final String PREFIX = "s3://prod.access.record.sagebase.org/";
     private static final String COPY = "COPY raw_access_record FROM ':file_path'" 
             + "CREDENTIALS 'aws_access_key_id=:username;aws_secret_access_key=:password'"
             + " DELIMITER ',' GZIP;";
@@ -31,7 +30,7 @@ public class RawAccessRecordDaoImpl implements RawAccessRecordDao{
     @Override
     public void copy(String filePath, String username, String password) {
         Map<String, Object> namedParameters = new HashMap<>();
-        namedParameters.put("file_path", PREFIX + filePath);
+        namedParameters.put("file_path", filePath);
         namedParameters.put("username", username);
         namedParameters.put("password", password);
 

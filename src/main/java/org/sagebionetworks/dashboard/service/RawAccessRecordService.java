@@ -34,7 +34,7 @@ public class RawAccessRecordService {
             rawAccessRecordDao.copy(PREFIX + bucket + "/" + filePath, username, password);
             logFileDao.update(id);
         } catch (Throwable exception) {
-            logger.error("Failed to copy file " + filePath);
+            logger.error("Failed to copy file " + filePath, exception);
         }
     }
 }

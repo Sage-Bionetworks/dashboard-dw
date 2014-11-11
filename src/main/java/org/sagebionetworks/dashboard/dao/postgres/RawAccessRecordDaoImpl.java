@@ -34,7 +34,7 @@ public class RawAccessRecordDaoImpl implements RawAccessRecordDao{
             dwTemplate.update(COPY, namedParameters);
             logger.info("Finish adding " + filePath + " into raw_access_record table.");
         } catch (Throwable e) {
-            logger.error(e.toString());
+            logger.error("Failed to add " + filePath, e);
         }
     }
 

@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 @Service("rawAccessRecordService")
 public class RawAccessRecordService {
 
+    private final String PREFIX = "s3://";
+
     private final Logger logger = LoggerFactory.getLogger(RawAccessRecordService.class);
 
     @Resource
@@ -29,10 +31,10 @@ public class RawAccessRecordService {
         try {
             // type 0 for access_record
             logFileDao.put(filePath, id, 0);
-            rawAccessRecordDao.copy(bucket + filePath, username, password);
+            rawAccessRecordDao.copy(PREFIX + bucket + "/" + filePath, username, password);
             logFileDao.update(id);
         } catch (Throwable exception) {
-            logger.error("Failed to copy file " + filePath);
+            logger.error("Failed to copy file " + filePath, exception);
         }
     }
 }

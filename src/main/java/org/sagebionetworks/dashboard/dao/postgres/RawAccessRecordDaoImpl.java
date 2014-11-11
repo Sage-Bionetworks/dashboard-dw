@@ -19,19 +19,18 @@ public class RawAccessRecordDaoImpl implements RawAccessRecordDao{
     @Resource
     private NamedParameterJdbcTemplate dwTemplate;
 
-    private static final String COPY = "COPY raw_access_record FROM ':file_path'" 
-            + " CREDENTIALS 'aws_access_key_id=:username;aws_secret_access_key=:password'"
-            + " DELIMITER ',' GZIP;";
+    private static final String COPY_HEAD = "COPY raw_access_record FROM ':file_path'"
+            + " CREDENTIALS 'aws_access_key_id=";
+    private static final String COPY_CRED = ";aws_secret_access_key=";
+    private static final String COPY_END = "' DELIMITER ',' GZIP;";
 
     @Override
     public void copy(String filePath, String username, String password) {
         Map<String, Object> namedParameters = new HashMap<>();
         namedParameters.put("file_path", filePath);
-        namedParameters.put("username", username);
-        namedParameters.put("password", password);
-
+        String query = COPY_HEAD + username + COPY_CRED + password + COPY_END;
         try {
-            dwTemplate.update(COPY, namedParameters);
+            dwTemplate.update(query, namedParameters);
             logger.info("Finish adding " + filePath + " into raw_access_record table.");
         } catch (Throwable e) {
             logger.error("Failed to add " + filePath, e);

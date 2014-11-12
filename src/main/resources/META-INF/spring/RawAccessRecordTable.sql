@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS raw_access_record (
     host                text,
     threadId            text,
     userAgent           text,
-    queryString         text,
+    queryString         varchar(max),
     sessionId           text,
     xForwardedFor       text,
     requestURL          text,

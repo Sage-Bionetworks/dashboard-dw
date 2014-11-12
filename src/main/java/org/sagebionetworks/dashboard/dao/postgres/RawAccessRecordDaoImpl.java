@@ -1,7 +1,6 @@
 package org.sagebionetworks.dashboard.dao.postgres;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -19,18 +18,16 @@ public class RawAccessRecordDaoImpl implements RawAccessRecordDao{
     @Resource
     private NamedParameterJdbcTemplate dwTemplate;
 
-    private static final String COPY_HEAD = "COPY raw_access_record FROM ':file_path'"
-            + " CREDENTIALS 'aws_access_key_id=";
-    private static final String COPY_CRED = ";aws_secret_access_key=";
+    private static final String COPY_HEAD = "COPY raw_access_record FROM '";
+    private static final String COPY_CRED_U = "' CREDENTIALS 'aws_access_key_id=";
+    private static final String COPY_CRED_P = ";aws_secret_access_key=";
     private static final String COPY_END = "' CSV GZIP;";
 
     @Override
     public void copy(String filePath, String username, String password) {
-        Map<String, Object> namedParameters = new HashMap<>();
-        namedParameters.put("file_path", filePath);
-        String query = COPY_HEAD + username + COPY_CRED + password + COPY_END;
+        String query = COPY_HEAD + filePath + COPY_CRED_U + username + COPY_CRED_P + password + COPY_END;
         try {
-            dwTemplate.update(query, namedParameters);
+            dwTemplate.update(query, new HashMap<String, Object>());
             logger.info("Finish adding " + filePath + " into raw_access_record table.");
         } catch (Throwable e) {
             logger.error("Failed to add " + filePath, e);

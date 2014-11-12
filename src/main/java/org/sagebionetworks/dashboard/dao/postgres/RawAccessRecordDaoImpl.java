@@ -22,7 +22,7 @@ public class RawAccessRecordDaoImpl implements RawAccessRecordDao{
     private static final String COPY_HEAD = "COPY raw_access_record FROM ':file_path'"
             + " CREDENTIALS 'aws_access_key_id=";
     private static final String COPY_CRED = ";aws_secret_access_key=";
-    private static final String COPY_END = "' DELIMITER ',' GZIP;";
+    private static final String COPY_END = "' CSV GZIP;";
 
     @Override
     public void copy(String filePath, String username, String password) {

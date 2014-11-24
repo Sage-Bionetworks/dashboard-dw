@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository("logFileDao")
 public class LogFileDaoImpl implements LogFileDao {
 
-    private final Logger logger = LoggerFactory.getLogger(AccessRecordDaoImpl.class);
+    private final Logger logger = LoggerFactory.getLogger(LogFileDaoImpl.class);
 
     @Resource
     private NamedParameterJdbcTemplate dwTemplate;

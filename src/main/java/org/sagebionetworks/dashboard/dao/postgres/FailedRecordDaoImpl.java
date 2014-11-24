@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository("failedAccessRecordDao")
 public class FailedRecordDaoImpl implements FailedRecordDao {
 
-    private final Logger logger = LoggerFactory.getLogger(AccessRecordDaoImpl.class);
+    private final Logger logger = LoggerFactory.getLogger(FailedRecordDaoImpl.class);
 
     @Resource
     private NamedParameterJdbcTemplate dwTemplate;

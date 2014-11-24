@@ -1,4 +1,4 @@
-package org.sagebionetworks.dashboard.dao.postgres;
+package org.sagebionetworks.dashboard.dao.redshift;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,8 +20,8 @@ public class DataWarehouseInit {
     public DataWarehouseInit(NamedParameterJdbcTemplate dwTemplate) {
 
         createTable(dwTemplate, "/META-INF/spring/LogFileTable.sql");
+        createTable(dwTemplate, "/META-INF/spring/RawAccessRecordTable.sql");
         createTable(dwTemplate, "/META-INF/spring/AccessRecordTable.sql");
-        createTable(dwTemplate, "/META-INF/spring/FailedRecordTable.sql");
 
         logger.info("Data warehouse initialzied.");
     }

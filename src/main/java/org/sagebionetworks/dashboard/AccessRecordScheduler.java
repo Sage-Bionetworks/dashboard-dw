@@ -39,4 +39,6 @@ public class AccessRecordScheduler {
         logger.info(accessRecords + " access records, " + failedRecords + " failed records, " + logFiles + " log files.");
         accessRecordWorker.doWork();
     }
+
+    
 }

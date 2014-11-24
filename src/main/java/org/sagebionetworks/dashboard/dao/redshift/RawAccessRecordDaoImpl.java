@@ -1,4 +1,4 @@
-package org.sagebionetworks.dashboard.dao.postgres;
+package org.sagebionetworks.dashboard.dao.redshift;
 
 import java.util.HashMap;
 

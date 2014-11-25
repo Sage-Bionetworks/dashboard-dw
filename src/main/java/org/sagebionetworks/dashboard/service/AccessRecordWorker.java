@@ -28,6 +28,9 @@ public class AccessRecordWorker {
     @Resource
     private AmazonS3 s3Client;
 
+    /**
+     * Copy the access_record log files in S3 to raw_access_record table.
+     */
     public void copy() {
         final String bucket = dashboardConfig.getAccessRecordBucket();
         final String username = dashboardConfig.getAwsAccessKey();
@@ -38,6 +41,9 @@ public class AccessRecordWorker {
         }
     }
 
+    /**
+     * Update the access_record table.
+     */
     public void update() {
         accessRecordService.update();
     }

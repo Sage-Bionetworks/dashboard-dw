@@ -23,9 +23,12 @@ public class AccessRecordWorker {
     private RawAccessRecordService rawAccessRecordService;
 
     @Resource
+    private AccessRecordService accessRecordService;
+
+    @Resource
     private AmazonS3 s3Client;
 
-    public void doWork() {
+    public void copy() {
         final String bucket = dashboardConfig.getAccessRecordBucket();
         final String username = dashboardConfig.getAwsAccessKey();
         final String password = dashboardConfig.getAwsSecretKey();
@@ -35,4 +38,7 @@ public class AccessRecordWorker {
         }
     }
 
+    public void update() {
+        accessRecordService.update();
+    }
 }

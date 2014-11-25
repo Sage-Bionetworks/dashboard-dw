@@ -34,4 +34,10 @@ public class RawAccessRecordDaoImpl implements RawAccessRecordDao{
         }
     }
 
+    @Override
+    public long count() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
 }

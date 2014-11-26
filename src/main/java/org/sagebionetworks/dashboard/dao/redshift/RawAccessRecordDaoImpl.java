@@ -23,6 +23,8 @@ public class RawAccessRecordDaoImpl implements RawAccessRecordDao{
     private static final String COPY_CRED_P = ";aws_secret_access_key=";
     private static final String COPY_END = "' CSV GZIP FILLRECORD;";
 
+    private static final String COUNT = "SELECT COUNT(*) FROM raw_access_record;";
+
     @Override
     public void copy(String filePath, String username, String password) {
         String query = COPY_HEAD + filePath + COPY_CRED_U + username + COPY_CRED_P + password + COPY_END;
@@ -34,10 +36,10 @@ public class RawAccessRecordDaoImpl implements RawAccessRecordDao{
         }
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public long count() {
-        // TODO Auto-generated method stub
-        return 0;
+        return dwTemplate.getJdbcOperations().queryForInt(COUNT);
     }
 
 }

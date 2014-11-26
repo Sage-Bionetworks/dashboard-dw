@@ -17,10 +17,11 @@ public class AccessRecordService {
 
     public void update() {
         // insert new raw records into access_record table
-        
+        accessRecordDao.insertNewRecords();
         // vacuum
-        
+        accessRecordDao.vacuum();
         // select 1000 null entityId records to update
+        
         // for each record, update the entityId field
     }
 

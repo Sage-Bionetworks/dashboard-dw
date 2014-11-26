@@ -9,4 +9,6 @@ public interface AccessRecordDao {
     void cleanup();
 
     long count();
+
+    void insertNewRecords();
 }

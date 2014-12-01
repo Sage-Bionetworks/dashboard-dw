@@ -1,22 +1,42 @@
 package org.sagebionetworks.dashboard.dao.redshift;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.sagebionetworks.dashboard.dao.AccessRecordDao;
+import org.sagebionetworks.dashboard.parse.AccessRecord;
+import org.sagebionetworks.dashboard.parse.RepoRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.PreparedStatementCallback;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 @Repository("accessRecordDao")
 public class AccessRecordDaoImpl implements AccessRecordDao{
+
+    public class AccessRecordMapper implements RowMapper<AccessRecord> {
+
+        @Override
+        public AccessRecord mapRow(ResultSet rs, int rowNum) throws SQLException {
+            RepoRecord record = new RepoRecord();
+            record.setSessionId(rs.getString("sessionId"));
+            record.setObjectId(rs.getString("returnObjectId"));
+            record.setUri(rs.getString("requestURL"));
+            record.setQueryString(rs.getString("queryString"));
+            return record;
+        }
+
+    }
 
     private final Logger logger = LoggerFactory.getLogger(AccessRecordDaoImpl.class);
 
@@ -46,9 +66,16 @@ public class AccessRecordDaoImpl implements AccessRecordDao{
     }
 
     @Override
-    public void update() {
-        // TODO Auto-generated method stub
-        
+    public List<AccessRecord> nextRecords() {
+        return dwTemplate.query(NEXT_RECORDS, new HashMap<String, Object>(), new AccessRecordMapper());
+    }
+
+    @Override
+    public void update(Long entityId, String sessionId) {
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("entityId", entityId);
+        parameters.put("sessionId", sessionId);
+        dwTemplate.update(UPDATE, parameters);
     }
 
     @Override

@@ -1,8 +1,12 @@
 package org.sagebionetworks.dashboard.dao;
 
+import java.util.List;
+
+import org.sagebionetworks.dashboard.parse.AccessRecord;
+
 public interface AccessRecordDao {
 
-    void update();
+    void update(Long entityId, String sessionId);
 
     void vacuum();
 
@@ -11,4 +15,6 @@ public interface AccessRecordDao {
     long count();
 
     void insertNewRecords();
+
+    List<AccessRecord> nextRecords();
 }

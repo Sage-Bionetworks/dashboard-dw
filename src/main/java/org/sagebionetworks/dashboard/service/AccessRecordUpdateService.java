@@ -102,8 +102,8 @@ public class AccessRecordUpdateService {
     }
 
     private void updateRecord(AccessRecord record, String filePath, String file_id, int lineNumber) {
-        try {
-            //accessRecordDao.put(record, file_id);
+        /*try {
+            accessRecordDao.put(record, file_id);
         } catch (Throwable e) {
             if (!e.getMessage().contains("already exists")) {
                 try {
@@ -112,7 +112,7 @@ public class AccessRecordUpdateService {
                     logger.error(e2.getMessage());
                 }
             }
-        }
+        }*/
     }
 
 }

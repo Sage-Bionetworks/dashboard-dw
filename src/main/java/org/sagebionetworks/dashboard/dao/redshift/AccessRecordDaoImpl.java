@@ -24,7 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository("accessRecordDao")
 public class AccessRecordDaoImpl implements AccessRecordDao{
 
-    public class AccessRecordMapper implements RowMapper<AccessRecord> {
+    private static class AccessRecordMapper implements RowMapper<AccessRecord> {
 
         @Override
         public AccessRecord mapRow(ResultSet rs, int rowNum) throws SQLException {

@@ -28,16 +28,20 @@ public class AccessRecordService {
             List<AccessRecord> records = accessRecordDao.nextRecords();
             for (AccessRecord record : records) {
                 String entityId = new EntityIdReader().read(record);
-                if (entityId.startsWith("syn")) {
-                    entityId = entityId.substring(3);
+                if (entityId == null) {
+                    accessRecordDao.update(-1L, record.getSessionId());
+                } else {
+                    if (entityId.startsWith("syn")) {
+                        entityId = entityId.substring(3);
+                    }
+                    Long entity;
+                    try {
+                        entity = Long.parseLong(entityId);
+                    } catch (NumberFormatException e) {
+                        entity = (long) -1;
+                    }
+                    accessRecordDao.update(entity, record.getSessionId());
                 }
-                Long entity;
-                try {
-                    entity = Long.parseLong(entityId);
-                } catch (NumberFormatException e) {
-                    entity = (long) -1;
-                }
-                accessRecordDao.update(entity, record.getSessionId());
             }
         } catch (DataAccessException e) {
             logger.error("Failed to update", e);

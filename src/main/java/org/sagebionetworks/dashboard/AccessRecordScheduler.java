@@ -30,9 +30,9 @@ public class AccessRecordScheduler {
 
     /**
      * Copy the access record log files in S3 buckets to raw_access_record.
-     * Initial delay of 0 minutes. Updates every 2 minutes.
+     * Initial delay of 0 minutes. Updates every 3 minutes.
      */
-    @Scheduled(initialDelay=(0L * 60L * 1000L), fixedRate=(2L * 60L * 1000L))
+    @Scheduled(initialDelay=(0L * 60L * 1000L), fixedRate=(3L * 60L * 1000L))
     public void runRawRecordWorker() {
         long rawaccessRecords = rawAccessRecordDao.count();
         long logFiles = logFileDao.count();
@@ -42,9 +42,9 @@ public class AccessRecordScheduler {
 
     /**
      * Update the access_record table.
-     * Initial delay of 0 minutes. Updates every 11 minutes.
+     * Initial delay of 0 minutes. Updates every 19 minutes.
      */
-    @Scheduled(initialDelay=(0L * 60L * 1000L), fixedRate=(11L * 60L * 1000L))
+    @Scheduled(initialDelay=(0L * 60L * 1000L), fixedRate=(19L * 60L * 1000L))
     public void runRecordWorker() {
         long accessRecords = accessRecordDao.count();
         logger.info(accessRecords + " access records.");

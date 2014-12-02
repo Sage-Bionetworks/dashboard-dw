@@ -45,7 +45,7 @@ apply plugin: 'eclipse'
 apply plugin: 'application'
 mainClassName = "org.sagebionetworks.dashboard.App"
 run {
-    args = [filePath, stack]
+    args = [init]
 }
 
 /*** Code Quality Tools ***/

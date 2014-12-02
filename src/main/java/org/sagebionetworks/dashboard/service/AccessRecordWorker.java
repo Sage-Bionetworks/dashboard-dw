@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.sagebionetworks.dashboard.config.DashboardConfig;
+import org.sagebionetworks.dashboard.DwConfig;
 import org.sagebionetworks.dashboard.service.AccessLogFileFetcher;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +14,7 @@ import com.amazonaws.services.s3.AmazonS3;
 public class AccessRecordWorker {
 
     @Resource
-    private DashboardConfig dashboardConfig;
+    private DwConfig dwConfig;
 
     @Resource
     private AccessLogFileFetcher repoFileFetcher;
@@ -32,9 +32,9 @@ public class AccessRecordWorker {
      * Copy the access_record log files in S3 to raw_access_record table.
      */
     public void copy() {
-        final String bucket = dashboardConfig.getAccessRecordBucket();
-        final String username = dashboardConfig.getAwsAccessKey();
-        final String password = dashboardConfig.getAwsSecretKey();
+        final String bucket = dwConfig.getAccessRecordBucket();
+        final String username = dwConfig.getAwsAccessKey();
+        final String password = dwConfig.getAwsSecretKey();
         List<String> batch = repoFileFetcher.nextBatch();
         for (final String key : batch) {
             rawAccessRecordService.update(bucket, key, username, password);

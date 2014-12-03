@@ -28,12 +28,8 @@ public class RawAccessRecordDaoImpl implements RawAccessRecordDao{
     @Override
     public void copy(String filePath, String username, String password) {
         String query = COPY_HEAD + filePath + COPY_CRED_U + username + COPY_CRED_P + password + COPY_END;
-        try {
-            dwTemplate.update(query, new HashMap<String, Object>());
-            logger.info("Finish adding " + filePath + " into raw_access_record table.");
-        } catch (Throwable e) {
-            logger.error("Failed to add " + filePath, e);
-        }
+        dwTemplate.update(query, new HashMap<String, Object>());
+        logger.info("Finish adding " + filePath + " into raw_access_record table.");
     }
 
     @SuppressWarnings("deprecation")

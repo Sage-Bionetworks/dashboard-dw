@@ -96,7 +96,7 @@ public class AccessLogFileFetcher {
                 final String key = obj.getKey();
                 if (isValidKey(key)) {
                     // Make sure the file hasn't been processed yet
-                    if (!logFileDao.isCompleted(key)) {
+                    if (!logFileDao.exist(key)) {
                         batch.add(key);
                         quota = quota - obj.getSize();
                         logger.info("Added key " + key + " to the batch.");

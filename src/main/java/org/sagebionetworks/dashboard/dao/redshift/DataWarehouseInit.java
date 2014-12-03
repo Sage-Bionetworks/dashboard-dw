@@ -18,14 +18,14 @@ public class DataWarehouseInit {
     private final Logger logger = LoggerFactory.getLogger(DataWarehouseInit.class);
 
     public DataWarehouseInit(NamedParameterJdbcTemplate dwTemplate) {
-        createTable(dwTemplate, "/META-INF/spring/LogFileTable.sql", "log_file");
-        createTable(dwTemplate, "/META-INF/spring/RawAccessRecordTable.sql", "raw_access_record");
-        createTable(dwTemplate, "/META-INF/spring/AccessRecordTable.sql", "access_record");
+        createTable(dwTemplate, "/META-INF/spring/LogFileTable.sql");
+        createTable(dwTemplate, "/META-INF/spring/RawAccessRecordTable.sql");
+        createTable(dwTemplate, "/META-INF/spring/AccessRecordTable.sql");
 
         logger.info("Data warehouse initialzied.");
     }
 
-    private void createTable(NamedParameterJdbcTemplate dwTemplate, String path, String tablename) {
+    private void createTable(NamedParameterJdbcTemplate dwTemplate, String path) {
 
         InputStream source = this.getClass().getResourceAsStream(path);
 

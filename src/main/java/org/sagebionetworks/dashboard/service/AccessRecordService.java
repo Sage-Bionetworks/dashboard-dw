@@ -26,6 +26,7 @@ public class AccessRecordService {
 
         try {
             List<AccessRecord> records = accessRecordDao.nextRecords();
+            logger.info("Updating " + records.size() + " records ...");
             for (AccessRecord record : records) {
                 String entityId = new EntityIdReader().read(record);
                 if (entityId == null) {
@@ -43,6 +44,7 @@ public class AccessRecordService {
                     accessRecordDao.update(entity, record.getSessionId());
                 }
             }
+            logger.info("Finish updating " + records.size() + " records.");
         } catch (DataAccessException e) {
             logger.error("Failed to update", e);
         }

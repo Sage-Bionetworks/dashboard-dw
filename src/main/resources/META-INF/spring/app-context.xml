@@ -17,8 +17,8 @@
 
     <import resource="aws.xml" />
     <import resource="redshift.xml" />
-    <task:annotation-driven />
-    <task:executor id="executor" pool-size="1"/>
+
+    <task:annotation-driven scheduler="scheduler"/>
     <task:scheduler id="scheduler" pool-size="10"/>
 
 </beans>

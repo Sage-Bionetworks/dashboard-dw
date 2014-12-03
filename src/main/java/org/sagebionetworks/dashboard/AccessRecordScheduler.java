@@ -8,7 +8,6 @@ import org.sagebionetworks.dashboard.dao.RawAccessRecordDao;
 import org.sagebionetworks.dashboard.service.AccessRecordWorker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -33,8 +32,7 @@ public class AccessRecordScheduler {
      * Copy the access record log files in S3 buckets to raw_access_record.
      * Initial delay of 0 minutes. Updates every 1.5 minutes.
      */
-    //@Scheduled(initialDelay=(0L * 60L * 1000L), fixedRate=(90L * 1000L))
-    @Async
+    @Scheduled(initialDelay=(0L * 60L * 1000L), fixedRate=(90L * 1000L))
     public void runRawRecordWorker() {
         long rawaccessRecords = rawAccessRecordDao.count();
         long logFiles = logFileDao.count();
@@ -44,9 +42,9 @@ public class AccessRecordScheduler {
 
     /**
      * Update the access_record table.
-     * Initial delay of 0 minutes. Updates every 17 minutes.
+     * Initial delay of 1.5 minutes. Updates every 17 minutes.
      */
-    @Scheduled(initialDelay=(0L * 60L * 1000L), fixedRate=(17L * 60L * 1000L))
+    @Scheduled(initialDelay=(90L * 1000L), fixedRate=(17L * 60L * 1000L))
     public void runRecordWorker() {
         long accessRecords = accessRecordDao.count();
         logger.info(accessRecords + " access records.");

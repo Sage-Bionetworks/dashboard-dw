@@ -33,10 +33,11 @@ public class RawAccessRecordService {
             logFileDao.put(filePath, id, 0);
             try {
                 rawAccessRecordDao.copy(PREFIX + bucket + "/" + filePath, username, password);
+                logger.info("Finish adding " + filePath + " into raw_access_record table.");
+                logFileDao.update(id);
             } catch (Throwable e) {
                 logFileDao.updateFailed(id);
             }
-            logFileDao.update(id);
         } catch (Throwable exception) {
             logger.error("Failed to copy file " + filePath, exception);
         }

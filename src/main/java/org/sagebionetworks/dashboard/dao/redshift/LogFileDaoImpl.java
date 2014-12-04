@@ -1,4 +1,4 @@
-package org.sagebionetworks.dashboard.dao.postgres;
+package org.sagebionetworks.dashboard.dao.redshift;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository("logFileDao")
 public class LogFileDaoImpl implements LogFileDao {
 
-    private final Logger logger = LoggerFactory.getLogger(AccessRecordDaoImpl.class);
+    private final Logger logger = LoggerFactory.getLogger(LogFileDaoImpl.class);
 
     @Resource
     private NamedParameterJdbcTemplate dwTemplate;
@@ -33,7 +33,9 @@ public class LogFileDaoImpl implements LogFileDao {
 
     private static final String UPDATE = "UPDATE log_file SET status = 'DONE' WHERE id = :id;";
 
-    private static final String ISCOMPLETED = "SELECT COUNT(*) FROM log_file WHERE file_path = :file_path;";
+    private static final String EXIST = "SELECT COUNT(*) FROM log_file WHERE file_path = :file_path;";
+
+    private static final String UPDATE_FAILED = "UPDATE log_file SET status = 'FAILED' WHERE id = :id;";
 
     @Override
     public void cleanup() {
@@ -71,10 +73,10 @@ public class LogFileDaoImpl implements LogFileDao {
     @SuppressWarnings("deprecation")
     @Override
     @Transactional
-    public boolean isCompleted(String filePath) {
+    public boolean exist(String filePath) {
         Map<String, Object> namedParameters = new HashMap<String, Object>();
         namedParameters.put("file_path", filePath);
-        if (dwTemplate.queryForInt(ISCOMPLETED, namedParameters) == 1) {
+        if (dwTemplate.queryForInt(EXIST, namedParameters) == 1) {
             return true;
         }
         return false;
@@ -85,6 +87,15 @@ public class LogFileDaoImpl implements LogFileDao {
         Map<String, Object> namedParameters = new HashMap<String, Object>();
         namedParameters.put("id", id);
         if (dwTemplate.update(UPDATE, namedParameters) != 1) {
+            throw new RuntimeException("Failed to update file id " + id);
+        }
+    }
+
+    @Override
+    public void updateFailed(String id) {
+        Map<String, Object> namedParameters = new HashMap<String, Object>();
+        namedParameters.put("id", id);
+        if (dwTemplate.update(UPDATE_FAILED, namedParameters) != 1) {
             throw new RuntimeException("Failed to update file id " + id);
         }
     }

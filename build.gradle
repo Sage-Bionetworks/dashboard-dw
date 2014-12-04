@@ -21,10 +21,12 @@ repositories {
 }
 
 dependencies {
-    compile 'org.sagebionetworks:dashboard-core:0.1.2+'
+    compile 'org.sagebionetworks:dashboard-core:0.1.4+'
     compile 'org.postgresql:postgresql:9.3-1102-jdbc41'
     compile 'com.amazonaws:aws-java-sdk:1.8.11'
     compile 'org.apache.commons:commons-dbcp2:2.0.1'
+    compile 'org.springframework:spring-jdbc:3.2.10.RELEASE'
+    compile 'org.springframework:spring-context:3.2.10.RELEASE'
     compile 'org.slf4j:slf4j-api:' + slf4jVersion
     runtime 'ch.qos.logback:logback-classic:1.1.2'
     runtime 'ch.qos.logback:logback-core:1.1.2'
@@ -43,7 +45,7 @@ apply plugin: 'eclipse'
 apply plugin: 'application'
 mainClassName = "org.sagebionetworks.dashboard.App"
 run {
-    args = [filePath, stack]
+    args = [init]
 }
 
 /*** Code Quality Tools ***/

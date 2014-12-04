@@ -7,7 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.annotation.Resource;
 
-import org.sagebionetworks.dashboard.config.DashboardConfig;
+import org.sagebionetworks.dashboard.DwConfig;
 import org.sagebionetworks.dashboard.dao.LogFileDao;
 //import org.sagebionetworks.dashboard.dao.FileStatusDao;
 import org.slf4j.Logger;
@@ -33,7 +33,7 @@ public class AccessLogFileFetcher {
     private static final long BATCH_SIZE = 9L * 1000L * 1000L; // 9 MB per batch
 
     @Resource
-    private DashboardConfig dashboardConfig;
+    private DwConfig dwConfig;
 
     @Resource
     private AmazonS3 s3Client;
@@ -79,7 +79,7 @@ public class AccessLogFileFetcher {
 
         logger.info("Filling the batch for folder " + folder + "...");
 
-        String bucket = dashboardConfig.getAccessRecordBucket();
+        String bucket = dwConfig.getAccessRecordBucket();
         ListObjectsRequest request = new ListObjectsRequest()
                 .withBucketName(bucket)
                 .withPrefix(folder);
@@ -96,7 +96,7 @@ public class AccessLogFileFetcher {
                 final String key = obj.getKey();
                 if (isValidKey(key)) {
                     // Make sure the file hasn't been processed yet
-                    if (!logFileDao.isCompleted(key)) {
+                    if (!logFileDao.exist(key)) {
                         batch.add(key);
                         quota = quota - obj.getSize();
                         logger.info("Added key " + key + " to the batch.");

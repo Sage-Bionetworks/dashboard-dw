@@ -24,15 +24,20 @@ public class RawAccessRecordService {
     private RawAccessRecordDao rawAccessRecordDao;
 
     public void update(final String bucket, final String filePath, final String username, final String password) {
-        if (logFileDao.isCompleted(filePath)) {
+        if (logFileDao.exist(filePath)) {
             return;
         }
         String id = UUID.randomUUID().toString();
         try {
             // type 0 for access_record
             logFileDao.put(filePath, id, 0);
-            rawAccessRecordDao.copy(PREFIX + bucket + "/" + filePath, username, password);
-            logFileDao.update(id);
+            try {
+                rawAccessRecordDao.copy(PREFIX + bucket + "/" + filePath, username, password);
+                logger.info("Finish adding " + filePath + " into raw_access_record table.");
+                logFileDao.update(id);
+            } catch (Throwable e) {
+                logFileDao.updateFailed(id);
+            }
         } catch (Throwable exception) {
             logger.error("Failed to copy file " + filePath, exception);
         }

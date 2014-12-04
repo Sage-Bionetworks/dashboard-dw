@@ -1,4 +1,4 @@
-package org.sagebionetworks.dashboard.dao.postgres;
+package org.sagebionetworks.dashboard.dao.redshift;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,16 +18,15 @@ public class DataWarehouseInit {
     private final Logger logger = LoggerFactory.getLogger(DataWarehouseInit.class);
 
     public DataWarehouseInit(NamedParameterJdbcTemplate dwTemplate) {
-
         createTable(dwTemplate, "/META-INF/spring/LogFileTable.sql");
-        createTable(dwTemplate, "/META-INF/spring/AccessRecordTable.sql");
-        createTable(dwTemplate, "/META-INF/spring/FailedRecordTable.sql");
         createTable(dwTemplate, "/META-INF/spring/RawAccessRecordTable.sql");
+        createTable(dwTemplate, "/META-INF/spring/AccessRecordTable.sql");
 
         logger.info("Data warehouse initialzied.");
     }
 
     private void createTable(NamedParameterJdbcTemplate dwTemplate, String path) {
+
         InputStream source = this.getClass().getResourceAsStream(path);
 
         if (source == null) {
@@ -45,17 +44,16 @@ public class DataWarehouseInit {
             return;
         }
 
-        dwTemplate.execute(query, new PreparedStatementCallback<Boolean>() {
-            @Override
-            public Boolean doInPreparedStatement(PreparedStatement ps)
-                    throws SQLException, DataAccessException {
-                try {
+        try {
+            dwTemplate.execute(query, new PreparedStatementCallback<Boolean>() {
+                @Override
+                public Boolean doInPreparedStatement(PreparedStatement ps)
+                        throws SQLException, DataAccessException {
                     return ps.execute();
-                } catch(org.postgresql.util.PSQLException e) {
-                    // TODO: Remove this try-catch block once RedShift supports IF NOT EXISTS
-                    e.printStackTrace();
-                    return Boolean.TRUE;
-                }
-            }});
+                }});
+        } catch (DataAccessException e) {
+            logger.info("Failed to create table in file " + path);
+        }
     }
+
 }

@@ -30,7 +30,7 @@ public class AccessRecordService {
             for (AccessRecord record : records) {
                 String entityId = new EntityIdReader().read(record);
                 if (entityId == null) {
-                    accessRecordDao.update(-1L, record.getSessionId());
+                    /*accessRecordDao.update(-1L, record.getSessionId());*/
                 } else {
                     if (entityId.startsWith("syn")) {
                         entityId = entityId.substring(3);
@@ -41,7 +41,7 @@ public class AccessRecordService {
                     } catch (NumberFormatException e) {
                         entity = (long) -1;
                     }
-                    accessRecordDao.update(entity, record.getSessionId());
+                    /*accessRecordDao.update(entity, record.getSessionId());*/
                 }
             }
             logger.info("Finish updating " + records.size() + " records.");

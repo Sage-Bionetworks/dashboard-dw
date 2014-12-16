@@ -70,13 +70,13 @@ public class AccessRecordDaoImpl implements AccessRecordDao{
         return dwTemplate.query(NEXT_RECORDS, new HashMap<String, Object>(), new AccessRecordMapper());
     }
 
-    @Override
+/*    @Override
     public void update(Long entityId, String sessionId) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("entityId", entityId);
         parameters.put("sessionId", sessionId);
         dwTemplate.update(UPDATE, parameters);
-    }
+    }*/
 
     @Override
     @Transactional

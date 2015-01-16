@@ -21,7 +21,7 @@ public class DataWarehouseInit {
         createTable(dwTemplate, "/META-INF/spring/LogFileTable.sql");
         createTable(dwTemplate, "/META-INF/spring/RawAccessRecordTable.sql");
         createTable(dwTemplate, "/META-INF/spring/AccessRecordTable.sql");
-        createTable(dwTemplate, "/META-INF/spring/EntityTable.sql");
+        createTable(dwTemplate, "/META-INF/spring/AccessRecordEntityTable.sql");
 
         logger.info("Data warehouse initialzied.");
     }

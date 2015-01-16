@@ -52,9 +52,6 @@ public class AccessRecordDaoImpl implements AccessRecordDao{
     private static final String NEXT_RECORDS = "SELECT * FROM access_record "
             + "WHERE entityId IS NULL LIMIT 1000;";
 
-    private static final String UPDATE = "UPDATE access_record "
-            + "SET entityId = :entityId WHERE sessionId = :sessionId;";
-
     private static final String CLEAR_TABLE = "DELETE FROM access_record;";
 
     private static final String COUNT = "SELECT COUNT(*) FROM access_record;";
@@ -69,14 +66,6 @@ public class AccessRecordDaoImpl implements AccessRecordDao{
     public List<AccessRecord> nextRecords() {
         return dwTemplate.query(NEXT_RECORDS, new HashMap<String, Object>(), new AccessRecordMapper());
     }
-
-/*    @Override
-    public void update(Long entityId, String sessionId) {
-        Map<String, Object> parameters = new HashMap<>();
-        parameters.put("entityId", entityId);
-        parameters.put("sessionId", sessionId);
-        dwTemplate.update(UPDATE, parameters);
-    }*/
 
     @Override
     @Transactional

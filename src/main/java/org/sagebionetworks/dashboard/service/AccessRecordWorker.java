@@ -47,4 +47,11 @@ public class AccessRecordWorker {
     public void update() {
         accessRecordService.update();
     }
+
+    /**
+     * Update the access_record_entity look up table
+     */
+    public void updateEntityLookupTable() {
+        accessRecordService.updateEntityLookupTable();
+    }
 }

@@ -30,5 +30,4 @@ public class AccessRecordEntityDaoImpl implements AccessRecordEntityDao {
         }
         return count;
     }
-
 }

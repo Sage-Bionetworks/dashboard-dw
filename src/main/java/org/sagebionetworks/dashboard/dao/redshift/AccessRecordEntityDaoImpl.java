@@ -16,6 +16,7 @@ public class AccessRecordEntityDaoImpl implements AccessRecordEntityDao {
     private final Logger logger = LoggerFactory.getLogger(AccessRecordDaoImpl.class);
     private static final String INSERT_NEW_RECORDS = "INSERT INTO access_record_entity " +
             "(sessionId, entityId) VALUES (:sessionId, :entityId)";
+    private static final String COUNT = "SELECT COUNT(*) FROM access_record_entity;";
 
     @Override
     public void insertNewRecords(Map<String,?>[] batchValues) {
@@ -29,5 +30,11 @@ public class AccessRecordEntityDaoImpl implements AccessRecordEntityDao {
             if (results[i] > 0) count++;
         }
         return count;
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public long count() {
+        return dwTemplate.getJdbcOperations().queryForInt(COUNT);
     }
 }

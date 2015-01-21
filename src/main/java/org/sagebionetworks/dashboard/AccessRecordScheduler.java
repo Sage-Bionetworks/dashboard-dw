@@ -28,15 +28,17 @@ public class AccessRecordScheduler {
     @Resource
     private AccessRecordDao accessRecordDao;
 
+    @Resource
+    private AccessRecordDao accessRecordEntityDao;
+
     /**
      * Copy the access record log files in S3 buckets to raw_access_record.
      * Initial delay of 0 minutes. Updates every 1.5 minutes.
      */
     @Scheduled(initialDelay=(0L * 60L * 1000L), fixedRate=(90L * 1000L))
     public void runRawRecordWorker() {
-        long rawaccessRecords = rawAccessRecordDao.count();
-        long logFiles = logFileDao.count();
-        logger.info(rawaccessRecords + " raw access records, " + logFiles + " log files.");
+        logger.info(rawAccessRecordDao.count() + " raw access records, " +
+                logFileDao.count() + " log files.");
         accessRecordWorker.copy();
     }
 
@@ -46,8 +48,17 @@ public class AccessRecordScheduler {
      */
     @Scheduled(initialDelay=(90L * 1000L), fixedRate=(17L * 60L * 1000L))
     public void runRecordWorker() {
-        long accessRecords = accessRecordDao.count();
-        logger.info(accessRecords + " access records.");
+        logger.info(accessRecordDao.count() + " access records.");
         accessRecordWorker.update();
+    }
+
+    /**
+     * Update the access_record_entity table.
+     * Initial delay of 3 minutes. Updates every 7 minutes.
+     */
+    @Scheduled(initialDelay=(3L * 60L * 1000L), fixedRate=(7L * 60L * 1000L))
+    public void updateEntityLookupTable() {
+        logger.info(accessRecordEntityDao.count() + " entity lookup records.");
+        accessRecordWorker.updateEntityLookupTable();
     }
 }

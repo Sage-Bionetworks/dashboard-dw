@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 public interface AccessRecordEntityDao {
 
     void insertNewRecords(Map<String,?>[] batchValues);
+    long count();
 }

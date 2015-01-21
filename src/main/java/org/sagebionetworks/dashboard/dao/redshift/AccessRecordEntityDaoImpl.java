@@ -8,7 +8,9 @@ import org.sagebionetworks.dashboard.dao.AccessRecordEntityDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.stereotype.Repository;
 
+@Repository("accessRecordEntityDao")
 public class AccessRecordEntityDaoImpl implements AccessRecordEntityDao {
     @Resource
     private NamedParameterJdbcTemplate dwTemplate;

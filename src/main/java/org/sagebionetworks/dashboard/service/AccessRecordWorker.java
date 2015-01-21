@@ -59,7 +59,7 @@ public class AccessRecordWorker {
         accessRecordService.vacuumAccessRecord();
     }
 
-    public void vacuumLog_file() {
+    public void vacuumLogFile() {
         accessRecordService.vacuumLogFile();
     }
 

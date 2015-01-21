@@ -96,6 +96,6 @@ public class AccessRecordScheduler {
      */
     @Scheduled(initialDelay=(30L * 60L * 1000L), fixedRate=(60L * 60L * 1000L))
     public void vacuumLogFile() {
-        accessRecordWorker.vacuumLog_file();
+        accessRecordWorker.vacuumLogFile();
     }
 }

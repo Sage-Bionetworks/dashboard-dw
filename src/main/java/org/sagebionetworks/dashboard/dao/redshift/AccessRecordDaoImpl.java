@@ -44,7 +44,7 @@ public class AccessRecordDaoImpl implements AccessRecordDao{
 
     private static final String INSERT_RECORD = "INSERT INTO access_record "
             + "(SELECT DISTINCT * FROM raw_access_record WHERE sessionId NOT IN "
-            + "(SELECT sessionId FROM access_record)) LIMIT 1000;";
+            + "(SELECT sessionId FROM access_record) LIMIT 1000);";
 
     private static final String VACUUM = "VACUUM access_record;";
 

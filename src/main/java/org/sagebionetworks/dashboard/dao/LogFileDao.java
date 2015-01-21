@@ -8,4 +8,5 @@ public interface LogFileDao {
     void update(String id);
     boolean exist(String filePath);
     void updateFailed(String id);
+    void vacuum();
 }

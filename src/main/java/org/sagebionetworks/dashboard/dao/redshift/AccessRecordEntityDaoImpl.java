@@ -1,5 +1,7 @@
 package org.sagebionetworks.dashboard.dao.redshift;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -7,8 +9,11 @@ import javax.annotation.Resource;
 import org.sagebionetworks.dashboard.dao.AccessRecordEntityDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.PreparedStatementCallback;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository("accessRecordEntityDao")
 public class AccessRecordEntityDaoImpl implements AccessRecordEntityDao {
@@ -19,6 +24,8 @@ public class AccessRecordEntityDaoImpl implements AccessRecordEntityDao {
     private static final String INSERT_NEW_RECORDS = "INSERT INTO access_record_entity " +
             "(sessionId, entityId) VALUES (:sessionId, :entityId)";
     private static final String COUNT = "SELECT COUNT(*) FROM access_record_entity;";
+
+    private static final String VACUUM ="VACUUM access_record_entity;";
 
     @Override
     public void insertNewRecords(Map<String,?>[] batchValues) {
@@ -38,5 +45,17 @@ public class AccessRecordEntityDaoImpl implements AccessRecordEntityDao {
     @Override
     public long count() {
         return dwTemplate.getJdbcOperations().queryForInt(COUNT);
+    }
+
+    @Override
+    @Transactional
+    public void vacuum() {
+        dwTemplate.execute(VACUUM, new PreparedStatementCallback<Boolean>() {
+            @Override
+            public Boolean doInPreparedStatement(PreparedStatement ps)
+                    throws SQLException, DataAccessException {
+                return ps.execute();
+            }});
+        logger.info("access_record_entity table is vacuumed. ");
     }
 }

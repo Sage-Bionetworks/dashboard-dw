@@ -37,6 +37,8 @@ public class LogFileDaoImpl implements LogFileDao {
 
     private static final String UPDATE_FAILED = "UPDATE log_file SET status = 'FAILED' WHERE id = :id;";
 
+    private static final String VACUUM ="VACUUM log_file;";
+
     @Override
     public void cleanup() {
         dwTemplate.execute(CLEAR_TABLE, new PreparedStatementCallback<Boolean>() {
@@ -100,4 +102,15 @@ public class LogFileDaoImpl implements LogFileDao {
         }
     }
 
+    @Override
+    @Transactional
+    public void vacuum() {
+        dwTemplate.execute(VACUUM, new PreparedStatementCallback<Boolean>() {
+            @Override
+            public Boolean doInPreparedStatement(PreparedStatement ps)
+                    throws SQLException, DataAccessException {
+                return ps.execute();
+            }});
+        logger.info("log_file table is vacuumed. ");
+    }
 }

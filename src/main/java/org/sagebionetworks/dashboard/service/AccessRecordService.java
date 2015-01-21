@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 
 import org.sagebionetworks.dashboard.dao.AccessRecordDao;
 import org.sagebionetworks.dashboard.dao.AccessRecordEntityDao;
+import org.sagebionetworks.dashboard.dao.LogFileDao;
 import org.sagebionetworks.dashboard.parse.AccessRecord;
 import org.sagebionetworks.dashboard.parse.EntityIdReader;
 import org.slf4j.Logger;
@@ -23,6 +24,8 @@ public class AccessRecordService {
     private AccessRecordDao accessRecordDao;
     @Resource
     private AccessRecordEntityDao accessRecordEntityDao;
+    @Resource
+    private LogFileDao logFileDao;
 
     public void update() {
         accessRecordDao.insertNewRecords();
@@ -57,7 +60,15 @@ public class AccessRecordService {
         accessRecordEntityDao.insertNewRecords(batchValues);
     }
 
-    public void vacuum() {
+    public void vacuumAccessRecord() {
         accessRecordDao.vacuum();
+    }
+
+    public void vacuumEntityLookupTable() {
+        accessRecordEntityDao.vacuum();
+    }
+
+    public void vacuumLogFile() {
+        logFileDao.vacuum();
     }
 }

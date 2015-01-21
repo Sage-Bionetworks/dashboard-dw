@@ -42,4 +42,8 @@ public class RawAccessRecordService {
             logger.error("Failed to copy file " + filePath, exception);
         }
     }
+
+    public void vacuum() {
+        rawAccessRecordDao.vacuum();
+    }
 }

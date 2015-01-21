@@ -49,7 +49,7 @@ public class AccessRecordDaoImpl implements AccessRecordDao{
     private static final String VACUUM = "VACUUM access_record;";
 
     private static final String NEXT_RECORDS = "SELECT * FROM access_record "
-            + "WHERE entityId IS NULL LIMIT 1000;";
+            + "WHERE sessionId NOT IN (SELECT sessionId FROM access_record_entity);";
 
     private static final String CLEAR_TABLE = "DELETE FROM access_record;";
 

@@ -55,11 +55,20 @@ public class AccessRecordScheduler {
 
     /**
      * Update the access_record_entity table.
-     * Initial delay of 3 minutes. Updates every 3 minutes.
+     * Initial delay of 3 minutes. Updates every 7 minutes.
      */
-    @Scheduled(initialDelay=(3L * 60L * 1000L), fixedRate=(3L * 60L * 1000L))
+    @Scheduled(initialDelay=(3L * 60L * 1000L), fixedRate=(7L * 60L * 1000L))
     public void updateEntityLookupTable() {
         logger.info(accessRecordEntityDao.count() + " entity lookup records.");
         accessRecordWorker.updateEntityLookupTable();
+    }
+
+    /**
+     * Clean up the access_record table.
+     * Initial delay of 0 minutes. Updates every 30 minutes.
+     */
+    @Scheduled(initialDelay=(90L * 1000L), fixedRate=(30L * 60L * 1000L))
+    public void vacuumAccessRecord() {
+        accessRecordWorker.vacuum();
     }
 }

@@ -26,7 +26,6 @@ public class AccessRecordService {
 
     public void update() {
         accessRecordDao.insertNewRecords();
-        accessRecordDao.vacuum();
     }
 
     @SuppressWarnings("unchecked")
@@ -56,5 +55,9 @@ public class AccessRecordService {
         }
         logger.info("Updating " + records.size() + " records ...");
         accessRecordEntityDao.insertNewRecords(batchValues);
+    }
+
+    public void vacuum() {
+        accessRecordDao.vacuum();
     }
 }

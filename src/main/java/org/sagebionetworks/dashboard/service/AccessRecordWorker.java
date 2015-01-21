@@ -54,4 +54,8 @@ public class AccessRecordWorker {
     public void updateEntityLookupTable() {
         accessRecordService.updateEntityLookupTable();
     }
+
+    public void vacuum() {
+        accessRecordService.vacuum();
+    }
 }

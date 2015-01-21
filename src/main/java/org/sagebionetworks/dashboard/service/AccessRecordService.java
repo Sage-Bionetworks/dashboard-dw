@@ -56,6 +56,5 @@ public class AccessRecordService {
         }
         logger.info("Updating " + records.size() + " records ...");
         accessRecordEntityDao.insertNewRecords(batchValues);
-        logger.info("Finish updating " + records.size() + " records.");
     }
 }

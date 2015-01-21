@@ -23,7 +23,7 @@ public class AccessRecordEntityDaoImpl implements AccessRecordEntityDao {
     @Override
     public void insertNewRecords(Map<String,?>[] batchValues) {
         int[] results = dwTemplate.batchUpdate(INSERT_NEW_RECORDS, batchValues);
-        logger.info(countNonZero(results) + "rows has been added to access_record_entity.");
+        logger.info(countNonZero(results) + " rows has been added to access_record_entity.");
     }
 
     private int countNonZero(int[] results) {

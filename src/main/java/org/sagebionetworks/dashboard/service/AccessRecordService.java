@@ -1,6 +1,5 @@
 package org.sagebionetworks.dashboard.service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,8 +32,9 @@ public class AccessRecordService {
     @SuppressWarnings("unchecked")
     public void updateEntityLookupTable() {
         List<AccessRecord> records = accessRecordDao.nextRecords();
-        List<Map<String, Object>> batchValues = new ArrayList<Map<String, Object>>();
-        for (AccessRecord record : records) {
+        Map<String, Object>[] batchValues = new Map[records.size()];
+        for (int i = 0; i < records.size(); i++) {
+            AccessRecord record = records.get(i);
             Map<String, Object> value = new HashMap<String, Object>();
             value.put(":sessionId", record.getSessionId());
             String entityId = new EntityIdReader().read(record);
@@ -52,9 +52,10 @@ public class AccessRecordService {
                 }
                 value.put(":entityId", entity);
             }
+            batchValues[i] = value;
         }
         logger.info("Updating " + records.size() + " records ...");
-        accessRecordEntityDao.insertNewRecords((Map<String, ?>[]) batchValues.toArray());
+        accessRecordEntityDao.insertNewRecords(batchValues);
         logger.info("Finish updating " + records.size() + " records.");
     }
 }

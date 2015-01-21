@@ -36,10 +36,10 @@ public class AccessRecordService {
         for (int i = 0; i < records.size(); i++) {
             AccessRecord record = records.get(i);
             Map<String, Object> value = new HashMap<String, Object>();
-            value.put(":sessionId", record.getSessionId());
+            value.put("sessionId", record.getSessionId());
             String entityId = new EntityIdReader().read(record);
             if (entityId == null) {
-                value.put(":entityId", -1L);
+                value.put("entityId", -1L);
             } else {
                 if (entityId.startsWith("syn")) {
                     entityId = entityId.substring(3);

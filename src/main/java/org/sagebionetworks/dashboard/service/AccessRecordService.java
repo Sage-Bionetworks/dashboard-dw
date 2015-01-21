@@ -50,7 +50,7 @@ public class AccessRecordService {
                 } catch (NumberFormatException e) {
                     entity = (long) -1;
                 }
-                value.put(":entityId", entity);
+                value.put("entityId", entity);
             }
             batchValues[i] = value;
         }

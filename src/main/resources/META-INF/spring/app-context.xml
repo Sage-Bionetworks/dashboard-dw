@@ -19,6 +19,6 @@
     <import resource="redshift.xml" />
 
     <task:annotation-driven scheduler="scheduler"/>
-    <task:scheduler id="scheduler" pool-size="10"/>
+    <task:scheduler id="scheduler" pool-size="20"/>
 
 </beans>

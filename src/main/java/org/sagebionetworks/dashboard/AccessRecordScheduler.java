@@ -65,36 +65,36 @@ public class AccessRecordScheduler {
 
     /**
      * Clean up the access_record table.
-     * Initial delay of 30 minutes. Updates every 60 minutes.
+     * Initial delay of 30 minutes. Updates every 4 hours.
      */
-    @Scheduled(initialDelay=(30L * 60L * 1000L), fixedRate=(60L * 60L * 1000L))
+    @Scheduled(initialDelay=(30L * 60L * 1000L), fixedRate=(4* 60L * 60L * 1000L))
     public void vacuumAccessRecord() {
         accessRecordWorker.vacuumAccessRecord();
     }
 
     /**
      * Clean up the raw_access_record table.
-     * Initial delay of 30 minutes. Updates every 60 minutes.
+     * Initial delay of 30 minutes. Updates every 4 hours.
      */
-    @Scheduled(initialDelay=(30L * 60L * 1000L), fixedRate=(60L * 60L * 1000L))
+    @Scheduled(initialDelay=(30L * 60L * 1000L), fixedRate=(4* 60L * 60L * 1000L))
     public void vacuumRawAccessRecord() {
         accessRecordWorker.vacuumRawAccessRecord();
     }
 
     /**
      * Clean up the access_record_entity table.
-     * Initial delay of 30 minutes. Updates every 60 minutes.
+     * Initial delay of 30 minutes. Updates every 4 hours.
      */
-    @Scheduled(initialDelay=(30L * 60L * 1000L), fixedRate=(60L * 60L * 1000L))
+    @Scheduled(initialDelay=(30L * 60L * 1000L), fixedRate=(4* 60L * 60L * 1000L))
     public void vacuumEntityLookupTable() {
         accessRecordWorker.vacuumEntityLookupTable();
     }
 
     /**
-     * Clean up the access_record_entity table.
-     * Initial delay of 30 minutes. Updates every 60 minutes.
+     * Clean up the log_file table.
+     * Initial delay of 30 minutes. Updates every 4 hours.
      */
-    @Scheduled(initialDelay=(30L * 60L * 1000L), fixedRate=(60L * 60L * 1000L))
+    @Scheduled(initialDelay=(30L * 60L * 1000L), fixedRate=(4* 60L * 60L * 1000L))
     public void vacuumLogFile() {
         accessRecordWorker.vacuumLogFile();
     }

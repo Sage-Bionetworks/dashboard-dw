@@ -3,6 +3,7 @@ package org.sagebionetworks.dashboard;
 import javax.annotation.Resource;
 
 import org.sagebionetworks.dashboard.dao.AccessRecordDao;
+import org.sagebionetworks.dashboard.dao.AccessRecordEntityDao;
 import org.sagebionetworks.dashboard.dao.LogFileDao;
 import org.sagebionetworks.dashboard.dao.RawAccessRecordDao;
 import org.sagebionetworks.dashboard.service.AccessRecordWorker;
@@ -29,7 +30,7 @@ public class AccessRecordScheduler {
     private AccessRecordDao accessRecordDao;
 
     @Resource
-    private AccessRecordDao accessRecordEntityDao;
+    private AccessRecordEntityDao accessRecordEntityDao;
 
     /**
      * Copy the access record log files in S3 buckets to raw_access_record.

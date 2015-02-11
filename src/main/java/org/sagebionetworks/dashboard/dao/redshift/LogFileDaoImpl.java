@@ -39,6 +39,8 @@ public class LogFileDaoImpl implements LogFileDao {
 
     private static final String VACUUM ="VACUUM log_file;";
 
+    private static final String CLEAN_UP = "DELETE FROM log_file WHERE status = 'Processing';";
+
     @Override
     public void cleanup() {
         dwTemplate.execute(CLEAR_TABLE, new PreparedStatementCallback<Boolean>() {
@@ -112,5 +114,11 @@ public class LogFileDaoImpl implements LogFileDao {
                 return ps.execute();
             }});
         logger.info("log_file table is vacuumed. ");
+    }
+
+    @Override
+    public void cleanupProcessingFile() {
+        int effectedRows = dwTemplate.update(CLEAN_UP, new HashMap<String, Object>());
+        logger.info(effectedRows + " rows have been cleanned up.");
     }
 }

@@ -1,5 +1,6 @@
 package org.sagebionetworks.dashboard;
 
+import org.sagebionetworks.dashboard.dao.LogFileDao;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -11,5 +12,7 @@ public class App {
         final ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("/META-INF/spring/app-context.xml");
         context.registerShutdownHook();
         context.start();
+        LogFileDao logfileDao = context.getBean(LogFileDao.class);
+        logfileDao.cleanupProcessingFile();
     }
 }

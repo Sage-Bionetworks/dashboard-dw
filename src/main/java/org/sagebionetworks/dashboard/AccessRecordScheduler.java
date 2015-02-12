@@ -29,14 +29,6 @@ public class AccessRecordScheduler {
     private AccessRecordDao accessRecordDao;
 
     /**
-     * clean up the processing logfile
-     */
-    @Scheduled(initialDelay=(0L), fixedRate=(0L))
-    public void cleanupLogFile() {
-        accessRecordWorker.cleanupLogFiles();
-    }
-
-    /**
      * Copy the access record log files in S3 buckets to raw_access_record.
      * Initial delay of 30 seconds. Updates every 1.5 minutes.
      */

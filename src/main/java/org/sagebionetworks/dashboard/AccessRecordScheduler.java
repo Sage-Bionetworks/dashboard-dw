@@ -34,20 +34,18 @@ public class AccessRecordScheduler {
      */
     @Scheduled(initialDelay=(0L * 60L * 1000L), fixedRate=(90L * 1000L))
     public void runRawRecordWorker() {
-        long rawaccessRecords = rawAccessRecordDao.count();
-        long logFiles = logFileDao.count();
-        logger.info(rawaccessRecords + " raw access records, " + logFiles + " log files.");
+        logger.info(rawAccessRecordDao.count() + " raw access records, " +
+                logFileDao.count() + " log files.");
         accessRecordWorker.copy();
     }
 
     /**
      * Update the access_record table.
-     * Initial delay of 1.5 minutes. Updates every 17 minutes.
+     * Initial delay of 1.5 minutes. Updates every 1 hour.
      */
-    @Scheduled(initialDelay=(90L * 1000L), fixedRate=(17L * 60L * 1000L))
+    @Scheduled(initialDelay=(90L * 1000L), fixedRate=(60L* 60L * 1000L))
     public void runRecordWorker() {
-        long accessRecords = accessRecordDao.count();
-        logger.info(accessRecords + " access records.");
+        logger.info(accessRecordDao.count() + " access records.");
         accessRecordWorker.update();
     }
 }

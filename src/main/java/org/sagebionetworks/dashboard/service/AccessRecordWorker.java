@@ -42,9 +42,13 @@ public class AccessRecordWorker {
     }
 
     /**
-     * Update the access_record table.
+     * Update the access_record table with new records.
      */
     public void update() {
         accessRecordService.update();
+    }
+
+    public void vacuumRawAccessRecord() {
+        rawAccessRecordService.vacuum();
     }
 }

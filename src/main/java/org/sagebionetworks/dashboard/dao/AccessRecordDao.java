@@ -6,15 +6,11 @@ import org.sagebionetworks.dashboard.parse.AccessRecord;
 
 public interface AccessRecordDao {
 
-    void update(Long entityId, String sessionId);
-
-    void vacuum();
-
-    void cleanup();
-
     long count();
 
-    void insertNewRecords();
+    void createTemp();
+
+    void activateTemp();
 
     List<AccessRecord> nextRecords();
 }

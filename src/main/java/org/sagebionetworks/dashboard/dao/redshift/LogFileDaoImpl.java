@@ -37,6 +37,10 @@ public class LogFileDaoImpl implements LogFileDao {
 
     private static final String UPDATE_FAILED = "UPDATE log_file SET status = 'FAILED' WHERE id = :id;";
 
+    private static final String VACUUM ="VACUUM log_file;";
+
+    private static final String CLEAN_UP = "DELETE FROM log_file WHERE status = 'Processing';";
+
     @Override
     public void cleanup() {
         dwTemplate.execute(CLEAR_TABLE, new PreparedStatementCallback<Boolean>() {
@@ -100,4 +104,21 @@ public class LogFileDaoImpl implements LogFileDao {
         }
     }
 
+    @Override
+    @Transactional
+    public void vacuum() {
+        dwTemplate.execute(VACUUM, new PreparedStatementCallback<Boolean>() {
+            @Override
+            public Boolean doInPreparedStatement(PreparedStatement ps)
+                    throws SQLException, DataAccessException {
+                return ps.execute();
+            }});
+        logger.info("log_file table is vacuumed. ");
+    }
+
+    @Override
+    public void cleanupProcessingFile() {
+        int effectedRows = dwTemplate.update(CLEAN_UP, new HashMap<String, Object>());
+        logger.info(effectedRows + " rows have been cleanned up.");
+    }
 }

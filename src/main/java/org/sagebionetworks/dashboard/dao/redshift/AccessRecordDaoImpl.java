@@ -42,57 +42,57 @@ public class AccessRecordDaoImpl implements AccessRecordDao{
     @Resource
     private NamedParameterJdbcTemplate dwTemplate;
 
-    private static final String INSERT_RECORD = "INSERT INTO access_record "
-            + "(SELECT DISTINCT * FROM raw_access_record WHERE sessionId NOT IN "
-            + "(SELECT sessionId FROM access_record) LIMIT 1000);";
-
-    private static final String VACUUM = "VACUUM access_record;";
-
     private static final String NEXT_RECORDS = "SELECT * FROM access_record "
             + "WHERE sessionId NOT IN (SELECT sessionId FROM access_record_entity) LIMIT 1000;";
 
-    private static final String CLEAR_TABLE = "DELETE FROM access_record;";
-
     private static final String COUNT = "SELECT COUNT(*) FROM access_record;";
 
-    @Override
-    public void insertNewRecords() {
-        int rowAffected = dwTemplate.update(INSERT_RECORD, new HashMap<String, Object>());
-        logger.info(rowAffected + " new records are inserted into access_record.");
-    }
+    private static final String CREATE_TEMP = "CREATE TABLE access_record_temp "
+            +"AS SELECT DISTINCT * FROM raw_access_record;";
+
+    private static final String DROP_TABLE = "DROP TABLE access_record";
+
+    private static final String RENAME = "ALTER TABLE access_record_temp "
+            +"RENAME TO access_record;";
 
     @Override
     public List<AccessRecord> nextRecords() {
         return dwTemplate.query(NEXT_RECORDS, new HashMap<String, Object>(), new AccessRecordMapper());
     }
 
-    @Override
-    @Transactional
-    public void vacuum() {
-        dwTemplate.execute(VACUUM, new PreparedStatementCallback<Boolean>() {
-            @Override
-            public Boolean doInPreparedStatement(PreparedStatement ps)
-                    throws SQLException, DataAccessException {
-                return ps.execute();
-            }});
-        logger.info("access_record table is vacuumed. ");
-    }
-
-    @Override
-    public void cleanup() {
-        dwTemplate.execute(CLEAR_TABLE, new PreparedStatementCallback<Boolean>() {
-            @Override
-            public Boolean doInPreparedStatement(PreparedStatement ps)
-                    throws SQLException, DataAccessException {
-                return ps.execute();
-            }});
-        logger.info("access_record table is clear. ");
-    }
-
     @SuppressWarnings("deprecation")
     @Override
     public long count() {
         return dwTemplate.getJdbcOperations().queryForInt(COUNT);
+    }
+
+    @Override
+    public void createTemp() {
+        dwTemplate.execute(CREATE_TEMP, new PreparedStatementCallback<Boolean>() {
+            @Override
+            public Boolean doInPreparedStatement(PreparedStatement ps)
+                    throws SQLException, DataAccessException {
+                return ps.execute();
+            }});
+        logger.info("access_record_temp is created.");
+    }
+
+    @Transactional
+    @Override
+    public void activateTemp() {
+        dwTemplate.execute(DROP_TABLE, new PreparedStatementCallback<Boolean>() {
+            @Override
+            public Boolean doInPreparedStatement(PreparedStatement ps)
+                    throws SQLException, DataAccessException {
+                return ps.execute();
+            }});
+        dwTemplate.execute(RENAME, new PreparedStatementCallback<Boolean>() {
+            @Override
+            public Boolean doInPreparedStatement(PreparedStatement ps)
+                    throws SQLException, DataAccessException {
+                return ps.execute();
+            }});
+        logger.info("access_record is updated.");
     }
 
 }

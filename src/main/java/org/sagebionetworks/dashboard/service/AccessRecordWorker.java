@@ -48,26 +48,7 @@ public class AccessRecordWorker {
         accessRecordService.update();
     }
 
-    /**
-     * Update the access_record_entity look up table
-     */
-    public void updateEntityLookupTable() {
-        accessRecordService.updateEntityLookupTable();
-    }
-
-    public void vacuumAccessRecord() {
-        accessRecordService.vacuumAccessRecord();
-    }
-
-    public void vacuumLogFile() {
-        accessRecordService.vacuumLogFile();
-    }
-
     public void vacuumRawAccessRecord() {
         rawAccessRecordService.vacuum();
-    }
-
-    public void vacuumEntityLookupTable() {
-        accessRecordService.vacuumEntityLookupTable();
     }
 }

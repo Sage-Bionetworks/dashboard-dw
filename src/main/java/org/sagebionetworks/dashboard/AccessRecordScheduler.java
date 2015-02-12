@@ -42,60 +42,14 @@ public class AccessRecordScheduler {
                 logFileDao.count() + " log files.");
         accessRecordWorker.copy();
     }
-/*
-    *//**
+
+    /**
      * Update the access_record table.
-     * Initial delay of 1.5 minutes. Updates every 3 minutes.
-     *//*
-    @Scheduled(initialDelay=(90L * 1000L), fixedRate=(3L * 60L * 1000L))
+     * Initial delay of 1.5 minutes. Updates every 1 hour.
+     */
+    @Scheduled(initialDelay=(90L * 1000L), fixedRate=(60L* 60L * 1000L))
     public void runRecordWorker() {
         logger.info(accessRecordDao.count() + " access records.");
         accessRecordWorker.update();
     }
-
-    *//**
-     * Update the access_record_entity table.
-     * Initial delay of 3 minutes. Updates every 3 minutes.
-     *//*
-    @Scheduled(initialDelay=(3L * 60L * 1000L), fixedRate=(3L * 60L * 1000L))
-    public void updateEntityLookupTable() {
-        logger.info(accessRecordEntityDao.count() + " entity lookup records.");
-        accessRecordWorker.updateEntityLookupTable();
-    }
-
-    *//**
-     * Clean up the access_record table.
-     * Initial delay of 30 minutes. Updates every 4 hours.
-     *//*
-    @Scheduled(initialDelay=(30L * 60L * 1000L), fixedRate=(4* 60L * 60L * 1000L))
-    public void vacuumAccessRecord() {
-        accessRecordWorker.vacuumAccessRecord();
-    }
-
-    *//**
-     * Clean up the raw_access_record table.
-     * Initial delay of 30 minutes. Updates every 4 hours.
-     *//*
-    @Scheduled(initialDelay=(30L * 60L * 1000L), fixedRate=(4* 60L * 60L * 1000L))
-    public void vacuumRawAccessRecord() {
-        accessRecordWorker.vacuumRawAccessRecord();
-    }
-
-    *//**
-     * Clean up the access_record_entity table.
-     * Initial delay of 30 minutes. Updates every 4 hours.
-     *//*
-    @Scheduled(initialDelay=(30L * 60L * 1000L), fixedRate=(4* 60L * 60L * 1000L))
-    public void vacuumEntityLookupTable() {
-        accessRecordWorker.vacuumEntityLookupTable();
-    }
-
-    *//**
-     * Clean up the log_file table.
-     * Initial delay of 30 minutes. Updates every 4 hours.
-     *//*
-    @Scheduled(initialDelay=(30L * 60L * 1000L), fixedRate=(4* 60L * 60L * 1000L))
-    public void vacuumLogFile() {
-        accessRecordWorker.vacuumLogFile();
-    }*/
 }

@@ -39,7 +39,7 @@ public class LogFileDaoImpl implements LogFileDao {
 
     private static final String VACUUM ="VACUUM log_file;";
 
-    private static final String CLEAN_UP = "DELETE FROM log_file WHERE status = 'Processing';";
+    private static final String CLEAN_UP = "DELETE FROM log_file WHERE status = 'processing';";
 
     @Override
     public void cleanup() {

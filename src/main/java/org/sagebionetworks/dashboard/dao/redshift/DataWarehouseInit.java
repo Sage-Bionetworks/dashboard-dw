@@ -5,9 +5,6 @@ import java.io.InputStream;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import javax.annotation.Resource;
-
-import org.sagebionetworks.dashboard.dao.LogFileDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
@@ -18,8 +15,6 @@ import com.amazonaws.util.IOUtils;
 
 public class DataWarehouseInit {
 
-    @Resource
-    private LogFileDao logFileDao;
     private final Logger logger = LoggerFactory.getLogger(DataWarehouseInit.class);
 
     public DataWarehouseInit(NamedParameterJdbcTemplate dwTemplate) {
@@ -27,7 +22,6 @@ public class DataWarehouseInit {
         createTable(dwTemplate, "/META-INF/spring/RawAccessRecordTable.sql");
 
         logger.info("Data warehouse initialzied.");
-        logFileDao.cleanupProcessingFile();
     }
 
     private void createTable(NamedParameterJdbcTemplate dwTemplate, String path) {

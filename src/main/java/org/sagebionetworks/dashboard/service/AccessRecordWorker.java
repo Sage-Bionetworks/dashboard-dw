@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.sagebionetworks.dashboard.DwConfig;
+import org.sagebionetworks.dashboard.dao.LogFileDao;
 import org.sagebionetworks.dashboard.service.AccessLogFileFetcher;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,9 @@ public class AccessRecordWorker {
 
     @Resource
     private AccessRecordService accessRecordService;
+
+    @Resource
+    private LogFileDao logFileDao;
 
     @Resource
     private AmazonS3 s3Client;
@@ -50,5 +54,9 @@ public class AccessRecordWorker {
 
     public void vacuumRawAccessRecord() {
         rawAccessRecordService.vacuum();
+    }
+
+    public void cleanupLogFiles() {
+        logFileDao.cleanupProcessingFile();
     }
 }

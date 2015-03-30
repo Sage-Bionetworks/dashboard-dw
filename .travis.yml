@@ -11,6 +11,6 @@ env:
   - secure: DNnm3UqsN7h2Hbmv0/qWHgr8J/qhrS8ZbxC1KkXlh8uKD+gtK3yWcRKCybs32zqWYHFxOT7suMM6R251kZcIBLQ2Iw+Jh2mVQ1c3ZE7rZwZjf8bSp2LYnmq3g7pfqJULCXod4x6hLKVoUUBFvqtVAauFKZXnF5vpzUCh/DWO6z8=
   - secure: T5Pj02awKxNZwAm55y2/ROzakE5H8e1oT/r5WQSd7+meDL+OhJ5QBH8YmxQotMaqaLD3A73hHVuS1ZSMRFbSaLR9rHWqmGnoa8063E78qwKUnBmJVK0Qp/asN6zPi8puaOgIMt43RTHrQ4k+na6FEC4spR/cl5x5P8nJrUEcZfQ=
 before_script:
-- psql -U postgres -f 'dw-bootstrap.sql'
+- psql -U postgres -f 'vagrant-scripts/dw-bootstrap.sql'
 after_success:
 - "./gradlew artifactoryPublish"

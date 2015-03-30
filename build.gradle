@@ -1,7 +1,7 @@
 group = 'org.sagebionetworks'
 ext.name = 'dashboard-dw'
-version = '0.1.0-' + (new Date()).format(
-        'yyyyMMddHHmmss', TimeZone.getTimeZone("UTC"))
+version = '0.2.' + (new Date()).format(
+        'yyyyMMddHHmm', TimeZone.getTimeZone("UTC"))
 
 /*** Java ***/
 
@@ -22,18 +22,18 @@ repositories {
 
 dependencies {
     compile 'org.sagebionetworks:dashboard-core:0.1.4+'
-    compile 'org.postgresql:postgresql:9.3-1102-jdbc41'
-    compile 'com.amazonaws:aws-java-sdk:1.8.11'
-    compile 'org.apache.commons:commons-dbcp2:2.0.1'
-    compile 'org.springframework:spring-jdbc:3.2.10.RELEASE'
-    compile 'org.springframework:spring-context:3.2.10.RELEASE'
+    compile 'org.postgresql:postgresql:9.3-1103-jdbc41'
+    compile 'com.amazonaws:aws-java-sdk-redshift:' + awsJavaSdkVersion
+    compile 'com.amazonaws:aws-java-sdk-s3:' + awsJavaSdkVersion
+    compile 'org.apache.commons:commons-dbcp2:2.1'
+    compile 'org.springframework:spring-jdbc:' + springFrameworkVersion
+    compile 'org.springframework:spring-context:' + springFrameworkVersion
     compile 'org.slf4j:slf4j-api:' + slf4jVersion
-    runtime 'ch.qos.logback:logback-classic:1.1.2'
-    runtime 'ch.qos.logback:logback-core:1.1.2'
-    testCompile 'junit:junit:4.11'
+    runtime 'ch.qos.logback:logback-classic:1.1.3'
+    runtime 'ch.qos.logback:logback-core:1.1.3'
+    testCompile 'junit:junit:4.12'
     testCompile 'org.springframework:spring-test:' + springFrameworkVersion
     testRuntime 'org.slf4j:slf4j-log4j12:' + slf4jVersion
-
 }
 
 /*** Eclipse ***/

@@ -9,8 +9,8 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.sagebionetworks.dashboard.dao.AccessRecordDao;
-import org.sagebionetworks.dashboard.parse.AccessRecord;
-import org.sagebionetworks.dashboard.parse.RepoRecord;
+import org.sagebionetworks.dashboard.model.AccessRecord;
+import org.sagebionetworks.dashboard.model.SynapseRepoRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
@@ -27,7 +27,7 @@ public class AccessRecordDaoImpl implements AccessRecordDao{
 
         @Override
         public AccessRecord mapRow(ResultSet rs, int rowNum) throws SQLException {
-            RepoRecord record = new RepoRecord();
+            SynapseRepoRecord record = new SynapseRepoRecord();
             record.setSessionId(rs.getString("sessionId"));
             record.setObjectId(rs.getString("returnObjectId"));
             record.setUri(rs.getString("requestURL"));

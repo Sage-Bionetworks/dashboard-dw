@@ -2,7 +2,7 @@ package org.sagebionetworks.dashboard.dao;
 
 import java.util.List;
 
-import org.sagebionetworks.dashboard.parse.AccessRecord;
+import org.sagebionetworks.dashboard.model.AccessRecord;
 
 public interface AccessRecordDao {
 

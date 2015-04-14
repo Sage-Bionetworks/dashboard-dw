@@ -33,7 +33,6 @@ dependencies {
     runtime 'ch.qos.logback:logback-core:' + logbackVersion
     testCompile 'junit:junit:4.12'
     testCompile 'org.springframework:spring-test:' + springFrameworkVersion
-    testRuntime 'org.slf4j:slf4j-log4j12:' + slf4jVersion
 }
 
 /*** Eclipse ***/

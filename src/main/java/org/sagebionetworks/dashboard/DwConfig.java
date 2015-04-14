@@ -1,30 +1,23 @@
 package org.sagebionetworks.dashboard;
 
-import java.io.File;
 import java.io.IOException;
 
 import org.sagebionetworks.dashboard.config.Config;
 import org.sagebionetworks.dashboard.config.DefaultConfig;
 import org.sagebionetworks.dashboard.config.Stack;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component("dwConfig")
 public class DwConfig implements Config {
 
+    private final Config config;
+
     public DwConfig() {
         try {
-            String userHome = System.getProperty("user.home");
-            File configFile = new File(userHome + "/.dashboard/dashboard.config");
-            if (!configFile.exists()) {
-                logger.warn("Missing config file " + configFile.getPath());
-                // This file is needed as the source of properties
-                // which should be overwritten by environment variables
-                // or command-line arguments
-                configFile = new File(getClass().getResource("/dashboard.config").getFile());
-            }
-            config = new DefaultConfig(configFile.getPath());
+            final String srcConfigFile = getClass().getResource("/dashboard-dw.config").getFile();
+            final String userHome = System.getProperty("user.home");
+            final String homeConfigFile = userHome + "/.dashboard/dashboard-dw.config";
+            config = new DefaultConfig(srcConfigFile, homeConfigFile);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -86,8 +79,4 @@ public class DwConfig implements Config {
     public String getAwsSecretKey() {
         return config.get("aws.secret.key");
     }
-
-    private final Logger logger = LoggerFactory.getLogger(DwConfig.class);
-    private final Config config;
-
 }

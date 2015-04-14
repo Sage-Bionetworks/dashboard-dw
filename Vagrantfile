@@ -2,7 +2,7 @@ VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
-  config.vm.box = "chef/debian-7.7"
+  config.vm.box = "chef/debian-7.8"
 
   config.vm.provision :shell, path: "vagrant-scripts/bootstrap.sh"
 

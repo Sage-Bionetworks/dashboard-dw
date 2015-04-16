@@ -18,9 +18,9 @@ public class DataWarehouseInit {
     private final Logger logger = LoggerFactory.getLogger(DataWarehouseInit.class);
 
     public DataWarehouseInit(NamedParameterJdbcTemplate dwTemplate) {
-        createTable(dwTemplate, "/META-INF/spring/LogFileTable.sql");
-        createTable(dwTemplate, "/META-INF/spring/RawAccessRecordTable.sql");
-        createTable(dwTemplate, "/META-INF/spring/AccessRecordTable.sql");
+        createTable(dwTemplate, "/spring/LogFileTable.sql");
+        createTable(dwTemplate, "/spring/RawAccessRecordTable.sql");
+        createTable(dwTemplate, "/spring/AccessRecordTable.sql");
 
         logger.info("Data warehouse initialzied.");
     }

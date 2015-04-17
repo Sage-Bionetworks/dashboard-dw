@@ -7,7 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.annotation.Resource;
 
-import org.sagebionetworks.dashboard.DwConfig;
+import org.sagebionetworks.dashboard.config.DwConfig;
 import org.sagebionetworks.dashboard.dao.LogFileDao;
 //import org.sagebionetworks.dashboard.dao.FileStatusDao;
 import org.slf4j.Logger;

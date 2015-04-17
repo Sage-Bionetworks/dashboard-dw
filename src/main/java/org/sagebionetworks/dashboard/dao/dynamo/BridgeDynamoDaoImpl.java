@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.sagebionetworks.dashboard.DwConfig;
+import org.sagebionetworks.dashboard.config.DwConfig;
 import org.sagebionetworks.dashboard.dao.BridgeDynamoDao;
 import org.springframework.stereotype.Repository;
 

@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.sagebionetworks.dashboard.DwConfig;
+import org.sagebionetworks.dashboard.config.DwConfig;
 import org.springframework.stereotype.Service;
 
 import com.amazonaws.services.s3.AmazonS3;

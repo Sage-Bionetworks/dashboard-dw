@@ -1,4 +1,4 @@
-package org.sagebionetworks.dashboard;
+package org.sagebionetworks.dashboard.config;
 
 import java.io.IOException;
 import java.util.Arrays;

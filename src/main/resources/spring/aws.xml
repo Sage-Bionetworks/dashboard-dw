@@ -14,4 +14,10 @@
     <bean id="s3Client" class="com.amazonaws.services.s3.AmazonS3Client"
             c:awsCredentials-ref="awsCredentials" />
 
+    <bean id="bridgeAwsCredentials" class="com.amazonaws.auth.BasicAWSCredentials"
+            c:accessKey="#{dwConfig.bridgeAwsAccessKey}"
+            c:secretKey="#{dwConfig.bridgeAwsSecretKey}" />
+
+    <bean id="dynamoClient" class="com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient"
+            c:awsCredentials-ref="bridgeAwsCredentials" />
 </beans>

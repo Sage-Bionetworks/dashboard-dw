@@ -17,5 +17,7 @@ public class DwConfigTest {
         assertNotNull(config.getDwPassword());
         assertNotNull(config.getSynapseUser());
         assertNotNull(config.getSynapsePassword());
+        assertNotNull(config.getBridgeAwsAccessKey());
+        assertNotNull(config.getBridgeAwsSecretKey());
     }
 }

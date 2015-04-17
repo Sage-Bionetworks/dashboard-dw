@@ -1,6 +1,8 @@
 package org.sagebionetworks.dashboard;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 import org.sagebionetworks.dashboard.config.Config;
 import org.sagebionetworks.dashboard.config.DefaultConfig;
@@ -81,10 +83,27 @@ public class DwConfig implements Config {
     }
 
     public String getBridgeAwsAccessKey() {
-        return config.get("aws.access.key.bridge");
+        return config.get("bridge.aws.access.key");
     }
 
     public String getBridgeAwsSecretKey() {
-        return config.get("aws.secret.key.bridge");
+        return config.get("bridge.aws.secret.key");
+    }
+
+    public String getBridgeStack() {
+        return config.get("bridge.stack");
+    }
+
+    public String getBridgeUser() {
+        return config.get("bridge.user");
+    }
+
+    public String getBridgeBackupBucket() {
+        return config.get("bridge.backup.bucket");
+    }
+
+    public List<String> getBridgeDdbTables() {
+        String tableList = config.get("bridge.ddb.tables");
+        return Arrays.asList(tableList.split(";"));
     }
 }

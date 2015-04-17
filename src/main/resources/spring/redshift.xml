@@ -8,7 +8,7 @@
                 http://www.springframework.org/schema/beans/spring-beans-4.1.xsd">
 
     <bean id="dwDataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close"
-            p:driverClassName="org.postgresql.Driver"
+            p:driverClassName="com.amazon.redshift.jdbc41.Driver"
             p:url="#{dwConfig.dwUrl}"
             p:username="#{dwConfig.dwUsername}"
             p:password="#{dwConfig.dwPassword}" />

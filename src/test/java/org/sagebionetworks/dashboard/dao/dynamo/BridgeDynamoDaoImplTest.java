@@ -1,6 +1,7 @@
 package org.sagebionetworks.dashboard.dao.dynamo;
 
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import javax.annotation.Resource;
 
@@ -27,6 +28,7 @@ public class BridgeDynamoDaoImplTest {
 
     @Test
     public void test() {
-        assertNull(bridgeDynamoDao.getCreateTableSql("ParticipantOptions"));
+        assertTrue(bridgeDynamoDao.tableExists("Upload2"));
+        assertFalse(bridgeDynamoDao.tableExists("NullTable"));
     }
 }

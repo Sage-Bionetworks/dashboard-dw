@@ -1,10 +1,20 @@
 package org.sagebionetworks.dashboard.dao;
 
+/**
+ * Interface directly over Bridge DynamoDB tables.
+ *
+ */
 public interface BridgeDynamoDao {
 
     /**
      * @param dynamoTableName DynamoDb table name without the stack-user prefix
-     * @return The SQL to create the data warehouse table
+     * @return Full DynamoDb table name with the stack-user prefix
      */
-    String getCreateTableSql(String dynamoTableName);
+    String getFullTableName(String dynamoTableName);
+
+    /**
+     * @param dynamoTableName DynamoDb table name without the stack-user prefix
+     * @return whether the table exists
+     */
+    boolean tableExists(String dynamoTableName);
 }

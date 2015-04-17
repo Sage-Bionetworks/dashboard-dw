@@ -16,7 +16,7 @@ public final class BridgeScheduler {
     @Resource
     private BridgeDynamoDbWorker bridageDynamoDbWorker;
 
-    @Scheduled(cron="", zone="")
+    @Scheduled(cron="00 00 06 * * *", zone="UTC")
     public void copyToDw() {
         logger.info("Begin copying Bridge DynamoDB backups to Redshift.");
         bridageDynamoDbWorker.copyToDw();

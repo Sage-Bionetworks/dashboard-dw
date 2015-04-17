@@ -81,10 +81,10 @@ public class DwConfig implements Config {
     }
 
     public String getBridgeAwsAccessKey() {
-        return config.get("bridge.aws.access.key");
+        return config.get("aws.access.key.bridge");
     }
 
     public String getBridgeAwsSecretKey() {
-        return config.get("bridge.aws.secret.key");
+        return config.get("aws.secret.key.bridge");
     }
 }

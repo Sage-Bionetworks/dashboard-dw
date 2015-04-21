@@ -1,8 +1,7 @@
 package org.sagebionetworks.dashboard.dao;
 
 /**
- * Interface directly over Bridge DynamoDB tables.
- *
+ * Interfaces directly over the Bridge DynamoDB tables.
  */
 public interface BridgeDynamoDao {
 

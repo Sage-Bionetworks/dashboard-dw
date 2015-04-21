@@ -16,7 +16,4 @@
     <bean id="dwTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate"
             c:dataSource-ref="dwDataSource" />
 
-    <bean id="dwInit" class="org.sagebionetworks.dashboard.dao.redshift.DataWarehouseInit"
-            c:dwTemplate-ref="dwTemplate" />
-
 </beans>

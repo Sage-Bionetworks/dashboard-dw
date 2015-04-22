@@ -1,5 +1,7 @@
 package org.sagebionetworks.dashboard.dao;
 
+import java.util.List;
+
 public interface DwDao {
 
     /**
@@ -11,4 +13,9 @@ public interface DwDao {
      * Deletes the data warehouse table of the specified name.
      */
     void dropTable(String dropTableQuery);
+
+    /**
+     * Gets the list of tables whose name has the specified prefix.
+     */
+    List<String> getTables(String tableNamePrefix);
 }

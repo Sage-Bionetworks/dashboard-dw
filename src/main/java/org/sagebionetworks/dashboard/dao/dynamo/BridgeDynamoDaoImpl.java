@@ -16,7 +16,7 @@ public class BridgeDynamoDaoImpl implements BridgeDynamoDao {
     private DwConfig dwConfig;
 
     @Resource
-    private AmazonDynamoDB dynamoClient;
+    private AmazonDynamoDB bridgeDynamoClient;
 
     @Override
     public String getFullTableName(String dynamoTableName) {
@@ -27,7 +27,7 @@ public class BridgeDynamoDaoImpl implements BridgeDynamoDao {
     @Override
     public boolean tableExists(String dynamoTableName) {
         try {
-            dynamoClient.describeTable(getFullTableName(dynamoTableName));
+            bridgeDynamoClient.describeTable(getFullTableName(dynamoTableName));
             return true;
         } catch (ResourceNotFoundException e) {
             return false;

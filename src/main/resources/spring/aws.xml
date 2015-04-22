@@ -18,7 +18,10 @@
             c:accessKey="#{dwConfig.bridgeAwsAccessKey}"
             c:secretKey="#{dwConfig.bridgeAwsSecretKey}" />
 
-    <bean id="dynamoClient" class="com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient"
+    <bean id="bridgeDynamoClient" class="com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient"
+            c:awsCredentials-ref="bridgeAwsCredentials" />
+
+    <bean id="bridgeS3Client" class="com.amazonaws.services.s3.AmazonS3Client"
             c:awsCredentials-ref="bridgeAwsCredentials" />
 
 </beans>

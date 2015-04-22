@@ -1,8 +1,10 @@
 package org.sagebionetworks.dashboard.dao.redshift;
 
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -14,6 +16,11 @@ import org.springframework.stereotype.Repository;
 
 @Repository("dwDao")
 public class DwDaoImpl implements DwDao {
+
+    private static final String SELECT_TABLES =
+            "SELECT tablename " +
+            "FROM pg_catalog.pg_tables " +
+            "WHERE tablename LIKE :tableNamePrefix;";
 
     @Resource
     private NamedParameterJdbcTemplate dwTemplate;
@@ -28,15 +35,21 @@ public class DwDaoImpl implements DwDao {
         execute(dropTableQuery);
     }
 
+    @Override
+    public List<String> getTables(final String tableNamePrefix) {
+        final Map<String, Object> params = new HashMap<>();
+        params.put("tableNamePrefix", tableNamePrefix + "%");
+        return dwTemplate.queryForList(SELECT_TABLES, params, String.class);
+    }
+
     private void execute(final String query) {
-        dwTemplate.execute(query, new PreparedStatementCallback<Object>() {
+        dwTemplate.execute(query, new PreparedStatementCallback<Boolean>() {
             @Override
-            public Object doInPreparedStatement(PreparedStatement ps)
+            public Boolean doInPreparedStatement(PreparedStatement ps)
                     throws SQLException, DataAccessException {
-                ps.execute();
-                ResultSet r = ps.getResultSet();
-                System.out.println(r);
-                return r;
+                // For creating or dropping tables, this always returns false
+                // indicating ps.getResultSet() is always null
+                return ps.execute();
             }
         });
     }

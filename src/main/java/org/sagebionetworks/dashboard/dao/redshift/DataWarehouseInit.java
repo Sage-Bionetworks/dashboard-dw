@@ -21,9 +21,9 @@ public class DataWarehouseInit {
     @Autowired
     public DataWarehouseInit(DwDao dwDao) {
         this.dwDao = dwDao;
-        createTable("/spring/log_file.sql");
-        createTable("/spring/raw_access_record.sql");
-        createTable("/spring/access_record.sql");
+        createTable("/sql/log_file.sql");
+        createTable("/sql/raw_access_record.sql");
+        createTable("/sql/access_record.sql");
         logger.info("Data warehouse initialzied.");
     }
 
@@ -31,7 +31,7 @@ public class DataWarehouseInit {
         try (final InputStream source = this.getClass().getResourceAsStream(path)) {
             if (source == null) {
                 logger.error("The source " + path
-                        + "is null. Data warehouse initiation has failed.");
+                        + " is null. Data warehouse initiation has failed.");
                 return;
             }
             final String query = IOUtils.toString(source);

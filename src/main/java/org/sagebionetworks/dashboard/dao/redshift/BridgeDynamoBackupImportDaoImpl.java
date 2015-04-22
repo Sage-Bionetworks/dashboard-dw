@@ -2,11 +2,10 @@ package org.sagebionetworks.dashboard.dao.redshift;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.sagebionetworks.dashboard.dao.BridgeDynamoBackupImportDao;
 import org.sagebionetworks.dashboard.dao.DwDao;
 import org.slf4j.Logger;
@@ -18,6 +17,8 @@ import com.amazonaws.util.IOUtils;
 @Repository("bridgeDynamoBackupImportDao")
 public class BridgeDynamoBackupImportDaoImpl implements BridgeDynamoBackupImportDao {
 
+    private final static String DATE_SUFFIX_PLACEHOLDER = "<dateSuffix>";
+
     private final Logger logger = LoggerFactory.getLogger(BridgeDynamoBackupImportDaoImpl.class);
 
     @Resource
@@ -25,15 +26,21 @@ public class BridgeDynamoBackupImportDaoImpl implements BridgeDynamoBackupImport
 
     @Override
     public String createTable(final String tableName, final String dateSuffix) {
-        final String path = "/spring/" + tableName + ".sql";
+        final String path = "/sql/" + tableName + ".sql";
         try (final InputStream source = this.getClass().getResourceAsStream(path)) {
             if (source == null) {
-                throw new RuntimeException("Cannot find file " + path);
+                throw new RuntimeException("Cannot find file " + path + " for table " + tableName);
             }
-            final String query = IOUtils.toString(source);
-            final String createTableQuery = query.replace("<dateSuffix>", dateSuffix);
+            final String rawQuery = IOUtils.toString(source);
+            if (!rawQuery.contains(DATE_SUFFIX_PLACEHOLDER)) {
+                throw new RuntimeException(
+                        "The create-table query has no date-suffix placeholder: " + rawQuery);
+            }
+            final String createTableQuery = rawQuery.replace(DATE_SUFFIX_PLACEHOLDER, dateSuffix);
             dwDao.createTable(createTableQuery);
-            return getFullTableName(tableName, dateSuffix);
+            final String fullTableName = getFullTableName(tableName, dateSuffix);
+            logger.info("Table " + fullTableName + " has been created.");
+            return fullTableName;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -44,6 +51,7 @@ public class BridgeDynamoBackupImportDaoImpl implements BridgeDynamoBackupImport
         final String fullTableName = getFullTableName(tableName, dateSuffix);
         final String dropTableQuery = "DROP TABLE " + fullTableName;
         dwDao.dropTable(dropTableQuery);
+        logger.info("Table " + fullTableName + " has been dropped.");
         return fullTableName;
     }
 
@@ -51,8 +59,15 @@ public class BridgeDynamoBackupImportDaoImpl implements BridgeDynamoBackupImport
     public void copy(String s3Path, String dwTable) {
         // TODO Auto-generated method stub
     }
-    
+
     private String getFullTableName(final String tableName, final String dateSuffix) {
-        return tableName + "_" + dateSuffix;
+        List<String>  tables = dwDao.getTables(tableName);
+        for (String table : tables) {
+            if (table.endsWith(dateSuffix)) {
+                return table;
+            }
+        }
+        throw new RuntimeException(
+                "Cannot find table " + tableName + " with suffix " + dateSuffix);
     }
 }

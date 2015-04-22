@@ -21,7 +21,7 @@ public final class BridgeDynamoBackupImporter {
     private BridgeDynamoBackupImportDao bridgeDao;
 
     public void doWork() {
-        final List<String> tables = dwConfig.getBridgeDdbTables();
+        final List<String> tables = dwConfig.getBridgeDynamoTables();
         for (String table : tables) {
             final DateTime now = DateTime.now(DateTimeZone.UTC);
             final String dateSuffix = now.toString("yyyyMMdd");

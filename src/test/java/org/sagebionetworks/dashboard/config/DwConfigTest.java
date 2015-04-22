@@ -23,6 +23,6 @@ public class DwConfigTest {
         assertNotNull(config.getBridgeStack());
         assertNotNull(config.getBridgeUser());
         assertNotNull(config.getBridgeBackupBucket());
-        assertNotNull(config.getBridgeDdbTables());
+        assertNotNull(config.getBridgeDynamoTables());
     }
 }

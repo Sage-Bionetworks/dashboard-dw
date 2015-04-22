@@ -102,8 +102,8 @@ public class DwConfig implements Config {
         return config.get("bridge.backup.bucket");
     }
 
-    public List<String> getBridgeDdbTables() {
-        String tableList = config.get("bridge.ddb.tables");
+    public List<String> getBridgeDynamoTables() {
+        String tableList = config.get("bridge.dynamo.tables");
         return Arrays.asList(tableList.split(";"));
     }
 }

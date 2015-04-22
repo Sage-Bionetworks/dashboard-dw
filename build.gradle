@@ -77,45 +77,6 @@ tasks.withType(Pmd) {
 
 apply plugin: 'jacoco'
 
-/*** Artifactory ***/
-
-buildscript {
-    repositories {
-         jcenter()
-    }
-    dependencies {
-        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:3.0.1'
-    }
-}
-
-apply plugin: 'com.jfrog.artifactory'
-artifactory {
-    contextUrl = 'http://sagebionetworks.artifactoryonline.com/sagebionetworks'
-    publish {
-        contextUrl = 'http://sagebionetworks.artifactoryonline.com/sagebionetworks'
-        repository {
-            repoKey = 'libs-releases-local'
-            username = "${System.env.ARTI_USR}"
-            password = "${System.env.ARTI_PWD}"
-        }
-        defaults {
-            publications ('mavenJava')
-        }
-    }
-}
-
-/*** Maven Publishing ***/
-
-apply plugin: 'maven-publish'
-
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            from components.java
-        }
-    }
-}
-
 /*** Wrapper ***/
 
 task wrapper(type: Wrapper) {

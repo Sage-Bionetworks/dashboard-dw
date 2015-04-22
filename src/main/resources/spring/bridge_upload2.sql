@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS upload2 (
+CREATE TABLE IF NOT EXISTS bridge_upload2_<dateSuffix> (
     uploadId                char(36),
     uploadDate              timestamp,
     filename                vchar(500),

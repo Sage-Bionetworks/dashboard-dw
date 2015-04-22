@@ -2,15 +2,12 @@ package org.sagebionetworks.dashboard.dao.redshift;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 
+import org.sagebionetworks.dashboard.dao.DwDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.PreparedStatementCallback;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import com.amazonaws.util.IOUtils;
@@ -19,14 +16,14 @@ import com.amazonaws.util.IOUtils;
 public class DataWarehouseInit {
 
     private final Logger logger = LoggerFactory.getLogger(DataWarehouseInit.class);
-    private final NamedParameterJdbcTemplate dwTemplate;
+    private final DwDao dwDao;
 
     @Autowired
-    public DataWarehouseInit(NamedParameterJdbcTemplate dwTemplate) {
-        this.dwTemplate = dwTemplate;
-        createTable("/spring/LogFileTable.sql");
-        createTable("/spring/RawAccessRecordTable.sql");
-        createTable("/spring/AccessRecordTable.sql");
+    public DataWarehouseInit(DwDao dwDao) {
+        this.dwDao = dwDao;
+        createTable("/spring/log_file.sql");
+        createTable("/spring/raw_access_record.sql");
+        createTable("/spring/access_record.sql");
         logger.info("Data warehouse initialzied.");
     }
 
@@ -38,13 +35,7 @@ public class DataWarehouseInit {
                 return;
             }
             final String query = IOUtils.toString(source);
-            dwTemplate.execute(query, new PreparedStatementCallback<Boolean>() {
-                @Override
-                public Boolean doInPreparedStatement(PreparedStatement ps)
-                        throws SQLException, DataAccessException {
-                    return ps.execute();
-                }
-            });
+            dwDao.createTable(query);
         } catch (DataAccessException | IOException e) {
             logger.error("Data warehouse initiation failure.", e);
             return;

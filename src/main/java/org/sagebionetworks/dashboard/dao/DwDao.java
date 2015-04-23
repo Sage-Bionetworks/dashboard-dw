@@ -18,4 +18,9 @@ public interface DwDao {
      * Gets the list of tables whose name has the specified prefix.
      */
     List<String> getTables(String tableNamePrefix);
+
+    /**
+     * Executes the Redshift copy query.
+     */
+    void copy(String copyQuery);
 }

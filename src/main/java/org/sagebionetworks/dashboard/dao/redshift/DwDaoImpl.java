@@ -42,6 +42,11 @@ public class DwDaoImpl implements DwDao {
         return dwTemplate.queryForList(SELECT_TABLES, params, String.class);
     }
 
+    @Override
+    public void copy(final String copyQuery) {
+        execute(copyQuery);
+    }
+
     private void execute(final String query) {
         dwTemplate.execute(query, new PreparedStatementCallback<Boolean>() {
             @Override

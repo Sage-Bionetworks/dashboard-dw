@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.sagebionetworks.dashboard.config.DwConfig;
 import org.sagebionetworks.dashboard.dao.BridgeDynamoBackupImportDao;
 import org.sagebionetworks.dashboard.dao.DwDao;
 import org.slf4j.Logger;
@@ -20,6 +21,9 @@ public class BridgeDynamoBackupImportDaoImpl implements BridgeDynamoBackupImport
     private final static String DATE_SUFFIX_PLACEHOLDER = "<dateSuffix>";
 
     private final Logger logger = LoggerFactory.getLogger(BridgeDynamoBackupImportDaoImpl.class);
+
+    @Resource
+    private DwConfig dwConfig;
 
     @Resource
     private DwDao dwDao;
@@ -56,8 +60,14 @@ public class BridgeDynamoBackupImportDaoImpl implements BridgeDynamoBackupImport
     }
 
     @Override
-    public void copy(String s3Path, String dwTable) {
-        // TODO Auto-generated method stub
+    public void copyFromDynamo(String dynamoTable, String dwFullTableName) {
+        final String credentials = "aws_access_key_id=" + dwConfig.getBridgeAwsAccessKey() +
+                ";aws_secret_access_key=" + dwConfig.getBridgeAwsSecretKey();
+        final String copy = "COPY " + dwFullTableName +
+                " FROM 'dynamodb://'" + dynamoTable +
+                " CREDENTIALS " + credentials +
+                " READRATIO 50;";
+        dwDao.copy(copy);
     }
 
     private String getFullTableName(final String tableName, final String dateSuffix) {

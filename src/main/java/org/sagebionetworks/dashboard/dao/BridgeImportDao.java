@@ -1,9 +1,9 @@
 package org.sagebionetworks.dashboard.dao;
 
 /**
- * Imports Bridge DynamoDB table backups to Redshift.
+ * Imports Bridge data to data warehouse.
  */
-public interface BridgeDynamoBackupImportDao {
+public interface BridgeImportDao {
 
     /**
      * Creates the data warehouse table of the specified name.

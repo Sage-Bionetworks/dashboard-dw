@@ -7,7 +7,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.sagebionetworks.dashboard.config.DwConfig;
-import org.sagebionetworks.dashboard.dao.BridgeDynamoBackupImportDao;
+import org.sagebionetworks.dashboard.dao.BridgeImportDao;
 import org.sagebionetworks.dashboard.dao.DwDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,12 +15,12 @@ import org.springframework.stereotype.Repository;
 
 import com.amazonaws.util.IOUtils;
 
-@Repository("bridgeDynamoBackupImportDao")
-public class BridgeDynamoBackupImportDaoImpl implements BridgeDynamoBackupImportDao {
+@Repository("bridgeImportDao")
+public class BridgeImportDaoImpl implements BridgeImportDao {
 
     private final static String DATE_SUFFIX_PLACEHOLDER = "<dateSuffix>";
 
-    private final Logger logger = LoggerFactory.getLogger(BridgeDynamoBackupImportDaoImpl.class);
+    private final Logger logger = LoggerFactory.getLogger(BridgeImportDaoImpl.class);
 
     @Resource
     private DwConfig dwConfig;
@@ -67,7 +67,7 @@ public class BridgeDynamoBackupImportDaoImpl implements BridgeDynamoBackupImport
                 " FROM 'dynamodb://'" + dynamoTable +
                 " CREDENTIALS " + credentials +
                 " READRATIO 50;";
-        dwDao.copy(copy);
+        dwDao.copy(copy); // Is this a blocking call?
     }
 
     private String getFullTableName(final String tableName, final String dateSuffix) {

@@ -11,7 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Test;
-import org.sagebionetworks.dashboard.dao.BridgeDynamoBackupImportDao;
+import org.sagebionetworks.dashboard.dao.BridgeImportDao;
 import org.sagebionetworks.dashboard.dao.DwDao;
 import org.springframework.test.util.ReflectionTestUtils;
 
@@ -26,7 +26,7 @@ public class BridgeDynamoBackupImportDaoImplTest {
         final List<String> tableList = Arrays.asList(fullTableName);
         DwDao mockDwDao = mock(DwDao.class);
         when(mockDwDao.getTables(tableName)).thenReturn(tableList);
-        BridgeDynamoBackupImportDao dao = new BridgeDynamoBackupImportDaoImpl();
+        BridgeImportDao dao = new BridgeImportDaoImpl();
         ReflectionTestUtils.setField(dao, "dwDao", mockDwDao, DwDao.class);
 
         final String tableCreated = dao.createTable(tableName, dateSuffix);

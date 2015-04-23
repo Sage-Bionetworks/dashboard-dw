@@ -21,10 +21,10 @@ public interface BridgeDynamoBackupImportDao {
     String dropTable(String tableName, String dateSuffix);
 
     /**
-     * Copies the S3 backup file to the specified data warehouse table.
+     * Copies DynamoDB to the specified data warehouse table.
      *
-     * @param s3Path  The S3 backup file
-     * @param fullTableName  The name of the data warehouse table to copy to
+     * @param dynamoTable  The DynamoDB table
+     * @param dwFullTableName  The name of the data warehouse table to copy to
      */
-    void copy(String s3Path, String fullTableName);
+    void copyFromDynamo(String dynamoTable, String dwFullTableName);
 }

@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
 
-import org.sagebionetworks.dashboard.DwConfig;
+import org.sagebionetworks.dashboard.config.DwConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

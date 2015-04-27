@@ -5,18 +5,15 @@
         xmlns:c="http://www.springframework.org/schema/c"
         xsi:schemaLocation="
                 http://www.springframework.org/schema/beans
-                http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+                http://www.springframework.org/schema/beans/spring-beans-4.1.xsd">
 
     <bean id="dwDataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close"
-            p:driverClassName="org.postgresql.Driver"
+            p:driverClassName="com.amazon.redshift.jdbc41.Driver"
             p:url="#{dwConfig.dwUrl}"
             p:username="#{dwConfig.dwUsername}"
             p:password="#{dwConfig.dwPassword}" />
 
     <bean id="dwTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate"
             c:dataSource-ref="dwDataSource" />
-
-    <bean id="dwInit" class="org.sagebionetworks.dashboard.dao.redshift.DataWarehouseInit"
-            c:dwTemplate-ref="dwTemplate" />
 
 </beans>

@@ -1,8 +1,9 @@
-package org.sagebionetworks.dashboard;
+package org.sagebionetworks.dashboard.config;
 
 import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
+import org.sagebionetworks.dashboard.config.DwConfig;
 
 public class DwConfigTest {
 
@@ -17,5 +18,11 @@ public class DwConfigTest {
         assertNotNull(config.getDwPassword());
         assertNotNull(config.getSynapseUser());
         assertNotNull(config.getSynapsePassword());
+        assertNotNull(config.getBridgeAwsAccessKey());
+        assertNotNull(config.getBridgeAwsSecretKey());
+        assertNotNull(config.getBridgeStack());
+        assertNotNull(config.getBridgeUser());
+        assertNotNull(config.getBridgeBackupBucket());
+        assertNotNull(config.getBridgeDynamoTables());
     }
 }

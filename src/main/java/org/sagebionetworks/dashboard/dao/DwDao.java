@@ -5,22 +5,12 @@ import java.util.List;
 public interface DwDao {
 
     /**
-     * Creates a data warehouse table.
+     * Executes a data warehouse query.
      */
-    void createTable(String createTableQuery);
-
-    /**
-     * Deletes the data warehouse table of the specified name.
-     */
-    void dropTable(String dropTableQuery);
+    void execute(String query);
 
     /**
      * Gets the list of tables whose name has the specified prefix.
      */
     List<String> getTables(String tableNamePrefix);
-
-    /**
-     * Executes the Redshift copy query.
-     */
-    void copy(String copyQuery);
 }

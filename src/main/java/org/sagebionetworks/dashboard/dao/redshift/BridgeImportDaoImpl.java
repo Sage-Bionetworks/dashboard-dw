@@ -41,7 +41,7 @@ public class BridgeImportDaoImpl implements BridgeImportDao {
                         "The create-table query has no date-suffix placeholder: " + rawQuery);
             }
             final String createTableQuery = rawQuery.replace(DATE_SUFFIX_PLACEHOLDER, dateSuffix);
-            dwDao.createTable(createTableQuery);
+            dwDao.execute(createTableQuery);
             final String fullTableName = getFullTableName(tableName, dateSuffix);
             logger.info("Table " + fullTableName + " has been created.");
             return fullTableName;
@@ -54,7 +54,7 @@ public class BridgeImportDaoImpl implements BridgeImportDao {
     public String dropTable(final String tableName, final String dateSuffix) {
         final String fullTableName = getFullTableName(tableName, dateSuffix);
         final String dropTableQuery = "DROP TABLE " + fullTableName;
-        dwDao.dropTable(dropTableQuery);
+        dwDao.execute(dropTableQuery);
         logger.info("Table " + fullTableName + " has been dropped.");
         return fullTableName;
     }
@@ -67,7 +67,14 @@ public class BridgeImportDaoImpl implements BridgeImportDao {
                 " FROM 'dynamodb://'" + dynamoTable +
                 " CREDENTIALS " + credentials +
                 " READRATIO 50;";
-        dwDao.copy(copy); // Is this a blocking call?
+        dwDao.execute(copy); // Is this a blocking call?
+    }
+
+    @Override
+    public void updateView(String tableName, String snapshotName) {
+        final String query = "CREATE OR REPLACE VIEW " + tableName +
+                " AS SELECT * FROM " + snapshotName + ";";
+        dwDao.execute(query);
     }
 
     private String getFullTableName(final String tableName, final String dateSuffix) {

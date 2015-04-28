@@ -35,7 +35,7 @@ public class DwDaoImplTest {
     public void before() {
         List<String> tables = getTables();
         for (String table : tables) {
-            dwDao.dropTable("DROP TABLE " + table + ";");
+            dwDao.execute("DROP TABLE " + table + ";");
         }
     }
 
@@ -46,13 +46,13 @@ public class DwDaoImplTest {
         assertEquals(0, tables.size());
         final String fullTableName = getFullTableName();
         final String createTableQuery = "CREATE TABLE " + fullTableName + "(id char(36));";
-        dwDao.createTable(createTableQuery);
+        dwDao.execute(createTableQuery);
         tables = getTables();
         assertNotNull(tables);
         assertEquals(1, tables.size());
         assertEquals(fullTableName, tables.get(0));
         final String dropTableQuery = "DROP TABLE " + fullTableName + ";";
-        dwDao.dropTable(dropTableQuery);
+        dwDao.execute(dropTableQuery);
         tables = getTables();
         assertNotNull(tables);
         assertEquals(0, tables.size());

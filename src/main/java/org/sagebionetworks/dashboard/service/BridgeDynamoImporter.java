@@ -40,7 +40,7 @@ public final class BridgeDynamoImporter {
     }
 
     private void updateView(final String tableName, final String snapshotName) {
-        // TODO: Recreate the view to base it on the newly created snapshot
+        bridgeImportDao.updateView(tableName, snapshotName);
     }
 
     private void cleanup(final String table, final DateTime timestamp) {

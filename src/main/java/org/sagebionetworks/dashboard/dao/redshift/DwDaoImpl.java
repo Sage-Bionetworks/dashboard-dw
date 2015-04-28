@@ -26,28 +26,7 @@ public class DwDaoImpl implements DwDao {
     private NamedParameterJdbcTemplate dwTemplate;
 
     @Override
-    public void createTable(final String createTableQuery) {
-        execute(createTableQuery);
-    }
-
-    @Override
-    public void dropTable(final String dropTableQuery) {
-        execute(dropTableQuery);
-    }
-
-    @Override
-    public List<String> getTables(final String tableNamePrefix) {
-        final Map<String, Object> params = new HashMap<>();
-        params.put("tableNamePrefix", tableNamePrefix + "%");
-        return dwTemplate.queryForList(SELECT_TABLES, params, String.class);
-    }
-
-    @Override
-    public void copy(final String copyQuery) {
-        execute(copyQuery);
-    }
-
-    private void execute(final String query) {
+    public void execute(final String query) {
         dwTemplate.execute(query, new PreparedStatementCallback<Boolean>() {
             @Override
             public Boolean doInPreparedStatement(PreparedStatement ps)
@@ -57,5 +36,12 @@ public class DwDaoImpl implements DwDao {
                 return ps.execute();
             }
         });
+    }
+
+    @Override
+    public List<String> getTables(final String tableNamePrefix) {
+        final Map<String, Object> params = new HashMap<>();
+        params.put("tableNamePrefix", tableNamePrefix + "%");
+        return dwTemplate.queryForList(SELECT_TABLES, params, String.class);
     }
 }

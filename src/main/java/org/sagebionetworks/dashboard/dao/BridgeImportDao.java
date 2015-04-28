@@ -27,4 +27,10 @@ public interface BridgeImportDao {
      * @param dwFullTableName  The name of the data warehouse table to copy to
      */
     void copyFromDynamo(String dynamoTable, String dwFullTableName);
+
+    /**
+     * Updates the table view to point to the specified snapshot.
+     * Creates the view if the view does not already exist.
+     */
+    void updateView(String tableName, String snapshotName);
 }

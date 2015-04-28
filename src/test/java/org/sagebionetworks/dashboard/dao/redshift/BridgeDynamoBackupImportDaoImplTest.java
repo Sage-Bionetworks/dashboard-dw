@@ -31,10 +31,10 @@ public class BridgeDynamoBackupImportDaoImplTest {
 
         final String tableCreated = dao.createTable(tableName, dateSuffix);
         assertEquals(fullTableName, tableCreated);
-        verify(mockDwDao, times(1)).createTable(any(String.class));
+        verify(mockDwDao, times(1)).execute(any(String.class));
 
         final String tableDropped = dao.dropTable(tableName, dateSuffix);
         assertEquals(fullTableName, tableDropped);
-        verify(mockDwDao, times(1)).dropTable(any(String.class));
+        verify(mockDwDao, times(1)).execute(any(String.class));
     }
 }

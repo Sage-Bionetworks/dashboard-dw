@@ -35,7 +35,7 @@ public class DataWarehouseInit {
                 return;
             }
             final String query = IOUtils.toString(source);
-            dwDao.createTable(query);
+            dwDao.execute(query);
         } catch (DataAccessException | IOException e) {
             logger.error("Data warehouse initiation failure.", e);
             return;

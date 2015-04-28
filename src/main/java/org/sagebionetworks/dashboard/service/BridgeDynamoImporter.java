@@ -13,8 +13,8 @@ import org.sagebionetworks.dashboard.config.DwConfig;
 import org.sagebionetworks.dashboard.dao.BridgeImportDao;
 import org.springframework.stereotype.Service;
 
-@Service("bridgeDynamoBackupImporter")
-public final class BridgeDynamoBackupImporter {
+@Service("bridgeDynamoImporter")
+public final class BridgeDynamoImporter {
 
     private static final int FIRST_DAY_OF_MONTH = 1;
     private static final int WEEKS_PER_MONTH = 4;

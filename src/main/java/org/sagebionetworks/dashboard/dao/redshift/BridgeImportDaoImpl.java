@@ -69,7 +69,7 @@ public class BridgeImportDaoImpl implements BridgeImportDao {
         final String credentials = "aws_access_key_id=" + dwConfig.getBridgeAwsAccessKey() +
                 ";aws_secret_access_key=" + dwConfig.getBridgeAwsSecretKey();
         final String copy = "COPY " + dwFullTableName +
-                " FROM ''dynamodb://" + dynamoTable + "'" +
+                " FROM 'dynamodb://" + dynamoTable + "'" +
                 " CREDENTIALS " + credentials +
                 " READRATIO 50;";
         try {

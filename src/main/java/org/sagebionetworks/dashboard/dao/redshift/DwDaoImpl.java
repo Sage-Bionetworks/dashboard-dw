@@ -13,6 +13,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.PreparedStatementCallback;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository("dwDao")
 public class DwDaoImpl implements DwDao {
@@ -25,6 +26,7 @@ public class DwDaoImpl implements DwDao {
     @Resource
     private NamedParameterJdbcTemplate dwTemplate;
 
+    @Transactional
     @Override
     public void execute(final String query) {
         dwTemplate.execute(query, new PreparedStatementCallback<Boolean>() {

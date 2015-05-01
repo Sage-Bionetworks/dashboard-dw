@@ -18,6 +18,7 @@ import com.amazonaws.util.IOUtils;
 @Repository("bridgeImportDao")
 public class BridgeImportDaoImpl implements BridgeImportDao {
 
+    private final static String BRIDGE_TABLE_PREFIX = "bridge_";
     private final static String DATE_SUFFIX_PLACEHOLDER = "<dateSuffix>";
 
     private final Logger logger = LoggerFactory.getLogger(BridgeImportDaoImpl.class);
@@ -30,10 +31,11 @@ public class BridgeImportDaoImpl implements BridgeImportDao {
 
     @Override
     public String createTable(final String tableName, final String dateSuffix) {
-        final String path = "/sql/" + tableName + ".sql";
+        final String bridgeTableName = BRIDGE_TABLE_PREFIX + tableName.toLowerCase();
+        final String path = "/sql/" + bridgeTableName + ".sql";
         try (final InputStream source = this.getClass().getResourceAsStream(path)) {
             if (source == null) {
-                throw new RuntimeException("Cannot find file " + path + " for table " + tableName);
+                throw new RuntimeException("Cannot find file " + path + " for table " + bridgeTableName);
             }
             final String rawQuery = IOUtils.toString(source);
             if (!rawQuery.contains(DATE_SUFFIX_PLACEHOLDER)) {
@@ -42,7 +44,7 @@ public class BridgeImportDaoImpl implements BridgeImportDao {
             }
             final String createTableQuery = rawQuery.replace(DATE_SUFFIX_PLACEHOLDER, dateSuffix);
             dwDao.execute(createTableQuery);
-            final String fullTableName = getFullTableName(tableName, dateSuffix);
+            final String fullTableName = getFullTableName(bridgeTableName, dateSuffix);
             logger.info("Table " + fullTableName + " has been created.");
             return fullTableName;
         } catch (IOException e) {

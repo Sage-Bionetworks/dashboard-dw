@@ -3,6 +3,7 @@ package org.sagebionetworks.dashboard.dao.redshift;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
 
@@ -20,6 +21,8 @@ public class BridgeImportDaoImpl implements BridgeImportDao {
 
     private final static String BRIDGE_TABLE_PREFIX = "bridge_";
     private final static String DATE_SUFFIX_PLACEHOLDER = "<dateSuffix>";
+    private final static Pattern CRED_PATTERN = Pattern.compile("\\s+CREDENTIALS\\s+\\S+\\s+",
+            Pattern.CASE_INSENSITIVE);
 
     private final Logger logger = LoggerFactory.getLogger(BridgeImportDaoImpl.class);
 
@@ -66,10 +69,15 @@ public class BridgeImportDaoImpl implements BridgeImportDao {
         final String credentials = "aws_access_key_id=" + dwConfig.getBridgeAwsAccessKey() +
                 ";aws_secret_access_key=" + dwConfig.getBridgeAwsSecretKey();
         final String copy = "COPY " + dwFullTableName +
-                " FROM 'dynamodb://'" + dynamoTable +
+                " FROM ''dynamodb://" + dynamoTable + "'" +
                 " CREDENTIALS " + credentials +
                 " READRATIO 50;";
-        dwDao.execute(copy); // Is this a blocking call?
+        try {
+            dwDao.execute(copy); // Is this a blocking call?
+        } catch (Throwable e) {
+            // Strip off potential leak of credentials
+            logger.error(CRED_PATTERN.matcher(e.getMessage()).replaceAll(" "));
+        }
     }
 
     @Override

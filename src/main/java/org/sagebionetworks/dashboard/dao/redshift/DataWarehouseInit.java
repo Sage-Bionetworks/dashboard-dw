@@ -21,9 +21,9 @@ public class DataWarehouseInit {
     @Autowired
     public DataWarehouseInit(DwDao dwDao) {
         this.dwDao = dwDao;
-        createTable("/sql/log_file.sql");
         createTable("/sql/raw_access_record.sql");
-        createTable("/sql/access_record.sql");
+        createTable("/sql/log_file.sql");
+        createTable("/sql/failed_record.sql");
         logger.info("Data warehouse initialzied.");
     }
 

@@ -1,1 +1,0 @@
-CREATE TABLE access_record AS SELECT * FROM raw_access_record LIMIT 10;

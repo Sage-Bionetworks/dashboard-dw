@@ -10,13 +10,13 @@
         <maxHistory>200</maxHistory>
       </rollingPolicy>
     <encoder>
-      <pattern>%date - [%level] - from %logger in %thread %n%message%n%xException%n</pattern>
+      <pattern>%date [%level] %thread %logger{15}: %message%n%xException%n</pattern>
     </encoder>
   </appender>
 
   <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
     <encoder>
-      <pattern>%level %logger - %message%n%xException%n</pattern>
+      <pattern>%date{HH:mm:ss.SSS} [%level] %thread %logger{15}: %message%n%xException%n</pattern>
     </encoder>
   </appender>
 

@@ -34,8 +34,8 @@ public final class BridgeDynamoImporter {
             final String dynamoTable = dwConfig.getBridgeStack() + "-" +
                     dwConfig.getBridgeUser() + "-" + table;
             bridgeImportDao.copyFromDynamo(dynamoTable, snapshotName);
-            updateView(table, snapshotName);
-            cleanup(table, now);
+            updateView(snapshotName, snapshotName);
+            cleanup(snapshotName, now);
         }
     }
 

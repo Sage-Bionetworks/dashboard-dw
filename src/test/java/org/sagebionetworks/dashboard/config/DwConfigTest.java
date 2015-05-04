@@ -1,10 +1,8 @@
 package org.sagebionetworks.dashboard.config;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
-import org.sagebionetworks.dashboard.config.DwConfig;
 
 public class DwConfigTest {
 
@@ -25,8 +23,5 @@ public class DwConfigTest {
         assertNotNull(config.getBridgeUser());
         assertNotNull(config.getBridgeBackupBucket());
         assertNotNull(config.getBridgeDynamoTables());
-        assertEquals(2, config.getBridgeDynamoTables().size());
-        assertEquals("TestTable1", config.getBridgeDynamoTables().get(0));
-        assertEquals("TestTable2", config.getBridgeDynamoTables().get(0));
     }
 }

@@ -43,7 +43,7 @@ public class BridgeImportDaoImpl implements BridgeImportDao {
                 " CREDENTIALS " + getAwsCredentials() +
                 " READRATIO 50;";
         try {
-            dwDao.execute(copy); // Is this a blocking call?
+            dwDao.execute(copy);
         } catch (Throwable e) {
             // Potential leak of credentials in the error message; strip them off
             logger.error(CRED_PATTERN.matcher(e.getMessage()).replaceAll(" "));

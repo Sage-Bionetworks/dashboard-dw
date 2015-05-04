@@ -6,6 +6,5 @@ CREATE TABLE IF NOT EXISTS bridge_upload2_<dateSuffix> (
     contentMd5              varchar(30),
     contentType             varchar(30),
     healthCode              char(36)        not null,
-    status                  varchar(30),
-    validationMessageList   varchar(5000)
+    status                  varchar(30)
 );

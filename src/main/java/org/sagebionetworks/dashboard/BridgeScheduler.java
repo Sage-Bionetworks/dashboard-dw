@@ -22,10 +22,10 @@ public final class BridgeScheduler {
     /**
      * 12 pm UTC or 5 am PDT.  Make sure this happens after daily backup is done.
      */
-    @Scheduled(cron="00 00 12 * * *", zone="UTC")
-    public void doWork() {
+    @Scheduled(cron="00 55 * * * *", zone="UTC")
+    public void run() {
         logger.info("Begin importing Bridge DynamoDB tables to Redshift.");
-        bridgeDynamoImporter.doWork();
+        bridgeDynamoImporter.run();
         logger.info("Finished importing Bridge DynamoDB tables to Redshift.");
     }
 }

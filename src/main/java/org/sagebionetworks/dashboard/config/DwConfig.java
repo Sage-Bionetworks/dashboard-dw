@@ -62,14 +62,6 @@ public class DwConfig implements Config {
         return config.get("dw.password");
     }
 
-    public String getSynapseUser() {
-        return config.get("synapse.user");
-    }
-
-    public String getSynapsePassword() {
-        return config.get("synapse.password");
-    }
-
     public String getAccessRecordBucket() {
         return config.get("access.record.bucket");
     }
@@ -96,10 +88,6 @@ public class DwConfig implements Config {
 
     public String getBridgeUser() {
         return config.get("bridge.user");
-    }
-
-    public String getBridgeBackupBucket() {
-        return config.get("bridge.backup.bucket");
     }
 
     public List<String> getBridgeDynamoTables() {

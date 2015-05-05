@@ -15,6 +15,8 @@ import org.joda.time.DateTimeZone;
 import org.sagebionetworks.dashboard.config.DwConfig;
 import org.sagebionetworks.dashboard.dao.BridgeImportDao;
 import org.sagebionetworks.dashboard.dao.DwDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.amazonaws.util.IOUtils;
@@ -25,6 +27,8 @@ public final class BridgeDynamoImporter {
     private final static String DATE_SUFFIX_PLACEHOLDER = "<dateSuffix>";
     private static final int FIRST_DAY_OF_MONTH = 1;
     private static final int WEEKS_PER_MONTH = 4;
+
+    private final Logger logger = LoggerFactory.getLogger(BridgeDynamoImporter.class);
 
     @Resource
     private DwConfig dwConfig;
@@ -44,15 +48,22 @@ public final class BridgeDynamoImporter {
             final DateTime now = DateTime.now(DateTimeZone.UTC);
             final String dateSuffix = bridgeTableNameService.getDateSuffix(now);
             final String dwTableName = bridgeTableNameService.getDwTableName(dynamoTable);
+            logger.info("Creating table " + dwTableName + " for " + dateSuffix + ".");
             final String createTableQuery = getCreateTableQuery(dwTableName, dateSuffix);
             bridgeImportDao.createTable(createTableQuery);
             final String fullDwTableName = findTable(dwTableName, dateSuffix);
             if (fullDwTableName == null) {
-                throw new RuntimeException("Creating table " + dwTableName + " has failed.");
+                throw new RuntimeException("Creating table " + dwTableName +
+                        " for " + dateSuffix + " has failed.");
             }
+            logger.info("Table " + fullDwTableName + " created.");
             final String fullDynamoTableName = bridgeTableNameService.getFullDynamoTableName(dynamoTable);
+            logger.info("Copying from DynamoDB table " + fullDynamoTableName +
+                    " to " + fullDwTableName + ".");
             bridgeImportDao.copyFromDynamo(fullDynamoTableName, fullDwTableName);
+            logger.info("Done copying. Now updating view.");
             bridgeImportDao.updateView(dwTableName, fullDwTableName);
+            logger.info("View " + dwTableName + " has been updated with " + fullDwTableName + ".");
             cleanup(dwTableName, now);
         }
     }
@@ -120,6 +131,7 @@ public final class BridgeDynamoImporter {
             final String dateSuffix = bridgeTableNameService.getDateSuffix(dateToDrop);
             final String fullDwTableName = findTable(dwTableName, dateSuffix);
             if (fullDwTableName != null) {
+                logger.info("Dropping " + fullDwTableName + ".");
                 bridgeImportDao.dropTable(fullDwTableName);
             }
         }

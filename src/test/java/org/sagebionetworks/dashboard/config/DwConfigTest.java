@@ -15,13 +15,10 @@ public class DwConfigTest {
         assertNotNull(config.getDwUrl());
         assertNotNull(config.getDwUsername());
         assertNotNull(config.getDwPassword());
-        assertNotNull(config.getSynapseUser());
-        assertNotNull(config.getSynapsePassword());
         assertNotNull(config.getBridgeAwsAccessKey());
         assertNotNull(config.getBridgeAwsSecretKey());
         assertNotNull(config.getBridgeStack());
         assertNotNull(config.getBridgeUser());
-        assertNotNull(config.getBridgeBackupBucket());
         assertNotNull(config.getBridgeDynamoTables());
     }
 }

@@ -1,11 +1,10 @@
 CREATE TABLE IF NOT EXISTS bridge_upload2_<dateSuffix> (
-    uploadId                char(36),
+    uploadId                char(36)        not null,
     uploadDate              timestamp,
-    filename                vchar(500),
+    filename                varchar(500),
     contentLength           int,
-    contentMd5              vchar(30),
-    contentType             vchar(30),
-    healthCode              char(36),
-    status                  vchar(30),
-    validationMessageList   vchar(5000),
+    contentMd5              varchar(50),
+    contentType             varchar(50),
+    healthCode              char(36)        not null,
+    status                  varchar(50)
 );

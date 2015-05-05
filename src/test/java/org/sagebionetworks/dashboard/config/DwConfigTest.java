@@ -3,7 +3,6 @@ package org.sagebionetworks.dashboard.config;
 import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
-import org.sagebionetworks.dashboard.config.DwConfig;
 
 public class DwConfigTest {
 

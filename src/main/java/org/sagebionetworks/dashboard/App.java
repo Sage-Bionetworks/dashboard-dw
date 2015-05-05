@@ -9,7 +9,7 @@ public class App {
     public static void main(String[] args) {
 
         @SuppressWarnings("resource")
-        final ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("/spring/app-context.xml");
+        final ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("/spring/scheduler.xml");
         context.registerShutdownHook();
         context.start();
         LogFileDao logfileDao = context.getBean(LogFileDao.class);

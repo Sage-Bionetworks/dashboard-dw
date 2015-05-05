@@ -1,20 +1,18 @@
 package org.sagebionetworks.dashboard.dao.redshift;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Resource;
 
 import org.sagebionetworks.dashboard.dao.AccessRecordDao;
+import org.sagebionetworks.dashboard.dao.DwDao;
 import org.sagebionetworks.dashboard.model.AccessRecord;
 import org.sagebionetworks.dashboard.model.SynapseRepoRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.PreparedStatementCallback;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -24,7 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class AccessRecordDaoImpl implements AccessRecordDao{
 
     private static class AccessRecordMapper implements RowMapper<AccessRecord> {
-
         @Override
         public AccessRecord mapRow(ResultSet rs, int rowNum) throws SQLException {
             SynapseRepoRecord record = new SynapseRepoRecord();
@@ -34,10 +31,14 @@ public class AccessRecordDaoImpl implements AccessRecordDao{
             record.setQueryString(rs.getString("queryString"));
             return record;
         }
-
     }
 
+    private static final RowMapper<AccessRecord> ROW_MAPPER = new AccessRecordMapper();
+
     private final Logger logger = LoggerFactory.getLogger(AccessRecordDaoImpl.class);
+
+    @Resource
+    private DwDao dwDao;
 
     @Resource
     private NamedParameterJdbcTemplate dwTemplate;
@@ -50,49 +51,36 @@ public class AccessRecordDaoImpl implements AccessRecordDao{
     private static final String CREATE_TEMP = "CREATE TABLE access_record_temp "
             +"AS SELECT DISTINCT * FROM raw_access_record;";
 
-    private static final String DROP_TABLE = "DROP TABLE access_record";
+    private static final String DROP_TEMP = "DROP TABLE IF EXISTS access_record_temp;";
+
+    private static final String DROP_TABLE = "DROP TABLE IF EXISTS access_record;";
 
     private static final String RENAME = "ALTER TABLE access_record_temp "
             +"RENAME TO access_record;";
 
     @Override
     public List<AccessRecord> nextRecords() {
-        return dwTemplate.query(NEXT_RECORDS, new HashMap<String, Object>(), new AccessRecordMapper());
+        return dwTemplate.query(NEXT_RECORDS, Collections.<String, Object> emptyMap(), ROW_MAPPER);
     }
 
     @SuppressWarnings("deprecation")
     @Override
     public long count() {
-        return dwTemplate.getJdbcOperations().queryForInt(COUNT);
+        return dwTemplate.queryForLong(COUNT, Collections.<String, Object> emptyMap());
     }
 
     @Override
     public void createTemp() {
-        dwTemplate.execute(CREATE_TEMP, new PreparedStatementCallback<Boolean>() {
-            @Override
-            public Boolean doInPreparedStatement(PreparedStatement ps)
-                    throws SQLException, DataAccessException {
-                return ps.execute();
-            }});
+        dwDao.execute(DROP_TEMP);
+        dwDao.execute(CREATE_TEMP);
         logger.info("access_record_temp is created.");
     }
 
     @Transactional
     @Override
     public void activateTemp() {
-        dwTemplate.execute(DROP_TABLE, new PreparedStatementCallback<Boolean>() {
-            @Override
-            public Boolean doInPreparedStatement(PreparedStatement ps)
-                    throws SQLException, DataAccessException {
-                return ps.execute();
-            }});
-        dwTemplate.execute(RENAME, new PreparedStatementCallback<Boolean>() {
-            @Override
-            public Boolean doInPreparedStatement(PreparedStatement ps)
-                    throws SQLException, DataAccessException {
-                return ps.execute();
-            }});
+        dwDao.execute(DROP_TABLE);
+        dwDao.execute(RENAME);
         logger.info("access_record is updated.");
     }
-
 }

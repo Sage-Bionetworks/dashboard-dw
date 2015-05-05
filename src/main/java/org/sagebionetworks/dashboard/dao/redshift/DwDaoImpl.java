@@ -13,6 +13,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.PreparedStatementCallback;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository("dwDao")
 public class DwDaoImpl implements DwDao {
@@ -25,24 +26,9 @@ public class DwDaoImpl implements DwDao {
     @Resource
     private NamedParameterJdbcTemplate dwTemplate;
 
+    @Transactional
     @Override
-    public void createTable(final String createTableQuery) {
-        execute(createTableQuery);
-    }
-
-    @Override
-    public void dropTable(final String dropTableQuery) {
-        execute(dropTableQuery);
-    }
-
-    @Override
-    public List<String> getTables(final String tableNamePrefix) {
-        final Map<String, Object> params = new HashMap<>();
-        params.put("tableNamePrefix", tableNamePrefix + "%");
-        return dwTemplate.queryForList(SELECT_TABLES, params, String.class);
-    }
-
-    private void execute(final String query) {
+    public void execute(final String query) {
         dwTemplate.execute(query, new PreparedStatementCallback<Boolean>() {
             @Override
             public Boolean doInPreparedStatement(PreparedStatement ps)
@@ -52,5 +38,12 @@ public class DwDaoImpl implements DwDao {
                 return ps.execute();
             }
         });
+    }
+
+    @Override
+    public List<String> getTables(final String tableNamePrefix) {
+        final Map<String, Object> params = new HashMap<>();
+        params.put("tableNamePrefix", tableNamePrefix + "%");
+        return dwTemplate.queryForList(SELECT_TABLES, params, String.class);
     }
 }

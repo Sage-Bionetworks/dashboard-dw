@@ -9,7 +9,6 @@ import javax.annotation.Resource;
 
 import org.sagebionetworks.dashboard.config.DwConfig;
 import org.sagebionetworks.dashboard.dao.LogFileDao;
-//import org.sagebionetworks.dashboard.dao.FileStatusDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -76,8 +75,6 @@ public class AccessLogFileFetcher {
      * @return Remaining quota
      */
     private long fillBatch(final String folder, List<String> batch, long quota) {
-
-        logger.info("Filling the batch for folder " + folder + "...");
 
         String bucket = dwConfig.getAccessRecordBucket();
         ListObjectsRequest request = new ListObjectsRequest()

@@ -61,7 +61,11 @@ public final class BridgeDynamoImporter {
             logger.info("Copying from DynamoDB table " + fullDynamoTableName +
                     " to " + fullDwTableName + ".");
             bridgeImportDao.copyFromDynamo(fullDynamoTableName, fullDwTableName);
-            logger.info("Done copying. Now updating view.");
+            logger.info("Vacumming table " + fullDwTableName + ".");
+            dwDao.execute("VACUUM " + fullDwTableName + ";");
+            logger.info("Analyzing table " + fullDwTableName + ".");
+            dwDao.execute("ANALYZE " + fullDwTableName + ";");
+            logger.info("Updating view " + dwTableName + ".");
             bridgeImportDao.updateView(dwTableName, fullDwTableName);
             logger.info("View " + dwTableName + " has been updated with " + fullDwTableName + ".");
             cleanup(dwTableName, now);

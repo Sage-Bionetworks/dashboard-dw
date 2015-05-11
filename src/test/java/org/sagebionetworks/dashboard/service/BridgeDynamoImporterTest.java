@@ -4,6 +4,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.startsWith;
+import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -12,6 +15,9 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 import org.junit.Test;
+import org.mockito.InOrder;
+import org.sagebionetworks.dashboard.config.DwConfig;
+import org.sagebionetworks.dashboard.dao.BridgeImportDao;
 import org.sagebionetworks.dashboard.dao.DwDao;
 import org.springframework.test.util.ReflectionTestUtils;
 
@@ -82,5 +88,43 @@ public class BridgeDynamoImporterTest {
         assertEquals(12, datesToDrop.get(0).getMonthOfYear());
         assertEquals(27, datesToDrop.get(0).getDayOfMonth());
         assertEquals(2014, datesToDrop.get(0).getYear());
+    }
+
+    @Test
+    public void testRun() {
+
+        DwConfig dwConfig = mock(DwConfig.class);
+        List<String> tables = new ArrayList<>();
+        tables.add("test_table");
+        when(dwConfig.getBridgeDynamoTables()).thenReturn(tables);
+
+        BridgeTableNameService tableNameService = mock(BridgeTableNameService.class);
+        when(tableNameService.getDateSuffix(any(DateTime.class))).thenReturn("20150525");
+        when(tableNameService.getDwTableName("test_table")).thenReturn("test_table");
+
+        BridgeImportDao importDao = mock(BridgeImportDao.class);
+
+        DwDao dwDao = mock(DwDao.class);
+        tables = new ArrayList<>();
+        tables.add("test_table_20150525");
+        when(dwDao.getTables("test_table")).thenReturn(tables);
+
+        BridgeDynamoImporter importer = new BridgeDynamoImporter();
+        ReflectionTestUtils.setField(importer, "dwConfig", dwConfig, DwConfig.class);
+        ReflectionTestUtils.setField(importer, "bridgeTableNameService", tableNameService,
+                BridgeTableNameService.class);
+        ReflectionTestUtils.setField(importer, "bridgeImportDao", importDao,
+                BridgeImportDao.class);
+        ReflectionTestUtils.setField(importer, "dwDao", dwDao, DwDao.class);
+
+        // Verify execution in order
+        importer.run();
+        InOrder inOrder = inOrder(importDao, dwDao);
+        inOrder.verify(importDao).createTable(startsWith("CREATE TABLE "));
+        inOrder.verify(importDao).copyFromDynamo(any(String.class), any(String.class));
+        inOrder.verify(dwDao).execute(startsWith("VACUUM "));
+        inOrder.verify(dwDao).execute(startsWith("ANALYZE "));
+        inOrder.verify(importDao).updateView(any(String.class), any(String.class));
+        inOrder.verify(importDao).dropTable(any(String.class));
     }
 }

@@ -56,7 +56,7 @@ public class BridgeImportDaoImplTest {
         verify(mockDwDao, times(1)).execute(
                 startsWith("COPY redshift-table FROM 'dynamodb://dynamo-table' "));
         verify(mockDwDao, times(1)).execute(
-                endsWith("READRATIO 50;"));
+                endsWith("READRATIO 75;"));
     }
 
     @Test

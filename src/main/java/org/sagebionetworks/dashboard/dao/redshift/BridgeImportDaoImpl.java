@@ -41,7 +41,7 @@ public class BridgeImportDaoImpl implements BridgeImportDao {
         final String copy = "COPY " + fullDwTableName +
                 " FROM " + getDynamoUrl(fullDynamoTableName) +
                 " CREDENTIALS " + getAwsCredentials() +
-                " READRATIO 50;";
+                " READRATIO 75;";
         try {
             dwDao.execute(copy);
         } catch (Throwable e) {

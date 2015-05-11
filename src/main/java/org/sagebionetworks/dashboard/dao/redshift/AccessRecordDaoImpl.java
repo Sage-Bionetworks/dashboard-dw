@@ -49,14 +49,17 @@ public class AccessRecordDaoImpl implements AccessRecordDao{
     private static final String COUNT = "SELECT COUNT(*) FROM access_record;";
 
     private static final String CREATE_TEMP = "CREATE TABLE access_record_temp "
-            +"AS SELECT DISTINCT * FROM raw_access_record;";
+            + "(LIKE raw_access_record);";
+
+    private static final String DEDUPE = "INSERT INTO access_record_temp "
+            + "(SELECT DISTINCT * FROM raw_access_record);";
 
     private static final String DROP_TEMP = "DROP TABLE IF EXISTS access_record_temp;";
 
     private static final String DROP_TABLE = "DROP TABLE IF EXISTS access_record;";
 
     private static final String RENAME = "ALTER TABLE access_record_temp "
-            +"RENAME TO access_record;";
+            + "RENAME TO access_record;";
 
     @Override
     public List<AccessRecord> nextRecords() {
@@ -73,6 +76,7 @@ public class AccessRecordDaoImpl implements AccessRecordDao{
     public void createTemp() {
         dwDao.execute(DROP_TEMP);
         dwDao.execute(CREATE_TEMP);
+        dwDao.execute(DEDUPE);
         logger.info("access_record_temp is created.");
     }
 

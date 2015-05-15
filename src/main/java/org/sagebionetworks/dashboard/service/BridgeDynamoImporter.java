@@ -130,9 +130,11 @@ public final class BridgeDynamoImporter {
     }
 
     private void cleanup(final String dwTableName, final DateTime timestamp) {
+        logger.info("Cleaning up old snapshots for table " + dwTableName + ".");
         final List<DateTime> datesToDrop = findDatesToDrop(timestamp);
         for (DateTime dateToDrop : datesToDrop) {
             final String dateSuffix = bridgeTableNameService.getDateSuffix(dateToDrop);
+            logger.info("Table of date " + dateSuffix + " should be dropped.");
             final String fullDwTableName = findTable(dwTableName, dateSuffix);
             if (fullDwTableName != null) {
                 logger.info("Dropping " + fullDwTableName + ".");

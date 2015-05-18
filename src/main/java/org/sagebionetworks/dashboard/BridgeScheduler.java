@@ -24,8 +24,12 @@ public final class BridgeScheduler {
      */
     @Scheduled(cron="00 00 12 * * *", zone="UTC")
     public void run() {
-        logger.info("Begin importing Bridge DynamoDB tables to Redshift.");
-        bridgeDynamoImporter.run();
-        logger.info("Finished importing Bridge DynamoDB tables to Redshift.");
+        try {
+            logger.info("Begin importing Bridge DynamoDB tables to Redshift.");
+            bridgeDynamoImporter.run();
+            logger.info("Finished importing Bridge DynamoDB tables to Redshift.");
+        } catch (Throwable t) {
+            logger.error(t.getMessage(), t);
+        }
     }
 }

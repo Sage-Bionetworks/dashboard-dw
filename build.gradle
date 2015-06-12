@@ -29,6 +29,8 @@ dependencies {
     compile 'org.apache.commons:commons-dbcp2:2.1'
     compile 'org.springframework:spring-jdbc:' + springFrameworkVersion
     compile 'org.springframework:spring-context:' + springFrameworkVersion
+    compile 'org.eclipse.jetty:jetty-server:' + jettyVersion
+    compile 'org.eclipse.jetty:jetty-servlet:' + jettyVersion
     compile 'org.slf4j:slf4j-api:' + slf4jVersion
     runtime 'ch.qos.logback:logback-classic:' + logbackVersion
     runtime 'ch.qos.logback:logback-core:' + logbackVersion

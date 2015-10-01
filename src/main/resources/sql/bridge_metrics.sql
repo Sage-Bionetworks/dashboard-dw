@@ -2,7 +2,7 @@ CREATE TABLE IF NOT EXISTS bridge_metrics (
     request_id      CHAR(36)        ENCODE RAW          NOT NULL,
     request_start   TIMESTAMP       ENCODE DELTA32K     NOT NULL,
     request_end     TIMESTAMP       ENCODE DELTA32K     NOT NULL,
-    remote_address  VARCHAR(50)     ENCODE LZO          NOT NULL,
+    remote_address  VARCHAR(100)    ENCODE LZO          NOT NULL,
     method          VARCHAR(10)     ENCODE BYTEDICT     NOT NULL,
     uri             VARCHAR(250)    ENCODE LZO          NOT NULL,
     status          INT             ENCODE DELTA        NOT NULL,
